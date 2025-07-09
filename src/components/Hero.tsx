@@ -32,13 +32,24 @@ const Hero: React.FC<HeroProps> = ({ openConsultation }) => {
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
+      {/* Video Background */}
       <div 
         ref={parallaxRef}
-        className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"
+        className="absolute inset-0"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.1),transparent_50%)]"></div>
-        
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute w-full h-full object-cover"
+          style={{ minWidth: '100%', minHeight: '100%' }}
+        >
+          <source src="/src/assets/bg2.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/50"></div>
         {/* Floating Icons */}
         <div className="absolute top-1/4 left-1/4 animate-pulse">
           <Globe className="w-8 h-8 text-yellow-400/30" />

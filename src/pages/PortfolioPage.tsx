@@ -1,76 +1,74 @@
-// Importing React and necessary hooks
 import React, { useState, useCallback, useMemo, lazy, Suspense } from 'react';
-// Importing Lucide React icons
-// import { ArrowLeft, Eye, Filter, X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
+import { ArrowLeft, Eye, Filter, X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
 
 // ================== Web Images ==================
-// import web1_1 from '../assets/sam/web1/web1.1.png';
-// import web1_2 from '../assets/sam/web1/web1.2.png';
-// import web1_3 from '../assets/sam/web1/web1.3.png';
-// import web1_4 from '../assets/sam/web1/web1.4.png';
+import web1_1 from '../assets/sam/web1/web1.1.png';
+import web1_2 from '../assets/sam/web1/web1.2.png';
+import web1_3 from '../assets/sam/web1/web1.3.png';
+import web1_4 from '../assets/sam/web1/web1.4.png';
 
-// import web2_1 from '../assets/sam/web2/web2.1.png';
-// import web2_2 from '../assets/sam/web2/web2.2.png';
-// import web2_3 from '../assets/sam/web2/web2.3.png';
-// import web2_4 from '../assets/sam/web2/web2.4.png';
-// import web2_5 from '../assets/sam/web2/web2.5.png';
+import web2_1 from '../assets/sam/web2/web2.1.png';
+import web2_2 from '../assets/sam/web2/web2.2.png';
+import web2_3 from '../assets/sam/web2/web2.3.png';
+import web2_4 from '../assets/sam/web2/web2.4.png';
+import web2_5 from '../assets/sam/web2/web2.5.png';
 
-// import web3_1 from '../assets/sam/web3/web3.1.png';
-// import web3_2 from '../assets/sam/web3/web3.2.png';
-// import web3_3 from '../assets/sam/web3/web3.3.png';
-// import web3_4 from '../assets/sam/web3/web3.4.png';
+import web3_1 from '../assets/sam/web3/web3.1.png';
+import web3_2 from '../assets/sam/web3/web3.2.png';
+import web3_3 from '../assets/sam/web3/web3.3.png';
+import web3_4 from '../assets/sam/web3/web3.4.png';
 
-// import web4_1 from '../assets/sam/web4/web4.1.png';
-// import web4_2 from '../assets/sam/web4/web4.2.png';
-// import web4_3 from '../assets/sam/web4/web4.3.png';
-// import web4_4 from '../assets/sam/web4/web4.4.png';
-// import web4_5 from '../assets/sam/web4/web4.5.png';
+import web4_1 from '../assets/sam/web4/web4.1.png';
+import web4_2 from '../assets/sam/web4/web4.2.png';
+import web4_3 from '../assets/sam/web4/web4.3.png';
+import web4_4 from '../assets/sam/web4/web4.4.png';
+import web4_5 from '../assets/sam/web4/web4.5.png';
 
-// import web5_1 from '../assets/sam/web5/web5.1.png';
-// import web5_2 from '../assets/sam/web5/web5.2.png';
-// import web5_3 from '../assets/sam/web5/web5.3.png';
-// import web5_4 from '../assets/sam/web5/web5.4.png';
+import web5_1 from '../assets/sam/web5/web5.1.png';
+import web5_2 from '../assets/sam/web5/web5.2.png';
+import web5_3 from '../assets/sam/web5/web5.3.png';
+import web5_4 from '../assets/sam/web5/web5.4.png';
 
-// import web6_1 from '../assets/sam/web6/web6.1.png';
-// import web6_2 from '../assets/sam/web6/web6.2.png';
-// import web6_3 from '../assets/sam/web6/web6.3.png';
-// import web6_4 from '../assets/sam/web6/web6.4.png';
-// import web6_5 from '../assets/sam/web6/web6.5.png';
+import web6_1 from '../assets/sam/web6/web6.1.png';
+import web6_2 from '../assets/sam/web6/web6.2.png';
+import web6_3 from '../assets/sam/web6/web6.3.png';
+import web6_4 from '../assets/sam/web6/web6.4.png';
+import web6_5 from '../assets/sam/web6/web6.5.png';
 
-// import web7_1 from '../assets/sam/web7/web7.1.png';
-// import web7_2 from '../assets/sam/web7/web7.2.png';
-// import web7_3 from '../assets/sam/web7/web7.3.png';
-// import web7_4 from '../assets/sam/web7/web7.4.png';
+import web7_1 from '../assets/sam/web7/web7.1.png';
+import web7_2 from '../assets/sam/web7/web7.2.png';
+import web7_3 from '../assets/sam/web7/web7.3.png';
+import web7_4 from '../assets/sam/web7/web7.4.png';
 
 // ================== Ads ==================
-// import ad1 from '../assets/ads/ad1.jpg';
-// import ad2 from '../assets/ads/ad2.jpg';
-// import ad3 from '../assets/ads/ad3.jpg';
-// import ad4 from '../assets/ads/ad4.jpg';
-// import ad5 from '../assets/ads/ad5.jpg';
-// import ad6 from '../assets/ads/ad6.jpg';
-// import ad7 from '../assets/ads/ad7.jpg';
-// import ad8 from '../assets/ads/ad8.jpg';
-// import ad9 from '../assets/ads/ad9.jpg';
+import ad1 from '../assets/ads/ad1.jpg';
+import ad2 from '../assets/ads/ad2.jpg';
+import ad3 from '../assets/ads/ad3.jpg';
+import ad4 from '../assets/ads/ad4.jpg';
+import ad5 from '../assets/ads/ad5.jpg';
+import ad6 from '../assets/ads/ad6.jpg';
+import ad7 from '../assets/ads/ad7.jpg';
+import ad8 from '../assets/ads/ad8.jpg';
+import ad9 from '../assets/ads/ad9.jpg';
 
 // ================== Logos ==================
-// import logo1 from '../assets/logo/1.jpg';
-// import logo2 from '../assets/logo/2.jpg';
-// import logo3 from '../assets/logo/3.jpg';
-// import logo4 from '../assets/logo/4.jpg';
-// import logo5 from '../assets/logo/5.jpg';
-// import logo6 from '../assets/logo/6.jpg';
-// import logo7 from '../assets/logo/7.jpeg';
+import logo1 from '../assets/logo/1.jpg';
+import logo2 from '../assets/logo/2.jpg';
+import logo3 from '../assets/logo/3.jpg';
+import logo4 from '../assets/logo/4.jpg';
+import logo5 from '../assets/logo/5.jpg';
+import logo6 from '../assets/logo/6.jpg';
+import logo7 from '../assets/logo/7.jpeg';
 
 // ================== SaaS ==================
-// import saas1 from '../assets/saas/saas1.webp';
-// import saas2 from '../assets/saas/saas2.webp';
-// import saas3 from '../assets/saas/saas3.webp';
-// import saas4 from '../assets/saas/saas4.webp';
+import saas1 from '../assets/saas/saas1.webp';
+import saas2 from '../assets/saas/saas2.webp';
+import saas3 from '../assets/saas/saas3.webp';
+import saas4 from '../assets/saas/saas4.webp';
 
 // Lazy load the image component for better performance
 const OptimizedImage = lazy(() => Promise.resolve({
-  default: ({ src, alt, className, onClick, loading = "lazy", style }) => (
+  default: ({ src, alt, className, onClick, loading = "lazy", style }: any) => (
     <img 
       src={src} 
       alt={alt} 
@@ -131,12 +129,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       title: "Modern Web Application 1",
       category: "web",
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      images: [
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop&auto=format&q=80"
-      ],
+      images: [web1_1, web1_2, web1_3, web1_4],
       description: "Responsive web application with modern design and seamless user experience.",
       year: "2024",
       type: "webpage"
@@ -145,14 +138,8 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 2,
       title: "Creative Agency Website",
       category: "web",
-      image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      images: [
-        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&auto=format&q=80"
-      ],
+      image:"https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      images: [web2_1, web2_2, web2_3, web2_4, web2_5],
       description: "Creative portfolio website with stunning animations and interactive elements.",
       year: "2023",
       type: "webpage"
@@ -161,13 +148,8 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 3,
       title: "Corporate Web Portal",
       category: "web",
-      image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      images: [
-        "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop&auto=format&q=80"
-      ],
+      image:  "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      images: [web3_1, web3_2, web3_3, web3_4],
       description: "Enterprise-grade web portal with robust features and scalability.",
       year: "2024",
       type: "webpage"
@@ -176,14 +158,8 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 4,
       title: "E-learning Platform",
       category: "web",
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      images: [
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&auto=format&q=80",
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&auto=format&q=80",
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&auto=format&q=80",
-        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&auto=format&q=80",
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&auto=format&q=80"
-      ],
+      image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      images: [web4_1, web4_2, web4_3, web4_4, web4_5],
       description: "Interactive e-learning platform with course management and analytics.",
       year: "2024",
       type: "webpage"
@@ -193,12 +169,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       title: "Portfolio Website",
       category: "web",
       image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      images: [
-        "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&auto=format&q=80",
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&auto=format&q=80",
-        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop&auto=format&q=80"
-      ],
+      images: [web5_1, web5_2, web5_3, web5_4],
       description: "Sleek portfolio website for showcasing creative work.",
       year: "2023",
       type: "webpage"
@@ -208,13 +179,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       title: "Community Platform",
       category: "web",
       image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      images: [
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&auto=format&q=80",
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&auto=format&q=80",
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&auto=format&q=80",
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop&auto=format&q=80"
-      ],
+      images: [web6_1, web6_2, web6_3, web6_4, web6_5],
       description: "Social community platform with real-time interaction features.",
       year: "2024",
       type: "webpage"
@@ -223,13 +188,8 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 7,
       title: "Business Dashboard",
       category: "web",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      images: [
-        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&auto=format&q=80",
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&auto=format&q=80",
-        "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop&auto=format&q=80",
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&auto=format&q=80"
-      ],
+      image:  "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      images: [web7_1, web7_2, web7_3, web7_4],
       description: "Data-driven business dashboard with real-time insights.",
       year: "2024",
       type: "webpage"
@@ -239,7 +199,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 8,
       title: "TechFlow SaaS Platform",
       category: "saas",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: saas1,
       description: "Complete business automation platform with AI-powered analytics and workflow management.",
       year: "2024",
       type: "single"
@@ -248,7 +208,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 9,
       title: "Analytics Dashboard",
       category: "saas",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: saas2,
       description: "Advanced analytics dashboard with real-time data visualization and reporting.",
       year: "2024",
       type: "single"
@@ -257,7 +217,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 10,
       title: "Fintech App Interface",
       category: "saas",
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: saas3,
       description: "Modern fintech application with secure payment processing and intuitive design.",
       year: "2024",
       type: "single"
@@ -266,7 +226,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 11,
       title: "CRM Solution",
       category: "saas",
-      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: saas4,
       description: "Customer relationship management system with advanced automation features.",
       year: "2024",
       type: "single"
@@ -276,7 +236,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 12,
       title: "Digital Campaign Ad 1",
       category: "ads",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: ad1,
       description: "Engaging digital advertisement for brand promotion.",
       year: "2024",
       type: "single"
@@ -285,7 +245,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 13,
       title: "Product Launch Ad",
       category: "ads",
-      image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: ad2,
       description: "High-impact ad for new product launch campaign.",
       year: "2024",
       type: "single"
@@ -294,7 +254,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 14,
       title: "Social Media Ad 1",
       category: "ads",
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: ad3,
       description: "Targeted social media advertisement with dynamic visuals.",
       year: "2024",
       type: "single"
@@ -303,7 +263,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 15,
       title: "Event Promotion Ad",
       category: "ads",
-      image: "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: ad4,
       description: "Promotional ad for large-scale event marketing.",
       year: "2023",
       type: "single"
@@ -312,7 +272,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 16,
       title: "Brand Awareness Ad",
       category: "ads",
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: ad5,
       description: "Creative ad to boost brand visibility.",
       year: "2024",
       type: "single"
@@ -321,7 +281,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 17,
       title: "Seasonal Campaign Ad",
       category: "ads",
-      image: "https://images.unsplash.com/photo-1542554391-4c6d070abb1c?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: ad6,
       description: "Seasonal advertisement with festive theme.",
       year: "2023",
       type: "single"
@@ -330,7 +290,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 18,
       title: "Product Showcase Ad",
       category: "ads",
-      image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: ad7,
       description: "Ad showcasing key product features.",
       year: "2024",
       type: "single"
@@ -339,7 +299,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 19,
       title: "Digital Banner Ad",
       category: "ads",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: ad8,
       description: "Interactive digital banner for online campaigns.",
       year: "2024",
       type: "single"
@@ -348,7 +308,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 20,
       title: "Social Media Ad 2",
       category: "ads",
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: ad9,
       description: "Engaging social media ad with bold visuals.",
       year: "2024",
       type: "single"
@@ -358,7 +318,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 21,
       title: "Corporate Logo Design",
       category: "logo",
-      image: "https://images.unsplash.com/photo-1599307761933-0b5f90f814b7?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: logo1,
       description: "Professional logo design with multiple variations and brand applications.",
       year: "2024",
       type: "single"
@@ -367,7 +327,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 22,
       title: "Fashion Brand Logo",
       category: "logo",
-      image: "https://images.unsplash.com/photo-1583391733988-8b3f7b7b2d5c?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: logo2,
       description: "Elegant logo design for luxury fashion brand with timeless appeal.",
       year: "2024",
       type: "single"
@@ -376,7 +336,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 23,
       title: "Tech Startup Logo",
       category: "logo",
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: logo3,
       description: "Modern logo for innovative tech startup.",
       year: "2024",
       type: "single"
@@ -385,7 +345,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 24,
       title: "Eco Brand Logo",
       category: "logo",
-      image: "https://images.unsplash.com/photo-1599307761933-0b5f90f814b7?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: logo4,
       description: "Sustainable brand logo with eco-friendly design.",
       year: "2023",
       type: "single"
@@ -394,7 +354,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 25,
       title: "Retail Logo Design",
       category: "logo",
-      image: "https://images.unsplash.com/photo-1583391733988-8b3f7b7b2d5c?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: logo5,
       description: "Bold logo for retail brand expansion.",
       year: "2024",
       type: "single"
@@ -403,7 +363,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 26,
       title: "Food Industry Logo",
       category: "logo",
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: logo6,
       description: "Appetizing logo design for food and beverage brand.",
       year: "2024",
       type: "single"
@@ -412,7 +372,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
       id: 27,
       title: "Creative Agency Logo",
       category: "logo",
-      image: "https://images.unsplash.com/photo-1599307761933-0b5f90f814b7?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
+      image: logo7,
       description: "Distinctive logo for creative agency branding.",
       year: "2024",
       type: "single"
@@ -420,7 +380,9 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
   ], []);
 
   const filteredProjects = useMemo(() => {
-    return activeCategory === 'all' ? projects : projects.filter(project => project.category === activeCategory);
+    return activeCategory === 'all' 
+      ? projects 
+      : projects.filter(project => project.category === activeCategory);
   }, [activeCategory, projects]);
 
   const handleBackToHome = useCallback(() => {
@@ -517,8 +479,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
             onClick={handleBackToHome}
             className="flex items-center text-gray-300 hover:text-yellow-400 transition-colors mb-8 group"
           >
-            {/* <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" /> */}
-            <svg className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
             Back to Home
           </button>
 
@@ -558,8 +519,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
         {/* Category Filter */}
         <div className="mb-12 md:mb-16">
           <div className="flex items-center justify-center mb-6 md:mb-8">
-            {/* <Filter className="w-5 h-5 text-gray-400 mr-2" /> */}
-            <svg className="w-5 h-5 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+            <Filter className="w-5 h-5 text-gray-400 mr-2" />
             <span className="text-gray-600 font-medium">Filter by category</span>
           </div>
           <div className="flex flex-wrap justify-center gap-2 md:gap-4">
@@ -611,8 +571,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
                       <span className="bg-yellow-400 text-black px-3 py-1 rounded-full text-xs md:text-sm font-semibold">
                         {project.year}
                       </span>
-                      {/* <Eye className="w-5 h-5 text-white" /> */}
-                      <svg className="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      <Eye className="w-5 h-5 text-white" />
                     </div>
                   </div>
                 </div>
@@ -652,8 +611,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
               onClick={closeProject}
               className="absolute top-4 right-4 z-30 w-12 h-12 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/90 transition-colors"
             >
-              {/* <X className="w-6 h-6" /> */}
-              <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              <X className="w-6 h-6" />
             </button>
 
             {/* Controls */}
@@ -663,16 +621,14 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
                 className="w-12 h-12 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/90 transition-colors"
                 title="Zoom In"
               >
-                {/* <ZoomIn className="w-5 h-5" /> */}
-                <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                <ZoomIn className="w-5 h-5" />
               </button>
               <button 
                 onClick={zoomOut}
                 className="w-12 h-12 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/90 transition-colors"
                 title="Zoom Out"
               >
-                {/* <ZoomOut className="w-5 h-5" /> */}
-                <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                <ZoomOut className="w-5 h-5" />
               </button>
               <button 
                 onClick={resetZoom}
@@ -687,8 +643,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
                   className="w-12 h-12 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/90 transition-colors"
                   title="Toggle Fullscreen (F)"
                 >
-                  {/* <Maximize2 className="w-5 h-5" /> */}
-                  <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                  <Maximize2 className="w-5 h-5" />
                 </button>
               )}
             </div>
@@ -726,16 +681,14 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
                         className="absolute left-4 top-1/2 transform -translate-y-1/2 w-14 h-14 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/90 transition-colors"
                         title="Previous Image (←)"
                       >
-                        {/* <ChevronLeft className="w-7 h-7" /> */}
-                        <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        <ChevronLeft className="w-7 h-7" />
                       </button>
                       <button 
                         onClick={nextImage}
                         className="absolute right-4 top-1/2 transform -translate-y-1/2 w-14 h-14 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/90 transition-colors"
                         title="Next Image (→)"
                       >
-                        {/* <ChevronRight className="w-7 h-7" /> */}
-                        <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <ChevronRight className="w-7 h-7" />
                       </button>
                     </>
                   )}
