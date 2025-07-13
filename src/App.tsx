@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import ScrollProgress from './components/ScrollProgress';
 import LoadingScreen from './components/LoadingScreen';
 import ConsultationPopup from './components/ConsultationPopup';
+// import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -20,6 +21,7 @@ import ContactPage from './pages/ContactPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import FAQPage from './pages/FAQPage';
+// import PricingPage from './pages/PricingPage';
 
 // Blog post components
 import FutureAIWebDevelopment2025 from './blogs/future-ai-web-development-2025';
@@ -33,6 +35,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [isLoading, setIsLoading] = useState(true);
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
+  // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Handle URL routing
   useEffect(() => {
@@ -74,6 +77,7 @@ function App() {
         '/privacy-policy': 'privacy',
         '/terms-of-service': 'terms',
         '/faq': 'faq',
+   
         '/blog/future-ai-web-development-2025': 'future-ai-web-development-2025',
         '/blog/ecommerce-seo-guide': 'ecommerce-seo-guide',
         '/blog/scalable-saas-applications': 'scalable-saas-applications',
@@ -127,6 +131,13 @@ function App() {
             'FAQ - SAM CREATIVE Solutions | Frequently Asked Questions',
             'Find answers to common questions about our web development, AI solutions, and digital services. Get the information you need.',
             '/faq'
+          );
+          break;
+        case 'pricing':
+          updatePageMeta(
+            'Pricing - SAM CREATIVE Solutions | Competitive Rates for Premium Services',
+            'Transparent pricing for web development, AI solutions, design, and more. Premium quality at competitive rates with satisfaction guarantee.',
+            '/pricing'
           );
           break;
         case 'future-ai-web-development-2025':
@@ -200,6 +211,7 @@ function App() {
       'privacy': '/privacy-policy',
       'terms': '/terms-of-service',
       'faq': '/faq',
+      'pricing': '/pricing',
       'future-ai-web-development-2025': '/blog/future-ai-web-development-2025',
       'ecommerce-seo-guide': '/blog/ecommerce-seo-guide',
       'scalable-saas-applications': '/blog/scalable-saas-applications',
@@ -246,7 +258,8 @@ function App() {
       'mobile-first-design': <MobileFirstDesign setCurrentPage={handlePageChange} />,
       'terms': <TermsPage setCurrentPage={handlePageChange} />,
       'privacy': <PrivacyPage setCurrentPage={handlePageChange} />,
-      'faq': <FAQPage setCurrentPage={handlePageChange} />
+      'faq': <FAQPage setCurrentPage={handlePageChange} />,
+      // 'pricing': <PricingPage setCurrentPage={handlePageChange} />
     };
 
     if (pageComponents[currentPage as keyof typeof pageComponents]) {
@@ -279,6 +292,11 @@ function App() {
       {renderPage()}
       <Footer setCurrentPage={handlePageChange} />
       <ConsultationPopup isOpen={isConsultationOpen} onClose={closeConsultation} />
+      {/* <Sidebar 
+        isOpen={isSidebarOpen} 
+        onClose={() => setIsSidebarOpen(false)}
+        setCurrentPage={handlePageChange}
+      /> */}
     </div>
   );
 }
