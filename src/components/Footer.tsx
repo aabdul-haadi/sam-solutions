@@ -50,14 +50,16 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
   };
 
   const socialLinks = [
-    { icon: <Facebook size={20} />, href: '#', label: 'Facebook' },
+    { icon: <Facebook size={20} />, href: 'https://www.facebook.com/profile.php?id=61570940347368', label: 'Facebook' },
     { icon: <Linkedin size={20} />, href: '#', label: 'LinkedIn' },
-    { icon: <Instagram size={20} />, href: '#', label: 'Instagram' },
-    { icon: <Youtube size={20} />, href: '#', label: 'YouTube' }
+    { icon: <Instagram size={20} />, href: 'https://www.instagram.com/sam.creative.animation/?hl=en', label: 'Instagram' },
+    { icon: <Youtube size={20} />, href: 'https://www.youtube.com/@SamCreative', label: 'YouTube' }
   ];
 
-  const handleLinkClick = (item: any) => {
-    if (typeof item === 'object' && item.page && setCurrentPage) {
+type FooterLink = string | { name: string; page: string };
+
+const handleLinkClick = (item: FooterLink) => {
+  if (typeof item === 'object' && item.page && setCurrentPage) {
       setCurrentPage(item.page);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }

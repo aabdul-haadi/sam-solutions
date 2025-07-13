@@ -96,9 +96,12 @@ const Hero: React.FC<HeroProps> = ({ openConsultation }) => {
           >
             Start Your Project
           </button>
-          <button className="border-2 border-yellow-400 text-yellow-400 px-8 py-4 rounded-full font-semibold text-lg hover:bg-yellow-400 hover:text-black transition-all duration-300">
-            View Portfolio
-          </button>
+         <a href="/portfolio">
+  <button className="border-2 border-yellow-400 text-yellow-400 px-8 py-4 rounded-full font-semibold text-lg hover:bg-yellow-400 hover:text-black transition-all duration-300">
+    View Portfolio
+  </button>
+</a>
+
         </div>
       </div>
 

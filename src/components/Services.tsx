@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { 
   Code, 
   ShoppingCart, 
@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 
 const Services: React.FC = () => {
-  const servicesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -103,9 +102,16 @@ const Services: React.FC = () => {
               </ul>
 
               <div className="mt-6 pt-4 border-t border-gray-100">
-                <button className="text-yellow-600 font-semibold hover:text-yellow-700 transition-colors">
-                  Learn More →
-                </button>
+               <a
+  href="https://wa.me/923263778850"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <button className="text-yellow-600 font-semibold hover:text-yellow-700 transition-colors">
+    Contact Us →
+  </button>
+</a>
+
               </div>
             </div>
           ))}

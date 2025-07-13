@@ -1,10 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { 
   Bot, 
   Brain, 
   Workflow, 
-  BarChart3, 
-  Users, 
   Zap,
   MessageSquare,
   Settings,
@@ -13,7 +11,7 @@ import {
 } from 'lucide-react';
 
 const AIServices: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  // const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -174,9 +172,16 @@ const AIServices: React.FC = () => {
             <p className="text-gray-300 mb-6 text-lg">
               Let's create intelligent solutions that automate your workflows and enhance customer experiences.
             </p>
-            <button className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg hover:shadow-yellow-400/30 transition-all duration-300 transform hover:scale-105">
-              Get Your AI Solution Today
-            </button>
+           <a
+  href="https://wa.me/923138372573"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <button className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg hover:shadow-yellow-400/30 transition-all duration-300 transform hover:scale-105">
+    Get Your AI Solution Today
+  </button>
+</a>
+
           </div>
         </div>
       </div>

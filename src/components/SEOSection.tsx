@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect} from 'react';
 import { 
   TrendingDown, 
   Users, 
@@ -9,14 +9,13 @@ import {
   Link, 
   FileText,
   Eye,
-  Zap,
+  
   CheckCircle,
-  ArrowUp,
-  TrendingUp
+  ArrowUp
 } from 'lucide-react';
 
+
 const SEOSection: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -177,14 +176,33 @@ const SEOSection: React.FC = () => {
               Let's create a custom SEO strategy that drives real results for your business. 
               Get your free SEO audit and consultation today.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg hover:shadow-yellow-400/30 transition-all duration-300 transform hover:scale-105">
-                Get Free SEO Audit
-              </button>
-              <button className="border-2 border-yellow-600 text-yellow-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-yellow-600 hover:text-white transition-all duration-300">
-                Schedule Consultation
-              </button>
-            </div>
+<div className="flex flex-col sm:flex-row gap-4 justify-center">
+  <a
+    href="https://wa.me/923263778850"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <button
+      className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg hover:shadow-yellow-400/30 transition-all duration-300 transform hover:scale-105"
+    >
+      Get Free SEO Audit
+    </button>
+  </a>
+
+  <a
+    href="https://wa.me/923263778850"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <button
+      className="border-2 border-yellow-600 text-yellow-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-yellow-600 hover:text-white transition-all duration-300"
+    >
+      Schedule Consultation
+    </button>
+  </a>
+</div>
+
+
           </div>
         </div>
       </div>
