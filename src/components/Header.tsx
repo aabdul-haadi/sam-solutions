@@ -71,11 +71,15 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage, openConsul
             className="flex items-center space-x-3 cursor-pointer group"
             onClick={() => handleNavClick({ name: 'Home', page: 'home' })}
           >
-            <img src="/logo.png" alt="SAM CREATIVE Logo" className="w-14 h-14 object-contain" />
+            <img src="/icon-04.png" alt="SAM CREATIVE Logo" className="w-14 h-14 object-contain" />
             <div className="flex flex-col">
-              <span className={`text-xl font-bold ${getTextColor()} group-hover:text-yellow-400 transition-colors`}>
-                SAM CREATIVE
-              </span>
+             <span
+  style={{ fontFamily: 'BigerOver' }}
+  className={`text-xl font-bold ${getTextColor()} group-hover:text-yellow-400 transition-colors`}
+>
+  SAM CREATIVE
+</span>
+
               <span className="text-xs text-yellow-400 font-medium -mt-1 tracking-[0.2em]">
                 solutions
               </span>

@@ -42,12 +42,20 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
 
         {/* Brand Name */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2 animate-fade-in-up">
-            SAM CREATIVE
-          </h1>
-          <p className="text-yellow-400 text-lg font-medium animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            solutions
-          </p>
+         <h1
+  style={{ fontFamily: 'BigerOver' }}
+  className="text-4xl font-bold text-white mb-2 animate-fade-in-up"
+>
+  SAM CREATIVE
+</h1>
+
+<p
+  className="text-yellow-400 text-lg font-medium animate-fade-in-up"
+  style={{ animationDelay: '0.2s' }}
+>
+  solutions
+</p>
+
         </div>
 
         {/* Progress Bar */}

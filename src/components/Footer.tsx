@@ -75,14 +75,20 @@ const handleLinkClick = (item: FooterLink) => {
             <div className="flex items-center space-x-3 mb-6">
              <div className="w-14 h-16 rounded-full overflow-hidden">
   <img
-    src="/logo.png"
+    src="/icon-04.png"
     alt="SAM CREATIVE Logo"
     className="w-full h-full object-cover"
   />
 </div>
 
               <div className="flex flex-col">
-                <span className="text-2xl font-bold">SAM CREATIVE</span>
+                {/* <span className="text-2xl font-bold">SAM CREATIVE</span> */}
+
+
+                <span style={{ fontFamily: 'BigerOver', fontSize: '1.5rem', fontWeight: 'bold' }}>
+  SAM CREATIVE
+</span>
+
                 <span className="text-sm text-yellow-400 font-medium -mt-1 tracking-[0.2em]">solutions</span>
               </div>
             </div>
