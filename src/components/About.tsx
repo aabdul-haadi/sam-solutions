@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect} from 'react';
 import { Target, Eye, Heart, Award } from 'lucide-react';
 
 const About: React.FC = () => {
-  const aboutRef = useRef<HTMLDivElement>(null);
+  // const aboutRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -66,9 +66,9 @@ const About: React.FC = () => {
               <button className="bg-black text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
                 Our Story
               </button>
-              <button className="border-2 border-black text-black px-8 py-3 rounded-full font-semibold hover:bg-black hover:text-white transition-all duration-300">
+              {/* <button className="border-2 border-black text-black px-8 py-3 rounded-full font-semibold hover:bg-black hover:text-white transition-all duration-300">
                 Meet The Team
-              </button>
+              </button> */}
             </div>
           </div>
 

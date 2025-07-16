@@ -152,9 +152,13 @@ const Testimonials: React.FC = () => {
             <p className="text-black/80 mb-6">
               Let's discuss how we can help transform your business with our proven solutions.
             </p>
-            <button className="bg-black text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
-              Get Your Free Consultation
-            </button>
+           <button
+  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+  className="bg-black text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition-all duration-300 transform hover:scale-105"
+>
+  Get Your Free Consultation
+</button>
+
           </div>
         </div>
       </div>

@@ -111,9 +111,16 @@ const Stats: React.FC = () => {
             <p className="text-gray-300 mb-6">
               Let's create something extraordinary together. Your vision, our expertise.
             </p>
-            <button className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-yellow-400/30 transition-all duration-300 transform hover:scale-105">
-              Start Your Project Today
-            </button>
+        <a
+  href="https://wa.me/923263778850"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <button className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-yellow-400/30 transition-all duration-300 transform hover:scale-105">
+    Start Your Project Today
+  </button>
+</a>
+
           </div>
         </div>
       </div>
