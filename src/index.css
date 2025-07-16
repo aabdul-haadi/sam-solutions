@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+@font-face {
+  font-family: 'BigerOver';
+  src: url('/fonts/bBigerOver.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -194,6 +204,9 @@
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
+
+
+
 
 .prose blockquote {
   font-weight: 500;
