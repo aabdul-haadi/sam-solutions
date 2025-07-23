@@ -35,13 +35,18 @@ const Hero: React.FC<HeroProps> = ({ openConsultation }) => {
 
   return (
     <section className="relative h-screen flex flex-col">
-
-       
-
+      {/* Navigation Bar */}
+    
       {/* Hero Content */}
       <div className="flex-1 flex items-center justify-center overflow-hidden">
-        {/* Video Background */}
+        {/* Video Background with Fallback */}
         <div ref={parallaxRef} className="absolute inset-0 z-0">
+          {/* Fallback Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.1),transparent_50%)]"></div>
+          </div>
+          
+          {/* Video */}
           <video
             autoPlay
             muted
@@ -116,7 +121,7 @@ const Hero: React.FC<HeroProps> = ({ openConsultation }) => {
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
           <button
             onClick={scrollToServices}
-            className="text-yellow-400 hover:text-yellow-300 transition-colors"
+            className="text-yellow-400 hover:text-yellow-400 transition-colors"
           >
             <ChevronDown size={32} />
           </button>
