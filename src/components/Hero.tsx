@@ -44,7 +44,7 @@ const Hero: React.FC<HeroProps> = ({ openConsultation }) => {
           preload="auto"
           className="w-full h-full object-cover"
         >
-          <source src={bgVideo} type="video/webm" />
+          <source src={bgVideo} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
