@@ -2,7 +2,8 @@ import  { useState, useEffect } from 'react';
 import ScrollProgress from './components/ScrollProgress';
 import LoadingScreen from './components/LoadingScreen';
 import ConsultationPopup from './components/ConsultationPopup';
-// import Sidebar from './components/Sidebar';
+import CookieConsent from './components/CookieConsent';
+
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -35,7 +36,6 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [isLoading, setIsLoading] = useState(true);
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
-  // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Handle URL routing
   useEffect(() => {
@@ -77,7 +77,7 @@ function App() {
         '/privacy-policy': 'privacy',
         '/terms-of-service': 'terms',
         '/faq': 'faq',
-   
+        '/pricing': 'pricing',
         '/blog/future-ai-web-development-2025': 'future-ai-web-development-2025',
         '/blog/ecommerce-seo-guide': 'ecommerce-seo-guide',
         '/blog/scalable-saas-applications': 'scalable-saas-applications',
@@ -292,11 +292,8 @@ function App() {
       {renderPage()}
       <Footer setCurrentPage={handlePageChange} />
       <ConsultationPopup isOpen={isConsultationOpen} onClose={closeConsultation} />
-      {/* <Sidebar 
-        isOpen={isSidebarOpen} 
-        onClose={() => setIsSidebarOpen(false)}
-        setCurrentPage={handlePageChange}
-      /> */}
+     
+      <CookieConsent />
     </div>
   );
 }

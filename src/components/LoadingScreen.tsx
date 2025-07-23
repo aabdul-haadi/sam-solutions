@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Sparkles } from 'lucide-react';
 
 interface LoadingScreenProps {
   onLoadingComplete: () => void;
@@ -32,16 +31,13 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
   return (
     <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
       <div className="text-center">
-        {/* Logo Animation */}
-        <div className="mb-8 relative">
-          <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto animate-pulse">
-            <Sparkles className="w-10 h-10 text-black animate-spin" />
-          </div>
-          <div className="absolute inset-0 w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full mx-auto opacity-30 animate-ping"></div>
-        </div>
-
         {/* Brand Name */}
         <div className="mb-8">
+          <img
+            src="/icon-04.png"
+            alt="SAM CREATIVE Logo"
+            className="w-20 h-20 object-cover mx-auto"
+          />
          <h1
   style={{ fontFamily: 'BigerOver' }}
   className="text-4xl font-bold text-white mb-2 animate-fade-in-up"
@@ -55,7 +51,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
 >
   solutions
 </p>
-
         </div>
 
         {/* Progress Bar */}

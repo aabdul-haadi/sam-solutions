@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { ChevronDown, Sparkles, Zap, Globe } from 'lucide-react';
 
 // ✅ Correct import path
-import bgVideo from '../assets/bg2.mp4';
+import bgVideo from '../assets/bg2.webm';
 
 interface HeroProps {
   openConsultation?: () => void;
@@ -44,7 +44,7 @@ const Hero: React.FC<HeroProps> = ({ openConsultation }) => {
           preload="auto"
           className="w-full h-full object-cover"
         >
-          <source src={bgVideo} type="video/mp4" />
+          <source src={bgVideo} type="video/webm" />
           Your browser does not support the video tag.
         </video>
 

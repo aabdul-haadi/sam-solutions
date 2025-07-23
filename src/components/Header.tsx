@@ -49,14 +49,36 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage, openConsul
     setIsMobileMenuOpen(false);
   };
 
-  const getHeaderBackground = () => (
-    ['portfolio', 'blog', 'contact', 'terms', 'privacy', 'faq'].includes(currentPage) || currentPage.includes('blog')
-      ? 'bg-black/95 backdrop-blur-sm shadow-sm'
-      : isScrolled ? 'bg-black/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
-  );
+  const getHeaderBackground = () => {
+    const blogPostSlugs = [
+      'future-ai-web-development-2025',
+      'ecommerce-seo-guide',
+      'scalable-saas-applications',
+      'ui-ux-design-trends-2025',
+      'implementing-ai-chatbots',
+      'mobile-first-design'
+    ];
+    if (
+      ['portfolio', 'blog', 'contact', 'terms', 'privacy', 'faq'].includes(currentPage) ||
+      currentPage.includes('blog') ||
+      blogPostSlugs.includes(currentPage)
+    ) {
+      return 'bg-black/95 backdrop-blur-sm shadow-sm';
+    }
+    return isScrolled ? 'bg-black/95 backdrop-blur-sm shadow-sm' : 'bg-transparent';
+  };
 
   const getTextColor = () => (
-    ['portfolio', 'blog', 'contact', 'terms', 'privacy', 'faq'].includes(currentPage) || currentPage.includes('blog')
+    ['portfolio', 'blog', 'contact', 'terms', 'privacy', 'faq'].includes(currentPage) ||
+    currentPage.includes('blog') ||
+    [
+      'future-ai-web-development-2025',
+      'ecommerce-seo-guide',
+      'scalable-saas-applications',
+      'ui-ux-design-trends-2025',
+      'implementing-ai-chatbots',
+      'mobile-first-design'
+    ].includes(currentPage)
       ? 'text-white'
       : isScrolled ? 'text-white' : 'text-white'
   );
@@ -73,13 +95,12 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage, openConsul
           >
             <img src="/icon-04.png" alt="SAM CREATIVE Logo" className="w-14 h-14 object-contain" />
             <div className="flex flex-col">
-             <span
-  style={{ fontFamily: 'BigerOver' }}
-  className={`text-xl font-bold ${getTextColor()} group-hover:text-yellow-400 transition-colors`}
->
-  SAM CREATIVE
-</span>
-
+              <span
+                style={{ fontFamily: 'BigerOver' }}
+                className={`text-xl font-bold ${getTextColor()} group-hover:text-yellow-400 transition-colors`}
+              >
+                SAM CREATIVE
+              </span>
               <span className="text-xs text-yellow-400 font-medium -mt-1 tracking-[0.2em]">
                 solutions
               </span>
@@ -123,14 +144,39 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage, openConsul
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className={`md:hidden absolute top-full left-0 right-0 ${['portfolio', 'blog', 'contact', 'terms', 'privacy', 'faq'].includes(currentPage) || currentPage.includes('blog') ? 'bg-black/95 text-white' : isScrolled ? 'bg-black/95 text-white' : 'bg-transparent text-white'} backdrop-blur-sm border-t border-gray-200`}>
+          <div className={`md:hidden absolute top-full left-0 right-0 ${
+            ['portfolio', 'blog', 'contact', 'terms', 'privacy', 'faq'].includes(currentPage) ||
+            currentPage.includes('blog') ||
+            [
+              'future-ai-web-development-2025',
+              'ecommerce-seo-guide',
+              'scalable-saas-applications',
+              'ui-ux-design-trends-2025',
+              'implementing-ai-chatbots',
+              'mobile-first-design'
+            ].includes(currentPage)
+              ? 'bg-black/95 text-white'
+              : isScrolled ? 'bg-black/95 text-white' : 'bg-transparent text-white'
+          } backdrop-blur-sm border-t border-gray-200`}>
             <nav className="flex flex-col p-4 space-y-4">
               {navItems.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => handleNavClick(item)}
                   className={`text-left font-medium transition-colors ${
-                    currentPage === item.page ? 'text-yellow-600' : ['portfolio', 'blog', 'contact', 'terms', 'privacy', 'faq'].includes(currentPage) || currentPage.includes('blog') ? 'text-white hover:text-yellow-600' : isScrolled ? 'text-white hover:text-yellow-600' : 'text-white hover:text-yellow-600'
+                    currentPage === item.page ? 'text-yellow-600' : 
+                    ['portfolio', 'blog', 'contact', 'terms', 'privacy', 'faq'].includes(currentPage) || 
+                    currentPage.includes('blog') ||
+                    [
+                      'future-ai-web-development-2025',
+                      'ecommerce-seo-guide',
+                      'scalable-saas-applications',
+                      'ui-ux-design-trends-2025',
+                      'implementing-ai-chatbots',
+                      'mobile-first-design'
+                    ].includes(currentPage)
+                      ? 'text-white hover:text-yellow-600'
+                      : isScrolled ? 'text-white hover:text-yellow-600' : 'text-white hover:text-yellow-600'
                   }`}
                 >
                   {item.name}

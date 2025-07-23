@@ -1,5 +1,5 @@
-import React from 'react';
-import { Calendar, User, Clock, ArrowLeft, Share2, Bookmark, Tag, TrendingUp, Search, Target } from 'lucide-react';
+import React, { useState } from 'react';
+import { Calendar, User, Clock, ArrowLeft, Share2, Tag, TrendingUp, Search, Target, X, Check, Facebook, Twitter, Linkedin, Copy } from 'lucide-react';
 import FAQ from '../components/FAQ';
 
 interface BlogPostProps {
@@ -7,6 +7,9 @@ interface BlogPostProps {
 }
 
 const EcommerceSEOGuide: React.FC<BlogPostProps> = ({ setCurrentPage }) => {
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
+
   const blogPost = {
     title: "Complete Guide to E-commerce SEO: Boost Your Online Store Rankings",
     author: "Michael Chen",
@@ -17,6 +20,9 @@ const EcommerceSEOGuide: React.FC<BlogPostProps> = ({ setCurrentPage }) => {
     excerpt: "Learn proven strategies to improve your e-commerce website's search engine rankings and drive more organic traffic to your online store.",
     tags: ['E-commerce SEO', 'Online Store', 'Search Rankings', 'Organic Traffic', 'Product Optimization', 'Conversion Rate']
   };
+
+  // Generate the blog post URL
+  const blogPostUrl = `https://samcreative-solutions.com/blog/ecommerce-seo-guide`;
 
   const tableOfContents = [
     { id: "introduction", title: "Why E-commerce SEO Matters" },
@@ -33,6 +39,54 @@ const EcommerceSEOGuide: React.FC<BlogPostProps> = ({ setCurrentPage }) => {
     if (setCurrentPage) {
       setCurrentPage('blog');
     }
+  };
+
+  const handleShareClick = () => {
+    setShowShareModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowShareModal(false);
+    setCopySuccess(false);
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(blogPostUrl);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (err) {
+      // Fallback for browsers that don't support clipboard API
+      const textArea = document.createElement('textarea');
+      textArea.value = blogPostUrl;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    }
+  };
+
+  const handleSocialShare = (platform: string) => {
+    const encodedUrl = encodeURIComponent(blogPostUrl);
+    const encodedTitle = encodeURIComponent(blogPost.title);
+    
+    let shareUrl = '';
+    
+    switch (platform) {
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
+        break;
+      case 'linkedin':
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+        break;
+    }
+    
+    window.open(shareUrl, '_blank', 'width=600,height=400');
   };
 
   return (
@@ -83,7 +137,7 @@ const EcommerceSEOGuide: React.FC<BlogPostProps> = ({ setCurrentPage }) => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-12 gap-12">
           <aside className="lg:col-span-3">
-            <div className="sticky top-24 space-y-6">
+            <div className="sticky top-8 space-y-6">
               <div className="bg-gray-50 rounded-2xl p-6">
                 <h3 className="font-bold text-gray-900 mb-4">Table of Contents</h3>
                 <nav className="space-y-3">
@@ -102,14 +156,26 @@ const EcommerceSEOGuide: React.FC<BlogPostProps> = ({ setCurrentPage }) => {
               <div className="bg-white rounded-2xl p-6 shadow-sm border">
                 <h4 className="font-bold text-gray-900 mb-4">Share this article</h4>
                 <div className="flex space-x-3">
-                  <button className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
-                    <Share2 className="w-5 h-5" />
+                  <button 
+                    onClick={() => handleSocialShare('facebook')}
+                    className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+                    title="Share on Facebook"
+                  >
+                    <Facebook className="w-5 h-5" />
                   </button>
-                  <button className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-900 transition-colors">
-                    <Share2 className="w-5 h-5" />
+                  <button 
+                    onClick={() => handleSocialShare('twitter')}
+                    className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-900 transition-colors"
+                    title="Share on Twitter"
+                  >
+                    <Twitter className="w-5 h-5" />
                   </button>
-                  <button className="w-10 h-10 bg-yellow-500 text-white rounded-full flex items-center justify-center hover:bg-yellow-600 transition-colors">
-                    <Bookmark className="w-5 h-5" />
+                  <button 
+                    onClick={handleShareClick}
+                    className="w-10 h-10 bg-yellow-500 text-white rounded-full flex items-center justify-center hover:bg-yellow-600 transition-colors"
+                    title="Share Options"
+                  >
+                    <Share2 className="w-5 h-5" />
                   </button>
                 </div>
               </div>
@@ -621,6 +687,79 @@ const EcommerceSEOGuide: React.FC<BlogPostProps> = ({ setCurrentPage }) => {
           </main>
         </div>
       </div>
+
+      {/* Share Modal */}
+      {showShareModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 relative">
+            <button
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Share this article</h3>
+            
+            {/* Social Share Buttons */}
+            <div className="space-y-4 mb-6">
+              <button
+                onClick={() => handleSocialShare('facebook')}
+                className="w-full flex items-center space-x-4 p-4 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
+              >
+                <Facebook className="w-6 h-6 text-blue-600" />
+                <span className="text-blue-700 font-medium">Share on Facebook</span>
+              </button>
+              
+              <button
+                onClick={() => handleSocialShare('twitter')}
+                className="w-full flex items-center space-x-4 p-4 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors"
+              >
+                <Twitter className="w-6 h-6 text-gray-700" />
+                <span className="text-gray-700 font-medium">Share on Twitter</span>
+              </button>
+              
+              <button
+                onClick={() => handleSocialShare('linkedin')}
+                className="w-full flex items-center space-x-4 p-4 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
+              >
+                <Linkedin className="w-6 h-6 text-blue-600" />
+                <span className="text-blue-700 font-medium">Share on LinkedIn</span>
+              </button>
+            </div>
+            
+            {/* Copy Link Section */}
+            <div className="border-t pt-6">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4">Or copy link</h4>
+              <div className="flex items-center space-x-3">
+                <div className="flex-1 bg-gray-50 rounded-lg p-3 text-sm text-gray-600 font-mono truncate">
+                  {blogPostUrl}
+                </div>
+                <button
+                  onClick={handleCopyLink}
+                  className={`px-4 py-3 rounded-lg transition-all duration-200 ${
+                    copySuccess 
+                      ? 'bg-green-100 text-green-700 border border-green-200' 
+                      : 'bg-yellow-500 hover:bg-yellow-600 text-white'
+                  }`}
+                >
+                  {copySuccess ? (
+                    <div className="flex items-center space-x-2">
+                      <Check className="w-4 h-4" />
+                      <span className="text-sm font-medium">Copied!</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center space-x-2">
+                      <Copy className="w-4 h-4" />
+                      <span className="text-sm font-medium">Copy</span>
+                    </div>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </article>
   );
 };
