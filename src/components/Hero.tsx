@@ -4,9 +4,10 @@ import bgVideo from '../assets/bg2.webm';
 
 interface HeroProps {
   openConsultation?: () => void;
+  setCurrentPage: (page: string) => void; // Add setCurrentPage to props
 }
 
-const Hero: React.FC<HeroProps> = ({ openConsultation }) => {
+const Hero: React.FC<HeroProps> = ({ openConsultation, setCurrentPage }) => {
   const parallaxRef = useRef<HTMLDivElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -14,9 +15,9 @@ const Hero: React.FC<HeroProps> = ({ openConsultation }) => {
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
       const rate = scrolled * -0.5;
-      
+
       setIsScrolled(scrolled > 50);
-      
+
       if (parallaxRef.current) {
         parallaxRef.current.style.transform = `translateY(${rate}px)`;
       }
@@ -36,7 +37,6 @@ const Hero: React.FC<HeroProps> = ({ openConsultation }) => {
   return (
     <section className="relative h-screen flex flex-col">
       {/* Navigation Bar */}
-    
       {/* Hero Content */}
       <div className="flex-1 flex items-center justify-center overflow-hidden">
         {/* Video Background with Fallback */}
@@ -45,7 +45,7 @@ const Hero: React.FC<HeroProps> = ({ openConsultation }) => {
           <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.1),transparent_50%)]"></div>
           </div>
-          
+
           {/* Video */}
           <video
             autoPlay
@@ -56,8 +56,6 @@ const Hero: React.FC<HeroProps> = ({ openConsultation }) => {
             className="w-full h-full object-cover object-center"
           >
             <source src={bgVideo} type="video/webm" />
-            {/* Optional MP4 fallback for broader compatibility */}
-            {/* <source src={bgVideoMp4} type="video/mp4" /> */}
             Your browser does not support the video tag.
           </video>
 
@@ -109,11 +107,15 @@ const Hero: React.FC<HeroProps> = ({ openConsultation }) => {
             >
               Start Your Project
             </button>
-            <a href="/portfolio">
-              <button className="border-2 border-yellow-400 text-yellow-400 px-8 py-4 rounded-full font-semibold text-lg hover:bg-yellow-400 hover:text-black transition-all duration-300">
-                View Portfolio
-              </button>
-            </a>
+            <button
+              onClick={() => {
+                setCurrentPage('portfolio');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg hover:shadow-yellow-400/30 transition-all duration-300 transform hover:scale-105"
+            >
+              View Portfolio
+            </button>
           </div>
         </div>
 

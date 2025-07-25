@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ScrollProgress from './components/ScrollProgress';
 import LoadingScreen from './components/LoadingScreen';
 import ConsultationPopup from './components/ConsultationPopup';
@@ -41,17 +41,22 @@ function App() {
   useEffect(() => {
     const handleRouting = () => {
       const path = window.location.pathname;
-      
+
       // Update document title and canonical URL based on route
       const updatePageMeta = (title: string, description: string, path: string) => {
         document.title = title;
-        
+
         // Update meta description
         const metaDescription = document.querySelector('meta[name="description"]');
         if (metaDescription) {
           metaDescription.setAttribute('content', description);
+        } else {
+          const newMeta = document.createElement('meta');
+          newMeta.name = 'description';
+          newMeta.content = description;
+          document.head.appendChild(newMeta);
         }
-        
+
         // Update canonical URL
         let canonical = document.querySelector('link[rel="canonical"]');
         if (!canonical) {
@@ -60,12 +65,15 @@ function App() {
           document.head.appendChild(canonical);
         }
         canonical.setAttribute('href', `https://samcreative-solutions.com${path}`);
-        
+
         // Update Open Graph URL
-        const ogUrl = document.querySelector('meta[property="og:url"]');
-        if (ogUrl) {
-          ogUrl.setAttribute('content', `https://samcreative-solutions.com${path}`);
+        let ogUrl = document.querySelector('meta[property="og:url"]');
+        if (!ogUrl) {
+          ogUrl = document.createElement('meta');
+          ogUrl.setAttribute('property', 'og:url');
+          document.head.appendChild(ogUrl);
         }
+        ogUrl.setAttribute('content', `https://samcreative-solutions.com${path}`);
       };
 
       // Route mapping
@@ -83,7 +91,7 @@ function App() {
         '/blog/scalable-saas-applications': 'scalable-saas-applications',
         '/blog/ui-ux-design-trends-2025': 'ui-ux-design-trends-2025',
         '/blog/implementing-ai-chatbots': 'implementing-ai-chatbots',
-        '/blog/mobile-first-design': 'mobile-first-design'
+        '/blog/mobile-first-design': 'mobile-first-design',
       };
 
       const page = routes[path as keyof typeof routes] || 'home';
@@ -192,10 +200,10 @@ function App() {
     };
 
     handleRouting();
-    
+
     // Listen for browser navigation
     window.addEventListener('popstate', handleRouting);
-    
+
     return () => {
       window.removeEventListener('popstate', handleRouting);
     };
@@ -204,29 +212,32 @@ function App() {
   // Handle page navigation
   const handlePageChange = (page: string) => {
     const routeMap: { [key: string]: string } = {
-      'home': '/',
-      'portfolio': '/portfolio',
-      'contact': '/contact',
-      'blog': '/blog',
-      'privacy': '/privacy-policy',
-      'terms': '/terms-of-service',
-      'faq': '/faq',
-      'pricing': '/pricing',
+      home: '/',
+      portfolio: '/portfolio',
+      contact: '/contact',
+      blog: '/blog',
+      privacy: '/privacy-policy',
+      terms: '/terms-of-service',
+      faq: '/faq',
+      pricing: '/pricing',
       'future-ai-web-development-2025': '/blog/future-ai-web-development-2025',
       'ecommerce-seo-guide': '/blog/ecommerce-seo-guide',
       'scalable-saas-applications': '/blog/scalable-saas-applications',
       'ui-ux-design-trends-2025': '/blog/ui-ux-design-trends-2025',
       'implementing-ai-chatbots': '/blog/implementing-ai-chatbots',
-      'mobile-first-design': '/blog/mobile-first-design'
+      'mobile-first-design': '/blog/mobile-first-design',
     };
 
     const newPath = routeMap[page] || '/';
-    
+
     // Update URL without page reload
     window.history.pushState({ page }, '', newPath);
-    
+
     // Update current page
     setCurrentPage(page);
+
+    // Scroll to top for consistent navigation experience
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleLoadingComplete = () => {
@@ -247,19 +258,19 @@ function App() {
 
   const renderPage = () => {
     const pageComponents = {
-      'portfolio': <PortfolioPage setCurrentPage={handlePageChange} />,
-      'blog': <BlogPage setCurrentPage={handlePageChange} />,
-      'contact': <ContactPage setCurrentPage={handlePageChange} />,
+      portfolio: <PortfolioPage setCurrentPage={handlePageChange} />,
+      blog: <BlogPage setCurrentPage={handlePageChange} />,
+      contact: <ContactPage setCurrentPage={handlePageChange} />,
       'future-ai-web-development-2025': <FutureAIWebDevelopment2025 setCurrentPage={handlePageChange} />,
       'ecommerce-seo-guide': <EcommerceSEOGuide setCurrentPage={handlePageChange} />,
       'scalable-saas-applications': <ScalableSaaSApplications setCurrentPage={handlePageChange} />,
       'ui-ux-design-trends-2025': <UIUXDesignTrends2025 setCurrentPage={handlePageChange} />,
       'implementing-ai-chatbots': <ImplementingAIChatbots setCurrentPage={handlePageChange} />,
       'mobile-first-design': <MobileFirstDesign setCurrentPage={handlePageChange} />,
-      'terms': <TermsPage setCurrentPage={handlePageChange} />,
-      'privacy': <PrivacyPage setCurrentPage={handlePageChange} />,
-      'faq': <FAQPage setCurrentPage={handlePageChange} />,
-      // 'pricing': <PricingPage setCurrentPage={handlePageChange} />
+      terms: <TermsPage setCurrentPage={handlePageChange} />,
+      privacy: <PrivacyPage setCurrentPage={handlePageChange} />,
+      faq: <FAQPage setCurrentPage={handlePageChange} />,
+      // pricing: <PricingPage setCurrentPage={handlePageChange} />,
     };
 
     if (pageComponents[currentPage as keyof typeof pageComponents]) {
@@ -269,7 +280,7 @@ function App() {
     // Default home page
     return (
       <>
-        <Hero openConsultation={openConsultation} />
+        <Hero openConsultation={openConsultation} setCurrentPage={handlePageChange} />
         <Services />
         <AIServices />
         <SEOSection />
@@ -284,15 +295,14 @@ function App() {
   return (
     <div className="min-h-screen bg-white text-black overflow-x-hidden">
       <ScrollProgress />
-      <Header 
-        currentPage={currentPage} 
-        setCurrentPage={handlePageChange} 
-        openConsultation={openConsultation} 
+      <Header
+        currentPage={currentPage}
+        setCurrentPage={handlePageChange}
+        openConsultation={openConsultation}
       />
       {renderPage()}
       <Footer setCurrentPage={handlePageChange} />
       <ConsultationPopup isOpen={isConsultationOpen} onClose={closeConsultation} />
-     
       <CookieConsent />
     </div>
   );
