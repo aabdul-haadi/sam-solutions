@@ -7,7 +7,7 @@ interface MarketingAgencyHeroProps {
 
 type PageContent = 'hero' | 'services' | 'process' | 'about' | 'contact';
 
-const MarketingAgencyHero: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPage }) => {
+const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPage }) => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [phoneRotation, setPhoneRotation] = useState(0);
   const [showContactChat, setShowContactChat] = useState(false);
@@ -819,4 +819,4 @@ const MarketingAgencyHero: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPag
   );
 };
 
-export default MarketingAgencyHero;
+export default MarketingAgencyPage;
