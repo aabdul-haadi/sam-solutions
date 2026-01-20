@@ -21,22 +21,22 @@ const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPag
 
   // Brand logos data for the phone screen
   const brandLogos = [
-    { name: 'Google', color: '#4285F4', icon: 'G' },
-    { name: 'ChatGPT', color: '#10A37F', icon: 'C' },
-    { name: 'Instagram', color: '#E4405F', icon: 'I' },
-    { name: 'TikTok', color: '#000000', icon: 'T' },
-    { name: 'YouTube', color: '#FF0000', icon: 'Y' },
-    { name: 'Amazon', color: '#FF9900', icon: 'A' },
-    { name: 'Spotify', color: '#1DB954', icon: 'S' },
-    { name: 'LinkedIn', color: '#0A66C2', icon: 'L' },
-    { name: 'Facebook', color: '#1877F2', icon: 'F' },
-    { name: 'Twitter', color: '#1DA1F2', icon: 'X' },
-    { name: 'Shopify', color: '#96BF48', icon: 'S' },
-    { name: 'Pinterest', color: '#E60023', icon: 'P' },
-    { name: 'Snapchat', color: '#FFFC00', icon: 'S' },
-    { name: 'Twitch', color: '#9146FF', icon: 'T' },
-    { name: 'Reddit', color: '#FF4500', icon: 'R' },
-    { name: 'Discord', color: '#5865F2', icon: 'D' },
+    { name: 'Google', color: '#4285F4', icon: '/src/assets/icons/google.png' },
+    { name: 'ChatGPT', color: '#10A37F', icon: '/src/assets/icons/chatgpt.png' },
+    { name: 'Instagram', color: '#E4405F', icon: '/src/assets/icons/insta.png' },
+    { name: 'TikTok', color: '#000000', icon: '/src/assets/icons/tiktok.png' },
+    { name: 'YouTube', color: '#FF0000', icon: '/src/assets/icons/youtube.png' },
+    { name: 'Amazon', color: '#FF9900', icon: '/src/assets/icons/amazon.png' },
+    { name: 'Spotify', color: '#1DB954', icon: '/src/assets/icons/spotify.png' },
+    { name: 'LinkedIn', color: '#0A66C2', icon: '/src/assets/icons/linkedin.png' },
+    { name: 'Facebook', color: '#1877F2', icon: '/src/assets/icons/facebook.png' },
+    { name: 'Twitter', color: '#1DA1F2', icon: '/src/assets/icons/twitter.png' },
+    { name: 'Shopify', color: '#96BF48', icon: '/src/assets/icons/shopify.png' },
+    { name: 'Pinterest', color: '#E60023', icon: '/src/assets/icons/pinterest.png' },
+    { name: 'Snapchat', color: '#FFFC00', icon: '/src/assets/icons/snapchat.png' },
+    { name: 'Twitch', color: '#9146FF', icon: '/src/assets/icons/twitch.png' },
+    { name: 'Reddit', color: '#FF4500', icon: '/src/assets/icons/reddit.png' },
+    { name: 'Discord', color: '#5865F2', icon: '/src/assets/icons/discord.png' },
   ];
 
   // Services for the dropdown
@@ -654,16 +654,18 @@ const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPag
                                 key={index}
                                 className="flex flex-col items-center justify-center"
                               >
-                                <div 
+                                <div
                                   className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mb-1 transition-all duration-300 hover:scale-110"
-                                  style={{ 
+                                  style={{
                                     background: `linear-gradient(135deg, ${brand.color}20, ${brand.color}40)`,
                                     border: `2px solid ${brand.color}40`
                                   }}
                                 >
-                                  <span className="text-base sm:text-lg font-bold" style={{ color: brand.color }}>
-                                    {brand.icon}
-                                  </span>
+                                  <img
+                                    src={brand.icon}
+                                    alt={`${brand.name} icon`}
+                                    className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                                  />
                                 </div>
                                 <span className="text-xs font-medium text-gray-400">
                                   {brand.name}
