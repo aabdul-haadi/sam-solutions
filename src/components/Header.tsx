@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage, openConsul
     { name: 'Home', page: 'home' },
     { name: 'Portfolio', page: 'portfolio' },
     { name: 'Blog', page: 'blog' },
-    { name: 'Marketing Agency', page: 'marketing-agency' },
+    // { name: 'Marketing Agency', page: 'marketing-agency' },
     { name: 'About', page: 'home' },
     { name: 'Contact', page: 'contact' },
   ];
