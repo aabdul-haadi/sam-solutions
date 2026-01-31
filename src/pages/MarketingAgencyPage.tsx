@@ -9,6 +9,32 @@ interface MarketingAgencyHeroProps {
 
 type PageContent = 'hero' | 'services' | 'process' | 'about' | 'contact';
 
+// Small helper component to render a brand icon with fallback to a colored initial
+const BrandIcon: React.FC<{ name: string; color: string; icon: string; className?: string }> = ({ name, color, icon, className }) => {
+  const [imgFailed, setImgFailed] = React.useState(false);
+  const initial = name ? name.charAt(0).toUpperCase() : '?';
+
+  if (imgFailed) {
+    return (
+      <div
+        className={`${className ?? ''} w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center text-white font-semibold`}
+        style={{ backgroundColor: color, borderRadius: 8 }}
+      >
+        {initial}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={icon}
+      alt={`${name} icon`}
+      className={`${className ?? ''} w-6 h-6 sm:w-8 sm:h-8 object-contain`}
+      onError={() => setImgFailed(true)}
+    />
+  );
+};
+
 const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPage }) => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [phoneRotation, setPhoneRotation] = useState(0);
@@ -663,11 +689,7 @@ const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPag
                                     border: `2px solid ${brand.color}40`
                                   }}
                                 >
-                                  <img
-                                    src={brand.icon}
-                                    alt={`${brand.name} icon`}
-                                    className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
-                                  />
+                                  <BrandIcon name={brand.name} color={brand.color} icon={brand.icon} />
                                 </div>
                                 <span className="text-xs font-medium text-gray-400">
                                   {brand.name}
