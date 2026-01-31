@@ -20,6 +20,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
-  "files": ["src/pages/MarketingAgency.tsx"]
+  "include": ["src"]
 }

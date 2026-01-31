@@ -12,7 +12,7 @@ import Portfolio from './components/Portfolio';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
 import InnovationShowcase from './components/InnovationShowcase';
-import MarketingAgencyPage from './pages/MarketingAgency.tsx';
+import MarketingAgencyPage from './pages/MarketingAgencyPage';
 
 // Page components
 import PortfolioPage from './pages/PortfolioPage';
