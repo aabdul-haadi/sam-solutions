@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, Search, ShoppingBag, Tv, MessageSquare, TrendingUp, Play, Pause, Globe, Star, Award, Check, Users, BarChart3, Shield, Clock, Rocket, Sparkles, Camera, MessageCircle, Target, Mail, Phone, MapPin, Menu, X } from 'lucide-react';
 
+// Refer to icons by absolute paths under `/src/assets/icons` so Vite serves them as assets
+
 interface MarketingAgencyHeroProps {
   setCurrentPage?: (page: string) => void;
 }
@@ -19,7 +21,7 @@ const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPag
   const phoneRef = useRef<HTMLDivElement>(null);
   const autoPlayRef = useRef<NodeJS.Timeout>();
 
-  // Brand logos data for the phone screen
+  // Brand logos data for the phone screen (use absolute paths so assets are served)
   const brandLogos = [
     { name: 'Google', color: '#4285F4', icon: '/src/assets/icons/google.png' },
     { name: 'ChatGPT', color: '#10A37F', icon: '/src/assets/icons/chatgpt.png' },
