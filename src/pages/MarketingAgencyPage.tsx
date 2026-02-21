@@ -339,19 +339,21 @@ const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPag
                 <div className="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10">
                   <Mail className="w-8 h-8 text-blue-400 mb-3" />
                   <p className="text-base font-medium text-white">Email</p>
-                  <p className="text-sm text-gray-300">samcreativeoffcials.com</p>
-                </div>
+                  <p className="text-sm text-gray-300 break-all">
+      <a href="mailto:samcreativeofficials@gmail.com" className="text-blue-400">samcreativeofficials@gmail.com</a>
+    </p>                </div>
                 
                 <div className="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10">
                   <Phone className="w-8 h-8 text-blue-400 mb-3" />
                   <p className="text-base font-medium text-white">Phone</p>
-                  <p className="text-sm text-gray-300">+1 (716) 430-2718</p>
-                </div>
+                  <p className="text-sm text-gray-300 break-all">
+      <a href="tel:+923138372573" className="text-blue-400">+92 313 8372573</a>
+    </p>                </div>
                 
                 <div className="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10">
                   <MapPin className="w-8 h-8 text-blue-400 mb-3" />
                   <p className="text-base font-medium text-white">Location</p>
-                  <p className="text-sm text-gray-300">Buffalo, NY</p>
+                  <p className="text-sm text-gray-300 break-all">Karachi, PK</p>
                 </div>
               </div>
               
