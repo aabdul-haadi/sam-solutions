@@ -1,212 +1,83 @@
-import React, { useEffect, useState } from 'react';
-import { ChevronDown, Sparkles, Zap, Globe, Crown, TrendingUp } from 'lucide-react';
+import React from 'react';
+import { OptimizedImage } from './OptimizedImage';
 
-interface HeroProps {
-  openConsultation?: () => void;
-  setCurrentPage: (page: string) => void;
-}
-
-const Hero: React.FC<HeroProps> = ({ openConsultation, setCurrentPage }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.pageYOffset > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToServices = () => {
-    const element = document.getElementById('services');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+const Hero: React.FC = () => {
+  const heroImage = (
+    <div className="relative flex items-center justify-center mt-8 lg:mt-0">
+      <div className="relative w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] rounded-full overflow-hidden shadow-2xl z-10 border-4 md:border-8 border-white">
+        <OptimizedImage
+          src="/banner-sam-2.webp"
+          alt="IT Solution Team"
+          className="w-full h-full object-cover"
+          priority
+          placeholder="/banner-sam-2-placeholder.webp"
+        />
+      </div>
+    </div>
+  );
 
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden bg-black">
-      {/* Modern Luxury Background */}
-      <div className="absolute inset-0 z-0">
-        {/* Deep gradient base */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-black to-slate-950"></div>
-        
-        {/* Subtle geometric grid */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="h-full w-full" style={{
-            backgroundImage: `
-              linear-gradient(to right, rgba(212,175,55,0.05) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(212,175,55,0.05) 1px, transparent 1px)
-            `,
-            backgroundSize: '50px 50px',
-          }}></div>
-        </div>
-        
-        {/* Luxury gradient accents */}
-        <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-gold-500/5 via-transparent to-transparent"></div>
-        <div className="absolute bottom-0 right-0 w-full h-1/3 bg-gradient-to-t from-emerald-500/5 via-transparent to-transparent"></div>
-        
-        {/* Minimal floating elements */}
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full animate-pulse"
-            style={{
-              background: `radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%)`,
-              width: `${Math.random() * 100 + 50}px`,
-              height: `${Math.random() * 100 + 50}px`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${i * 0.5}s`,
-              animationDuration: `${Math.random() * 10 + 10}s`,
-              filter: 'blur(20px)',
-            }}
-          />
-        ))}
-        
-        {/* Elegant line accents */}
-        <div className="absolute top-1/4 left-10 w-px h-32 bg-gradient-to-b from-gold-400/20 via-gold-400/10 to-transparent"></div>
-        <div className="absolute bottom-1/4 right-10 w-px h-32 bg-gradient-to-t from-emerald-400/20 via-emerald-400/10 to-transparent"></div>
+    <section className="relative bg-white pt-28 pb-16 md:pt-40 md:pb-24 overflow-hidden font-sans">
+      {/* Background Shapes */}
+      <div
+        className="absolute top-0 right-0 w-full h-full bg-gray-900"
+        style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)' }}
+      >
+        <div className="absolute inset-0 bg-black opacity-50" />
+        <svg className="absolute inset-0 w-full h-full text-gray-800" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <polygon points="0,0 100,0 0,100" />
+        </svg>
       </div>
+      <div className="absolute top-48 left-20 w-8 h-8 opacity-30 text-gray-400 hidden md:block">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+      </div>
+      <div className="absolute top-1/2 left-1/4 w-48 h-48 bg-amber-500 rounded-full opacity-20 blur-2xl hidden md:block" />
 
-      {/* Content Overlay */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/30 via-transparent to-black/20"></div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Column: Text and mobile image */}
+          <div className="flex flex-col">
+            <div className="z-10 text-center lg:text-left">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
+                Not Another "It Takes Time" Agency
+              </h1>
+              <p className="mt-4 text-base sm:text-lg text-gray-300 max-w-lg mx-auto lg:mx-0">
+                We focus on efficiency and innovation to deliver result-driven strategies that drive quick and measurable growth. No more waiting, just real results.
+              </p>
+            </div>
 
-      {/* Hero Content */}
-      <div className="flex-1 flex items-center justify-center relative z-20 px-4">
-        <div className="max-w-4xl mx-auto w-full">
-          <div className="text-center">
-            {/* Minimal Crown Icon */}
-            <div className="flex justify-center mb-8">
-              <div className="relative group">
-                {/* <div className="absolute -inset-2 border border-gold-400/10 rounded-full animate-pulse-slow"></div>
-                <Crown className="w-16 h-16 text-gold-300 relative" />
-                <div className="absolute inset-0 bg-gold-300/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div> */}
-              </div>
+            <div className="lg:hidden">
+              {heroImage}
             </div>
             
-            {/* Main Headline */}
-            <div className="animate-fade-in-up">
-              <h1 className="text-4xl md:text-7xl font-bold mb-8 leading-tight">
-                <span className="text-white">Not Another</span>
-                <span className="text-gradient-luxury bg-gradient-to-r from-gold-300 via-gold-200 to-emerald-300 bg-clip-text text-transparent mx-2">
-                  "It Takes Time"
-                </span>
-                <span className="text-white">Agency</span>
-              </h1>
-              
-              {/* Subtle floating icons */}
-              <div className="absolute top-8 left-8 opacity-30">
-                <Sparkles className="w-6 h-6 text-gold-300" />
-              </div>
-              <div className="absolute top-8 right-8 opacity-30" style={{ animationDelay: '0.5s' }}>
-                <Zap className="w-6 h-6 text-emerald-300" />
-              </div>
-            </div>
-
-            {/* Subtitle */}
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <div className="max-w-2xl mx-auto mb-12">
-                <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-                  We focus on <span className="text-gold-300 font-medium">efficiency</span> and <span className="text-emerald-300 font-medium">innovation</span> to deliver result-driven strategies that drive quick and measurable growth. No more waiting, just real results.
-                </p>
-              </div>
-            </div>
-
-            {/* Clean CTA Buttons */}
-            <div className="animate-fade-in-up flex flex-col sm:flex-row gap-4 justify-center items-center" style={{ animationDelay: '0.4s' }}>
-              {/* Primary Button */}
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
               <button
-                onClick={openConsultation}
-                className="group relative px-10 py-4 rounded-full font-medium text-base transition-all duration-300 hover:scale-105"
+                className="w-full sm:w-auto relative bg-gray-900 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-gray-800 transition-all duration-300 flex items-center justify-center space-x-2 text-base overflow-hidden group"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-gold-500 to-emerald-400 rounded-full"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-gold-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="absolute inset-0.5 bg-black rounded-full"></div>
-                <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-emerald-300 flex items-center justify-center gap-2">
-                  <Crown className="w-4 h-4" />
-                  Start Your Project
-                </span>
+                <div className="absolute top-0 left-0 w-3 h-3 bg-amber-500" style={{ clipPath: 'polygon(0 0, 100% 0, 0 100%)' }}></div>
+                <div className="absolute bottom-0 right-0 w-3 h-3 bg-amber-500" style={{ clipPath: 'polygon(100% 100%, 0 100%, 100% 0)' }}></div>
+                <span className="z-10">GET STARTED</span>
+                <span className="z-10 font-thin text-lg transition-transform duration-300 group-hover:translate-x-1">→</span>
               </button>
-
-              {/* Secondary Button */}
               <button
-                onClick={() => {
-                  setCurrentPage('portfolio');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="group relative px-10 py-4 rounded-full font-medium text-base transition-all duration-300 hover:scale-105 border border-gold-400/30 hover:border-emerald-400/50"
+                className="w-full sm:w-auto relative bg-amber-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-amber-600 transition-all duration-300 flex items-center justify-center space-x-2 text-base overflow-hidden group"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-gold-400/5 to-emerald-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <span className="text-white flex items-center justify-center gap-2">
-                  <TrendingUp className="w-4 h-4" />
-                  View Portfolio
-                </span>
+                <div className="absolute top-0 left-0 w-3 h-3 bg-gray-900" style={{ clipPath: 'polygon(0 0, 100% 0, 0 100%)' }}></div>
+                <div className="absolute bottom-0 right-0 w-3 h-3 bg-gray-900" style={{ clipPath: 'polygon(100% 100%, 0 100%, 100% 0)' }}></div>
+                <span className="z-10">GET QUOTE</span>
+                <span className="z-10 font-thin text-lg transition-transform duration-300 group-hover:translate-x-1">→</span>
               </button>
             </div>
           </div>
-        </div>
 
-        {/* Minimal Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
-          <button
-            onClick={scrollToServices}
-            className="group animate-bounce-slow"
-          >
-            <div className="relative p-2 rounded-full border border-gold-400/20 hover:border-emerald-400/40 transition-colors duration-300">
-              <ChevronDown className="w-6 h-6 text-gold-300/60 group-hover:text-emerald-300/80 transition-colors duration-300" />
-            </div>
-          </button>
+          {/* Right Column: Image for desktop */}
+          <div className="hidden lg:block">
+            {heroImage}
+          </div>
         </div>
       </div>
-
-      {/* Inline Styles */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-        
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes gradient-x {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-        
-        .text-gradient-luxury {
-          background-size: 200% auto;
-          animation: gradient-x 3s ease infinite;
-        }
-        
-        .animate-fade-in-up {
-          animation: fadeInUp 0.8s ease-out forwards;
-        }
-        
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </section>
   );
 };
 
-export default Hero; 
+export default Hero;

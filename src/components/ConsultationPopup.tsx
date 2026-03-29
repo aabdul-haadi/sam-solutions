@@ -1,407 +1,209 @@
 import React, { useState } from 'react';
-import { 
-  X, 
-  Calendar, 
-  User, 
-  MapPin, 
-  Mail, 
-  AlertCircle,  
-  ChevronRight,
-  CheckCircle
-} from 'lucide-react';
-import { submitConsultationForm } from '../lib/supabase';
+import { X, Loader2, CheckCircle, AlertTriangle } from 'lucide-react';
 
 interface ConsultationPopupProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+
 const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose }) => {
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    state: '',
-    country: '',
-    projectDescription: '',
-    day: '',
-    timeSlot: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [website, setWebsite] = useState('');
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<FormStatus>('idle');
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const timeSlots = ['9 AM - 12 PM', '12 PM - 3 PM', '3 PM - 5 PM'];
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+    if (!name.trim()) newErrors.name = 'Full name is required.';
+    if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) newErrors.email = 'A valid email is required.';
+    if (!phone.trim()) newErrors.phone = 'A contact number is required.';
+    if (!message.trim()) newErrors.message = 'Please enter your requirements.';
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    setError(null);
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
-
-  const nextStep = () => {
-    // Basic validation before proceeding
-    if (step === 1 && (!formData.name || !formData.email)) {
-      setError('Please fill in name and email');
-      return;
-    }
-    if (step === 2 && (!formData.country || !formData.projectDescription)) {
-      setError('Please fill in country and project description');
-      return;
-    }
-    setStep(prev => Math.min(prev + 1, 3));
-  };
-
-  const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
+    if (!validateForm()) return;
+
+    setStatus('loading');
 
     try {
-      const result = await submitConsultationForm({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        state: formData.state,
-        country: formData.country,
-        project_description: formData.projectDescription,
-        preferred_day: formData.day,
-        preferred_time: formData.timeSlot
+      const response = await fetch('http://localhost:3001/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, website, message, source: 'ConsultationPopup' }),
       });
 
-      if (result.success) {
-        setIsSubmitted(true);
-        // Reset form and close after 5 seconds
-        setTimeout(() => {
-          resetForm();
-          onClose();
-        }, 5000);
-      } else {
-        setError(result.error || 'Failed to submit consultation request');
-      }
-    } catch (err) {
-      setError('An unexpected error occurred. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+      if (!response.ok) throw new Error('Network response was not ok.');
+
+      setStatus('success');
+      // Reset form or give user option to close
+      setTimeout(() => {
+        onClose();
+        resetForm();
+      }, 3000);
+
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setStatus('error');
     }
   };
 
   const resetForm = () => {
-    setStep(1);
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      state: '',
-      country: '',
-      projectDescription: '',
-      day: '',
-      timeSlot: ''
-    });
-    setError(null);
-    setIsSubmitted(false);
+    setName('');
+    setEmail('');
+    setPhone('');
+    setWebsite('');
+    setMessage('');
+    setStatus('idle');
+    setErrors({});
   };
 
-  const handleEmailFallback = () => {
-    const subject = encodeURIComponent(`Consultation Request: ${formData.projectDescription.substring(0, 50)}...`);
-    const body = encodeURIComponent(`
-Name: ${formData.name}
-Email: ${formData.email}
-Phone: ${formData.phone || 'Not provided'}
-Location: ${formData.state}, ${formData.country}
-Preferred Day: ${formData.day}
-Preferred Time: ${formData.timeSlot}
-
-Project Description:
-${formData.projectDescription}
-    `.trim());
-
-    window.open(
-      `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=samcreativeofficials@gmail.com&su=${subject}&body=${body}`,
-      '_blank',
-      'noopener,noreferrer'
-    );
+  const handleClose = () => {
+    if (status === 'loading') return;
+    resetForm();
+    onClose();
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl max-w-md w-full shadow-2xl overflow-hidden">
-        {/* Header */}
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center gap-3">
-              <Calendar className="w-7 h-7 text-yellow-600" />
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-fade-in">
+      <div className="bg-navy-dark border border-gold-accent/20 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col relative overflow-hidden">
+        
+        {/* Close Button */}
+        <button
+          onClick={handleClose}
+          className="absolute top-4 right-4 text-light-contrast hover:text-white transition-colors z-10"
+        >
+          <X size={24} />
+        </button>
+
+        {/* Content Area */}
+        <div className="flex-grow overflow-y-auto p-8">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-white">Get a Free Consultation</h2>
+            <p className="text-light-contrast mt-2">Fill out the form below, and we'll be in touch shortly.</p>
+          </div>
+
+          {status === 'success' && (
+            <div className="flex flex-col items-center justify-center text-center h-full p-8">
+              <CheckCircle className="text-green-400 w-16 h-16 mb-4" />
+              <h3 className="text-2xl font-bold text-white">Submission Successful!</h3>
+              <p className="text-light-contrast mt-2">Thank you for your interest. We will get back to you within 24 hours.</p>
+            </div>
+          )}
+
+          {status === 'error' && (
+            <div className="flex flex-col items-center justify-center text-center h-full p-8">
+              <AlertTriangle className="text-red-400 w-16 h-16 mb-4" />
+              <h3 className="text-2xl font-bold text-white">Something Went Wrong</h3>
+              <p className="text-light-contrast mt-2">We couldn't process your request. Please try again later or contact us directly.</p>
+            </div>
+          )}
+
+          {status !== 'success' && status !== 'error' && (
+            <form onSubmit={handleSubmit} noValidate className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {renderInputField('name', 'Full Name*', name, setName, errors.name)}
+                {renderInputField('email', 'Email Address*', email, setEmail, errors.email, 'email')}
+                {renderInputField('phone', 'Contact Number*', phone, setPhone, errors.phone, 'tel')}
+                {renderInputField('website', 'Website URL (Optional)', website, setWebsite, errors.website, 'url')}
+              </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-800">Free Consultation</h2>
-                <p className="text-sm text-gray-600">Get expert advice for your project</p>
+                {renderTextareaField('message', 'Your Requirements*', message, setMessage, errors.message)}
               </div>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              aria-label="Close"
-            >
-              <X className="w-5 h-5 text-gray-500" />
-            </button>
-          </div>
-
-          {/* Progress Steps */}
-          <div className="flex items-center justify-between mb-2">
-            {['Your Details', 'Project Info', 'Schedule'].map((label, index) => (
-              <div key={label} className="flex flex-col items-center flex-1">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  step > index + 1 ? 'bg-green-500 text-white' :
-                  step === index + 1 ? 'bg-yellow-600 text-white' :
-                  'bg-gray-200 text-gray-500'
-                }`}>
-                  {step > index + 1 ? <CheckCircle className="w-4 h-4" /> : index + 1}
-                </div>
-                <span className="text-xs mt-1 text-gray-600">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Form Content */}
-        <div className="p-6">
-          {isSubmitted ? (
-            <div className="text-center py-8">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Thank You!</h3>
-              <p className="text-gray-600 mb-4">
-                Your consultation request has been received. We'll send a Zoom link to your email within 24 hours.
-              </p>
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <p className="text-sm text-green-800">
-                  <strong>Next steps:</strong> Check your email for confirmation and meeting details.
-                </p>
-              </div>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              {/* Error Display */}
-              {error && (
-                <div className="mb-4 bg-red-50 border border-red-200 rounded-lg p-4">
-                  <div className="flex items-start gap-3">
-                    <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-red-800 mb-2">{error}</p>
-                      <button
-                        type="button"
-                        onClick={handleEmailFallback}
-                        className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
-                      >
-                        <Mail className="w-4 h-4" />
-                        Email us directly
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 1: Personal Information */}
-              {step === 1 && (
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-gray-700 mb-4">
-                    <User className="w-5 h-5 text-yellow-600" />
-                    <h3 className="font-medium">Personal Information</h3>
-                  </div>
-                  <div className="space-y-3">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-600 focus:border-transparent outline-none transition"
-                        placeholder="John Doe"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-600 focus:border-transparent outline-none transition"
-                        placeholder="you@example.com"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Phone Number (Optional)
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-600 focus:border-transparent outline-none transition"
-                        placeholder="+1 (555) 123-4567"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 2: Project Details */}
-              {step === 2 && (
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-gray-700 mb-4">
-                    <MapPin className="w-5 h-5 text-yellow-600" />
-                    <h3 className="font-medium">Location & Project</h3>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Country *
-                        </label>
-                        <input
-                          type="text"
-                          name="country"
-                          value={formData.country}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-600 focus:border-transparent outline-none transition"
-                          placeholder="United States"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          State/Province (Optional)
-                        </label>
-                        <input
-                          type="text"
-                          name="state"
-                          value={formData.state}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-600 focus:border-transparent outline-none transition"
-                          placeholder="California"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Project Description *
-                      </label>
-                      <textarea
-                        name="projectDescription"
-                        value={formData.projectDescription}
-                        onChange={handleChange}
-                        required
-                        rows={4}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-600 focus:border-transparent outline-none transition resize-none"
-                        placeholder="Tell us about your project goals, requirements, and timeline..."
-                      />
-                      <p className="text-xs text-gray-500 mt-1">Minimum 10 characters</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 3: Scheduling */}
-              {step === 3 && (
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-gray-700 mb-4">
-                    <Calendar className="w-5 h-5 text-yellow-600" />
-                    <h3 className="font-medium">Preferred Time (Optional)</h3>
-                  </div>
-                  <div className="space-y-3">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Preferred Day
-                      </label>
-                      <select
-                        name="day"
-                        value={formData.day}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-600 focus:border-transparent outline-none transition"
-                      >
-                        <option value="">Select a day (optional)</option>
-                        {days.map(day => (
-                          <option key={day} value={day}>{day}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Preferred Time Slot
-                      </label>
-                      <select
-                        name="timeSlot"
-                        value={formData.timeSlot}
-                        onChange={handleChange}
-                        disabled={!formData.day}
-                        className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-600 focus:border-transparent outline-none transition ${
-                          !formData.day ? 'opacity-50 cursor-not-allowed' : ''
-                        }`}
-                      >
-                        <option value="">Select a time slot</option>
-                        {formData.day && timeSlots.map(slot => (
-                          <option key={slot} value={slot}>{slot}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                      <p className="text-sm text-yellow-800">
-                        <strong>Note:</strong> Scheduling is optional. We'll contact you to arrange the best time.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Navigation Buttons */}
-              <div className="flex justify-between pt-6">
+              <div className="text-center pt-4">
                 <button
-                  type="button"
-                  onClick={step === 1 ? onClose : prevStep}
-                  className="px-5 py-3 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors"
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="bg-gold-accent text-navy-base font-bold py-3 px-10 rounded-full text-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-gold-accent/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center mx-auto"
                 >
-                  {step === 1 ? 'Cancel' : 'Back'}
+                  {status === 'loading' && <Loader2 className="animate-spin mr-2" size={20} />}
+                  {status === 'loading' ? 'Submitting...' : 'Book My Consultation'}
                 </button>
-
-                {step < 3 ? (
-                  <button
-                    type="button"
-                    onClick={nextStep}
-                    className="px-6 py-3 bg-yellow-600 text-gray-900 rounded-lg font-medium hover:bg-yellow-700 transition-colors flex items-center gap-2"
-                  >
-                    Continue <ChevronRight className="w-5 h-5" />
-                  </button>
-                ) : (
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="px-6 py-3 bg-yellow-600 text-gray-900 rounded-lg font-medium hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    {isSubmitting ? 'Submitting...' : 'Submit Request'}
-                  </button>
-                )}
               </div>
             </form>
           )}
         </div>
       </div>
+       <style jsx global>{`
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .animate-fade-in { animation: fade-in 0.3s ease-out forwards; }
+       `}</style>
     </div>
   );
 };
+
+const renderInputField = (
+  id: string,
+  label: string,
+  value: string,
+  setter: (val: string) => void,
+  error?: string,
+  type: string = 'text'
+) => (
+  <div className="relative">
+    <input
+      id={id}
+      name={id}
+      type={type}
+      value={value}
+      onChange={(e) => setter(e.target.value)}
+      placeholder=" " // Required for the floating label to work correctly
+      className={`peer w-full bg-navy-base border ${error ? 'border-red-500' : 'border-gold-accent/30'} rounded-md px-4 py-3 text-white transition-colors focus:outline-none focus:border-gold-accent h-12`}
+    />
+    <label
+      htmlFor={id}
+      className={`absolute left-4 transition-all duration-300 text-light-contrast/70 pointer-events-none
+        peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base
+        peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:text-xs peer-focus:text-gold-accent
+        ${value ? 'top-0 -translate-y-1/2 text-xs' : ''}`
+    }>
+      {label}
+    </label>
+    {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+  </div>
+);
+
+const renderTextareaField = (
+  id: string,
+  label: string,
+  value: string,
+  setter: (val: string) => void,
+  error?: string
+) => (
+    <div className="relative">
+    <textarea
+      id={id}
+      name={id}
+      value={value}
+      onChange={(e) => setter(e.target.value)}
+      placeholder=" "
+      rows={5}
+      className={`peer w-full bg-navy-base border ${error ? 'border-red-500' : 'border-gold-accent/30'} rounded-md px-4 py-3 text-white transition-colors focus:outline-none focus:border-gold-accent`}
+    ></textarea>
+    <label
+      htmlFor={id}
+      className={`absolute left-4 transition-all duration-300 text-light-contrast/70 pointer-events-none
+        peer-placeholder-shown:top-5 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base
+        peer-focus:top-0 peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:text-gold-accent
+        ${value ? 'top-0 -translate-y-0 text-xs' : ''}`
+    }>
+      {label}
+    </label>
+    {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+  </div>
+);
 
 export default ConsultationPopup;

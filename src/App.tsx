@@ -156,7 +156,7 @@ const routeConfig: RouteConfig[] = [
     page: 'ecommerce-seo-guide',
     title: 'Complete Guide to E-commerce SEO: Boost Your Online Store Rankings',
     description:
-      'Learn proven strategies to improve your e-commerce website search engine rankings and drive more organic traffic to your online store.',
+      'Learn proven strategies to improve your e-commerce website\'s search engine rankings and drive more organic traffic to your online store.',
   },
   {
     path: '/blog/scalable-saas-applications',

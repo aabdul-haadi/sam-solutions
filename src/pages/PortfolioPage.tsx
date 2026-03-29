@@ -72,49 +72,7 @@ import saas1 from '../assets/saas/saas1.webp';
 import saas2 from '../assets/saas/saas2.webp';
 import saas3 from '../assets/saas/saas3.webp';
 import saas4 from '../assets/saas/saas4.webp';
-
-// ================== LAZY IMAGE COMPONENT ==================
-const OptimizedImage = lazy(() =>
-  Promise.resolve({
-    default: memo(
-      forwardRef<
-        HTMLImageElement,
-        {
-          src: string;
-          alt: string;
-          className?: string;
-          onDoubleClick?: () => void;
-          onMouseMove?: (e: React.MouseEvent) => void;
-          onMouseLeave?: () => void;
-          style?: React.CSSProperties;
-        }
-      >(function OptimizedImage(
-        { src, alt, className, onDoubleClick, onMouseMove, onMouseLeave, style },
-        ref
-      ) {
-        return (
-          <img
-            ref={ref}
-            src={src}
-            alt={alt}
-            className={className}
-            onDoubleClick={onDoubleClick}
-            onMouseMove={onMouseMove}
-            onMouseLeave={onMouseLeave}
-            loading="lazy"
-            decoding="async"
-            style={{
-              ...style,
-              imageRendering: 'auto',
-              objectFit: 'cover',
-              transition: 'transform 0.3s ease, filter 0.3s ease',
-            }}
-          />
-        );
-      })
-    ),
-  })
-);
+import { OptimizedImage } from '../components/OptimizedImage';
 
 // ================== SKELETON CARD ==================
 const SkeletonCard = memo(() => (
@@ -381,10 +339,9 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
   // ================== RENDER ==================
   return (
     <>
-      {/* Safe Area Top Padding */}
-      <div className="min-h-screen bg-white" style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}>
+      <div className="min-h-screen bg-white">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white py-16 md:py-20 overflow-hidden">
+        <section className="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white pt-24 pb-16 md:py-20 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.12),transparent_60%)] pointer-events-none" />
           <div className="container mx-auto px-4 relative z-10">
             <button
@@ -425,12 +382,12 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
               <Filter className="w-5 h-5 mr-2" />
               <span className="font-medium">Filter by category</span>
             </div>
-            <div className="flex flex-wrap justify-center gap-3">
+            <div className="grid grid-cols-2 md:flex md:flex-wrap md:justify-center gap-3">
               {categories.map(cat => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200 ${
+                  className={`px-4 py-2 rounded-full font-medium text-xs transition-all duration-200 ${
                     activeCategory === cat.id
                       ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-black shadow-md scale-105'
                       : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'

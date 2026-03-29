@@ -1,463 +1,284 @@
-'use client';
+import React, { useState, useRef, useEffect } from 'react';
+import { Menu, X, ChevronDown, Globe, BarChart, PenTool, Layout, Code, CheckCircle, TrendingUp, Users, Zap } from 'lucide-react';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+const Header: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isServicesMenuOpen, setIsServicesMenuOpen] = useState(false);
+  const [isMobileServicesMenuOpen, setIsMobileServicesMenuOpen] = useState(false);
+  const [activeService, setActiveService] = useState(0);
+  const servicesMenuRef = useRef<HTMLDivElement>(null);
 
-interface HeaderProps {
-  currentPage: string;
-  setCurrentPage: (page: string) => void;
-  openConsultation?: () => void;
-}
+  const navLinks = [
+    { title: 'Home', dropdown: false, href: '/' },
+    { title: 'Portfolio', dropdown: false, href: '/portfolio' },
+    { title: 'Blog', dropdown: false, href: '/blog' },
+    { title: 'About', dropdown: false, href: '/about' },
+    { title: 'Contact', dropdown: false, href: '/contact' },
+    { title: 'Services', dropdown: true, href: '#' },
+    { title: 'Pricing', dropdown: false, href: '/pricing' },
+  ];
 
-const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage, openConsultation }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
-  const desktopDropdownRef = useRef<HTMLDivElement>(null);
-  const mobileSidebarRef = useRef<HTMLDivElement>(null);
+ const servicesLinks = [
+      { 
+          title: 'Web Development', 
+          icon: <Code size={20} />, 
+          description: 'Building modern, responsive websites and applications that drive growth and user engagement.',
+          image: '/web-ser.jpg',
+          stats: { label: 'Increase in Conversion', value: 50 },
+          highlights: [
+              { text: 'Blazing Fast', icon: <Zap size={20} className="text-amber-500" /> },
+              { text: 'Scalable Growth', icon: <TrendingUp size={20} className="text-amber-500" /> },
+              { text: 'Engaging UX', icon: <Users size={20} className="text-amber-500" /> }
+          ],
+          href: '/services/web-development'
+      },
+      { 
+          title: 'Graphic Designing', 
+          icon: <PenTool size={20} />, 
+          description: 'Creating stunning visuals for your brand identity that captivate and inspire your audience.',
+          image: '/ghraphic-ser.webp',
+          stats: { label: 'Boost in Recognition', value: 70 },
+          highlights: [
+              { text: 'Memorable Branding', icon: <Zap size={20} className="text-amber-500" /> },
+              { text: 'Higher Engagement', icon: <TrendingUp size={20} className="text-amber-500" /> },
+              { text: 'Consistent Visuals', icon: <Users size={20} className="text-amber-500" /> }
+          ],
+          href: '/services/graphic-designing'
+      },
+      { 
+          title: 'SEO & Content', 
+          icon: <BarChart size={20} />, 
+          description: 'Driving organic traffic and boosting your online presence with data-driven strategies.',
+          image: '/seo-ser.webp',
+          stats: { label: 'Organic Traffic Growth', value: 80 },
+          highlights: [
+              { text: 'Higher Rankings', icon: <Zap size={20} className="text-amber-500" /> },
+              { text: 'Quality Leads', icon: <TrendingUp size={20} className="text-amber-500" /> },
+              { text: 'Increased Authority', icon: <Users size={20} className="text-amber-500" /> }
+          ],
+          href: '/services/seo-content'
+      },
+      { 
+          title: 'AI Solutions', 
+          icon: <Globe size={20} />, 
+          description: 'Leveraging artificial intelligence to solve complex problems and create new opportunities.',
+          image: '/ai-ser.webp',
+          stats: { label: 'Efficiency Improvement', value: 90 },
+          highlights: [
+              { text: 'Process Automation', icon: <Zap size={20} className="text-amber-500" /> },
+              { text: 'Data-driven Insights', icon: <TrendingUp size={20} className="text-amber-500" /> },
+              { text: 'Personalized Experiences', icon: <Users size={20} className="text-amber-500" /> }
+          ],
+          href: '/services/ai-solutions'
+      },
+      { 
+          title: 'Performance Marketing', 
+          icon: <Layout size={20} />, 
+          description: 'Maximizing your ROI with data-driven marketing strategies and continuous optimization.',
+          image: '/performance-ser.webp',
+          stats: { label: 'Increase in ROI', value: 60 },
+          highlights: [
+              { text: 'Targeted Advertising', icon: <Zap size={20} className="text-amber-500" /> },
+              { text: 'Measurable Results', icon: <TrendingUp size={20} className="text-amber-500" /> },
+              { text: 'Continuous Optimization', icon: <Users size={20} className="text-amber-500" /> }
+          ],
+          href: '/services/performance-marketing'
+      },
+  ];
 
-  /* --------------------------------------------------------------------- */
-  /*  Scroll Detection */
-  /* --------------------------------------------------------------------- */
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (servicesMenuRef.current && !servicesMenuRef.current.contains(event.target as Node)) {
+        setIsServicesMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
-  /* --------------------------------------------------------------------- */
-  /*  Close Desktop Dropdown on Outside Click */
-  /* --------------------------------------------------------------------- */
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (desktopDropdownRef.current && !desktopDropdownRef.current.contains(event.target as Node)) {
-        setIsServicesOpen(false);
-      }
-    };
-    if (isServicesOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isServicesOpen]);
-
-  /* --------------------------------------------------------------------- */
-  /*  Close Mobile Sidebar on Outside Click */
-  /* --------------------------------------------------------------------- */
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (isMobileMenuOpen && mobileSidebarRef.current && !mobileSidebarRef.current.contains(event.target as Node)) {
-        setIsMobileMenuOpen(false);
-        setIsServicesOpen(false);
-      }
-    };
-    if (isMobileMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isMobileMenuOpen]);
-
-  /* --------------------------------------------------------------------- */
-  /*  Navigation Data */
-  /* --------------------------------------------------------------------- */
-  const navItems = [
-    { name: 'Home', page: 'home' },
-    { name: 'Portfolio', page: 'portfolio' },
-    { name: 'Blog', page: 'blog' },
-    // { name: 'Marketing Agency', page: 'marketing-agency' },
-    { name: 'About', page: 'home' },
-    { name: 'Contact', page: 'contact' },
-  ];
-
-  const serviceItems = [
-    { name: 'Web Development', page: 'web-development' },
-    { name: 'Graphic Designing', page: 'graphic-designing' },
-    { name: 'SEO & Content', page: 'seo-content' },
-    { name: 'AI Solutions', page: 'ai-solutions' },
-    { name: 'Performance Marketing', page: 'performance-marketing' },
-  ];
-
-  const blogPostSlugs = [
-    'future-ai-web-development-2025',
-    'ecommerce-seo-guide',
-    'scalable-saas-applications',
-    'ui-ux-design-trends-2025',
-    'implementing-ai-chatbots',
-    'mobile-first-design',
-  ];
-
-  /* --------------------------------------------------------------------- */
-  /*  Helpers */
-  /* --------------------------------------------------------------------- */
-  const isActive = (page: string) => currentPage === page;
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  const scrollToSection = (sectionId: string) => {
-    if (currentPage !== 'home') {
-      setCurrentPage('home');
-      setTimeout(() => {
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-    } else {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const closeMobileSidebar = () => {
-    setIsMobileMenuOpen(false);
-    setIsServicesOpen(false);
-  };
-
-  /* --------------------------------------------------------------------- */
-  /*  Navigation Handlers */
-  /* --------------------------------------------------------------------- */
-  const navigateToPage = (page: string) => {
-    closeMobileSidebar();
-    setCurrentPage(page);
-    scrollToTop();
-  };
-
-  const navigateToHomeSection = (sectionId: string) => {
-    setCurrentPage('home');
-    setTimeout(() => {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-      closeMobileSidebar();
-    }, 150);
-  };
-
-  const handleMobileNavClick = (item: typeof navItems[0]) => {
-    if (item.name === 'About') {
-      navigateToHomeSection('about');
-    } else {
-      navigateToPage(item.page);
-    }
-  };
-
-  const handleMobileServiceClick = (page: string) => {
-    navigateToPage(page);
-  };
-
-  const handleMobilePricingClick = () => {
-    navigateToPage('pricing');
-  };
-
-  /* --------------------------------------------------------------------- */
-  /*  Desktop Handlers - 100% WORKING */
-  /* --------------------------------------------------------------------- */
-  const handleDesktopNavClick = (item: typeof navItems[0]) => {
-    if (item.name === 'About') {
-      scrollToSection('about');
-    } else {
-      setCurrentPage(item.page);
-      scrollToTop();
-    }
-  };
-
-  const handleDesktopServiceClick = (page: string) => {
-    setCurrentPage(page);
-    scrollToTop();
-    setIsServicesOpen(false); // Close dropdown
-  };
-
-  const handleDesktopPricingClick = () => {
-    setCurrentPage('pricing');
-    scrollToTop();
-  };
-
-  const handleConsultationClick = () => {
-    openConsultation?.();
-  };
-
-  /* --------------------------------------------------------------------- */
-  /*  Header Styling */
-  /* --------------------------------------------------------------------- */
-  const getHeaderBackground = () => {
-    const isBlogOrPost = ['blog'].includes(currentPage) || blogPostSlugs.includes(currentPage);
-    const isOtherPage = [
-      'portfolio', 'contact', 'terms', 'privacy', 'faq', 'pricing',
-      ...serviceItems.map(s => s.page),
-    ].includes(currentPage);
-    return isBlogOrPost || isOtherPage
-      ? 'bg-black/95 backdrop-blur-sm shadow-sm'
-      : isScrolled
-      ? 'bg-black/95 backdrop-blur-sm shadow-sm'
-      : 'bg-transparent';
-  };
-
-  const getTextColor = () => 'text-white';
-
   return (
-    <>
-      {/* ====================== MAIN HEADER ====================== */}
-      <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${getHeaderBackground()} ${
-          isScrolled || currentPage !== 'home' ? 'py-3' : 'py-4 sm:py-5'
-        }`}
-      >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 max-w-7xl">
-          <div className="flex items-center justify-between">
+    <header className="absolute top-0 left-0 right-0 z-50 p-2 sm:p-4">
+      <div className="container mx-auto bg-white rounded-full shadow-lg px-4 sm:px-6 py-2" style={{width: '90%'}}>
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
+            <img src="/black-icon-sam.webp" alt="SAM CREATIVE Logo" className="w-10 h-10 sm:w-12 sm:h-12" />
+            <span style={{ fontFamily: 'BigerOver', fontWeight: 'bold' }} className="text-base sm:text-lg md:text-xl whitespace-nowrap">
+              SAM CREATIVE
+            </span>
+          </div>
 
-            {/* Logo */}
-            <div
-              className="flex items-center space-x-2 sm:space-x-3 cursor-pointer group"
-              onClick={() => {
-                setCurrentPage('home');
-                scrollToTop();
-              }}
-            >
-              <img
-                src="/icon-04.png"
-                alt="SAM CREATIVE Logo"
-                className="w-9 h-9 sm:w-11 sm:h-11 lg:w-12 lg:h-12 object-contain"
-              />
-              <div className="flex flex-col">
-                <span
-                  style={{ fontFamily: 'BigerOver' }}
-                  className={`text-sm sm:text-base lg:text-lg xl:text-xl font-bold ${getTextColor()} group-hover:text-yellow-400 transition-colors`}
-                >
-                  SAM CREATIVE
-                </span>
-                <span className="text-[9px] sm:text-[10px] lg:text-xs text-yellow-400 font-medium -mt-0.5 tracking-[0.15em]">
-                  solutions
-                </span>
-              </div>
-            </div>
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-6">
+            {navLinks.map((link, index) => (
+                <div key={index} className="relative">
+                    <a
+                        href={link.href}
+                        className="flex items-center text-gray-700 hover:text-amber-500 transition-colors duration-300 font-medium"
+                        onClick={(e) => {
+                            if (link.dropdown) {
+                                e.preventDefault();
+                                setIsServicesMenuOpen(!isServicesMenuOpen);
+                            }
+                        }}
+                    >
+                        {link.title}
+                        {link.dropdown && <ChevronDown className="ml-1 h-4 w-4" />}
+                    </a>
+                    {link.dropdown && isServicesMenuOpen && (
+                        <div ref={servicesMenuRef} className="absolute top-10 right-0 mt-2 w-[48rem] bg-white rounded-lg shadow-2xl z-20 overflow-hidden">
+                           <div className="flex">
+                                <div className="w-2/5 bg-gray-50 p-6">
+                                    {servicesLinks.map((service, i) => (
+                                        <a key={i} href={service.href} 
+                                           className={`flex items-center space-x-4 p-4 rounded-lg transition-all duration-300 ${activeService === i ? 'bg-white shadow-md' : 'hover:bg-gray-200'}`}
+                                           onMouseEnter={() => setActiveService(i)}
+                                        >
+                                            <span className={`transition-colors duration-300 ${activeService === i ? 'text-amber-500' : 'text-gray-500'}`}>{service.icon}</span>
+                                            <span className="font-medium text-gray-800">{service.title}</span>
+                                        </a>
+                                    ))}
+                                </div>
+                                <div key={activeService} className="w-3/5 p-8 flex flex-col justify-center bg-cover bg-center relative text-white animate-fade-in" style={{backgroundImage: `url(${servicesLinks[activeService].image})`}}>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                                    <div className="relative z-10">
+                                        <h3 className="font-bold text-2xl mb-2">{servicesLinks[activeService].title}</h3>
+                                        <p className="text-gray-300 text-sm mb-6">{servicesLinks[activeService].description}</p>
+                                        
+                                        <div className="bg-white/10 p-4 rounded-lg mb-6 text-center backdrop-blur-sm">
+                                            <p className="font-bold text-5xl text-amber-400 animate-pulse">{servicesLinks[activeService].stats.value}%</p>
+                                            <p className="text-sm text-gray-200 uppercase tracking-wider">{servicesLinks[activeService].stats.label}</p>
+                                        </div>
 
-            {/* ====================== DESKTOP NAV (100% WORKING) ====================== */}
-            <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-              {navItems.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => handleDesktopNavClick(item)}
-                  className={`relative text-base xl:text-lg font-medium transition-all duration-300 hover:text-yellow-400 group ${
-                    isActive(item.page) ? 'text-yellow-400' : getTextColor()
-                  }`}
-                >
-                  {item.name}
-                  {isActive(item.page) && (
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-400" />
-                  )}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full" />
-                </button>
-              ))}
-
-              {/* Desktop Services Dropdown - 100% FUNCTIONAL */}
-              <div className="relative" ref={desktopDropdownRef}>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsServicesOpen(prev => !prev);
-                  }}
-                  className={`relative text-base xl:text-lg font-medium transition-all duration-300 group flex items-center space-x-1 ${
-                    serviceItems.some(s => isActive(s.page)) ? 'text-yellow-400' : getTextColor()
-                  }`}
-                  aria-expanded={isServicesOpen}
-                  aria-haspopup="true"
-                >
-                  <span className="relative group-hover:text-yellow-400">
-                    Services
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full" />
-                    {serviceItems.some(s => isActive(s.page)) && (
-                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-yellow-400" />
+                                        <div>
+                                            <h4 className="font-semibold text-white mb-3">Key Highlights:</h4>
+                                            <ul className="space-y-3">
+                                                {servicesLinks[activeService].highlights.map((highlight, i) => (
+                                                    <li key={i} className="flex items-center text-gray-200 text-sm">
+                                                        {highlight.icon}
+                                                        <span className="ml-3">{highlight.text}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                           </div>
+                           <div className="bg-gray-50 p-4 border-t border-gray-200">
+                                <div className="flex justify-between items-center">
+                                     <p className="text-gray-600 text-sm font-medium">Need a custom solution?</p>
+                                    <button className="bg-amber-500 text-white font-bold py-2 px-5 rounded-full shadow-md hover:bg-amber-600 transition-all duration-300 text-sm">
+                                        Get Free Consultation
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     )}
-                  </span>
-                  <ChevronDown
-                    className={`w-4 h-4 transition-all duration-300 ${
-                      isServicesOpen ? 'rotate-180 text-yellow-400' : getTextColor()
-                    }`}
-                  />
-                </button>
+                </div>
+            ))}
+          </nav>
 
-                {isServicesOpen && (
-                  <div className="absolute top-full left-0 mt-3 w-72 bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-yellow-200/50 py-4 z-[100] animate-in fade-in slide-in-from-top-2 duration-200">
-                    <div className="absolute -top-2 left-6 w-4 h-4 bg-white/95 border-l border-t border-yellow-200/50 transform rotate-45" />
-                    {serviceItems.map((service) => (
-                      <button
-                        key={service.page}
-                        onClick={() => handleDesktopServiceClick(service.page)}
-                        className={`w-full text-left px-6 py-3 transition-all duration-300 group flex items-center space-x-3 ${
-                          isActive(service.page)
-                            ? 'bg-gradient-to-r from-yellow-50 to-yellow-100 text-yellow-700 border-r-4 border-yellow-400'
-                            : 'text-gray-700 hover:bg-gradient-to-r hover:from-yellow-50 hover:to-yellow-100 hover:text-yellow-700'
-                        }`}
-                      >
-                        <div
-                          className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                            isActive(service.page)
-                              ? 'bg-yellow-400 scale-125'
-                              : 'bg-gray-300 group-hover:bg-yellow-400 group-hover:scale-125'
-                          }`}
-                        />
-                        <span className="font-medium text-base">{service.name}</span>
-                      </button>
-                    ))}
-                    <div className="mt-2 pt-2 border-t border-gray-100 px-6">
-                      <p className="text-xs text-gray-500 mb-2">Need something custom?</p>
-                      <button
-                        onClick={handleConsultationClick}
-                        className="text-xs text-yellow-600 hover:text-yellow-700 font-medium transition-colors"
-                      >
-                        Get Free Consultation
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+          {/* Right Side */}
+          <div className="hidden lg:flex items-center space-x-4">
+            <button className="bg-amber-500 text-white font-bold py-3 px-6 rounded-full shadow-md hover:bg-amber-600 transition-all duration-300">
+              Get Free Consultation
+            </button>
+          </div>
 
-              {/* Desktop Pricing */}
-              <button
-                onClick={handleDesktopPricingClick}
-                className={`px-5 lg:px-6 py-2.5 rounded-full border-2 shadow-lg font-medium transition-all duration-300 text-sm lg:text-base ${
-                  isActive('pricing')
-                    ? 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-black border-yellow-400 shadow-yellow-400/40 scale-105'
-                    : 'border-yellow-400 text-yellow-400 hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-600 hover:text-black hover:shadow-yellow-400/40 hover:scale-105'
-                }`}
-              >
-                Pricing
-              </button>
-            </nav>
-
-            {/* Desktop CTA - 100% WORKING */}
-            <div className="hidden lg:flex items-center">
-              <button
-                onClick={handleConsultationClick}
-                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-5 lg:px-6 py-2.5 rounded-full font-medium hover:shadow-lg hover:shadow-yellow-400/30 transition-all duration-300 transform hover:scale-105 text-sm lg:text-base"
-              >
-                Get Free Consultation
-              </button>
-            </div>
-
-            {/* Mobile Toggle */}
+          {/* Mobile Menu Button */}
+           <div className="lg:hidden">
             <button
-              className={`lg:hidden ${getTextColor()} p-2 rounded-full hover:bg-white/10 transition-colors`}
-              onClick={() => setIsMobileMenuOpen(true)}
-              aria-label="Open menu"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="z-50 group w-12 h-12 flex items-center justify-center bg-gradient-to-br from-white/80 to-white/60 backdrop-blur-md rounded-full border-2 border-white/50 shadow-lg hover:scale-105 transition-all duration-300"
+              aria-label="Toggle Menu"
             >
-              <Menu size={24} />
+              <div className="space-y-1.5">
+                <span
+                  className={`block w-5 h-0.5 bg-gray-800 rounded-full transform transition-transform duration-300 ease-in-out ${
+                    isMenuOpen ? 'rotate-45 translate-y-2' : ''
+                  }`}
+                ></span>
+                <span
+                  className={`block w-5 h-0.5 bg-gray-800 rounded-full transition-opacity duration-300 ease-in-out ${
+                    isMenuOpen ? 'opacity-0' : ''
+                  }`}
+                ></span>
+                <span
+                  className={`block w-5 h-0.5 bg-gray-800 rounded-full transform transition-transform duration-300 ease-in-out ${
+                    isMenuOpen ? '-rotate-45 -translate-y-2' : ''
+                  }`}
+                ></span>
+              </div>
             </button>
           </div>
         </div>
-      </header>
+      </div>
 
-      {/* ====================== MOBILE SIDEBAR (Right Side) ====================== */}
-      {isMobileMenuOpen && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 lg:hidden animate-in fade-in duration-300"
-            onClick={closeMobileSidebar}
-          />
-
-          <div
-            ref={mobileSidebarRef}
-            className="fixed right-0 top-0 h-full w-80 max-w-[85vw] bg-gradient-to-b from-black via-black/95 to-black/90 backdrop-blur-2xl border-l border-yellow-500/20 z-50 lg:hidden animate-slide-in-from-right duration-300"
-          >
-            <div className="h-full flex flex-col">
-              <div className="p-6 border-b border-yellow-500/20">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <img src="/icon-04.png" alt="Logo" className="w-10 h-10" />
-                    <div>
-                      <h1 className="text-xl font-bold text-white tracking-tight">SAM CREATIVE</h1>
-                      <p className="text-xs text-yellow-400 font-medium tracking-widest">SOLUTIONS</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={closeMobileSidebar}
-                    className="p-2 rounded-full hover:bg-white/10 transition-colors"
-                  >
-                    <X size={24} className="text-white" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex-1 p-4 space-y-1 overflow-y-auto">
-                {navItems.map((item) => (
-                  <button
-                    key={item.name}
-                    onClick={() => handleMobileNavClick(item)}
-                    className={`w-full flex items-center justify-between p-4 rounded-2xl text-left transition-all duration-200 ${
-                      isActive(item.page)
-                        ? 'bg-gradient-to-r from-yellow-500/20 to-yellow-400/20 text-yellow-300 border border-yellow-500/30'
-                        : 'text-gray-300 hover:bg-white/5 hover:text-white'
-                    }`}
-                  >
-                    <span className="font-medium text-base">{item.name}</span>
-                    {/* Active dot */}
-                    {isActive(item.page) && <div className="w-2 h-2 bg-yellow-400 rounded-full" />}
-                  </button>
-                ))}
-
-                <button
-                  onClick={() => navigateToHomeSection('about')}
-                  className={`w-full flex items-center justify-between p-4 rounded-2xl text-left transition-all duration-200 ${
-                    currentPage === 'home' && window.scrollY > 1200
-                      ? 'bg-gradient-to-r from-yellow-500/20 to-yellow-400/20 text-yellow-300 border border-yellow-500/30'
-                      : 'text-gray-300 hover:bg-white/5 hover:text-white'
-                  }`}
-                >
-                  <span className="font-medium text-base">About</span>
-                </button>
-
-                <div className="space-y-1">
-                  <button
-                    onClick={() => setIsServicesOpen(!isServicesOpen)}
-                    className={`w-full flex items-center justify-between p-4 rounded-2xl text-left transition-all duration-200 ${
-                      isServicesOpen
-                        ? 'bg-gradient-to-r from-yellow-500/10 to-yellow-400/10 text-yellow-300 border border-yellow-500/30'
-                        : 'text-gray-300 hover:bg-white/5 hover:text-white'
-                    }`}
-                  >
-                    <span className="font-semibold text-base">Our Services</span>
-                    <ChevronDown
-                      className={`w-5 h-5 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`}
-                    />
-                  </button>
-
-                  {isServicesOpen && (
-                    <div className="space-y-1 pl-6 mt-2">
-                      {serviceItems.map((service) => (
-                        <button
-                          key={service.page}
-                          onClick={() => handleMobileServiceClick(service.page)}
-                          className={`w-full flex items-center p-3 rounded-xl text-left transition-all duration-200 ${
-                            isActive(service.page)
-                              ? 'bg-gradient-to-r from-yellow-400/20 to-yellow-500/20 text-yellow-300 border border-yellow-500/40'
-                              : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                          }`}
-                        >
-                          <span className="font-medium text-sm">{service.name}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="p-4 pt-0 space-y-3 border-t border-yellow-500/20">
-                <button
-                  onClick={handleMobilePricingClick}
-                  className={`w-full py-4 px-6 rounded-2xl border-2 font-semibold text-base transition-all ${
-                    isActive('pricing')
-                      ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-black border-yellow-500 shadow-lg'
-                      : 'border-yellow-500 text-yellow-400 hover:bg-yellow-500/10'
-                  }`}
-                >
-                  Pricing
-                </button>
-                <button
-                  onClick={() => {
-                    closeMobileSidebar();
-                    openConsultation?.();
+      {/* Mobile Navigation */}
+      <div
+        className={`lg:hidden fixed inset-0 z-40 bg-gray-900 bg-opacity-50 backdrop-blur-sm transition-opacity duration-300 ${
+          isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setIsMenuOpen(false)}
+      ></div>
+      <div
+        className={`lg:hidden fixed inset-y-0 right-0 z-40 w-[calc(100%-4rem)] max-w-sm bg-white shadow-xl transform transition-transform duration-300 ${
+          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="p-6 pt-10">
+          <div className="flex items-center space-x-2 mb-6">
+            <img src="/black-icon-sam.webp" alt="SAM CREATIVE Logo" className="w-12 h-12 sm:w-14 sm:h-14" />
+            <span style={{ fontFamily: 'BigerOver', fontSize: '1.5rem', fontWeight: 'bold' }}>
+              SAM CREATIVE
+            </span>
+          </div>
+          <nav className="flex flex-col space-y-2">
+            {navLinks.map((link, index) => (
+              <div key={index}>
+                <a
+                  href={link.href}
+                  className="flex items-center justify-between text-gray-700 hover:text-amber-500 font-medium py-3 text-lg"
+                  onClick={(e) => {
+                    if (link.dropdown) {
+                      e.preventDefault();
+                      setIsMobileServicesMenuOpen(!isMobileServicesMenuOpen);
+                    } else {
+                      setIsMenuOpen(false);
+                    }
                   }}
-                  className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-black py-4 px-6 rounded-2xl font-bold text-base shadow-lg hover:shadow-xl transition-all"
                 >
+                  <span>{link.title}</span>
+                  {link.dropdown && <ChevronDown className={`h-5 w-5 transition-transform ${isMobileServicesMenuOpen ? 'transform rotate-180' : ''}`} />}
+                </a>
+                {link.dropdown && isMobileServicesMenuOpen && (
+                  <div className="pl-4 pt-2 pb-2 space-y-2">
+                    {servicesLinks.map((service, i) => (
+                      <a 
+                        key={i} 
+                        href={service.href} 
+                        className="flex items-center space-x-3 text-gray-600 hover:text-amber-500 py-2"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <span className="text-amber-500">{service.icon}</span>
+                        <span>{service.title}</span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+            <div className="border-t pt-6 mt-6">
+                <button className="bg-amber-500 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-amber-600 w-full text-lg">
                   Get Free Consultation
                 </button>
-              </div>
             </div>
-          </div>
-        </>
-      )}
-    </>
+          </nav>
+        </div>
+      </div>
+    </header>
   );
 };
 

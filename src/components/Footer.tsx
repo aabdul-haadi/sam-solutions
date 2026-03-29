@@ -1,17 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Mail,
-  Phone,
-  Facebook,
-  Linkedin,
-  Instagram,
-  Youtube,
-  ArrowRight,
-  CheckCircle,
-  XCircle,
-} from 'lucide-react';
+import { Mail, Phone, ArrowRight, CheckCircle, XCircle } from 'lucide-react';
+import { FaFacebook, FaLinkedin, FaInstagram, FaYoutube } from 'react-icons/fa';
 
 interface FooterProps {
   setCurrentPage?: (page: string) => void;
@@ -57,10 +48,11 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
         `Hi SAM CREATIVE,\n\nI tried to subscribe with "${email}" but got an error.\n\nError: ${err.message}\n\nPlease add me manually.\n\nThanks!`
       );
       window.open(
-        `https://mail.google.com/mail/?view=cm&fs=1&to=samcreativeofficials@gmail.com&su=${subject}&body=${body}`,
+        `https://mail.google.com/mail/?view=cm&fs=1&to=info@samcreative-solutions.com&su=${subject}&body=${body}`,
         '_blank'
       );
-    } finally {
+    }
+    finally {
       // Auto-hide toast after 5 s
       setTimeout(() => {
         setStatus('idle');
@@ -102,10 +94,10 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
   };
 
   const socialLinks = [
-    { icon: <Facebook size={20} />, href: 'https://www.facebook.com/profile.php?id=61570940347368', label: 'Facebook' },
-    { icon: <Linkedin size={20} />, href: 'https://www.linkedin.com/company/sam-creativesolutions/?viewAsMember=true', label: 'LinkedIn' },
-    { icon: <Instagram size={20} />, href: 'https://www.instagram.com/samcreative_solutions/', label: 'Instagram' },
-    { icon: <Youtube size={20} />, href: 'https://www.youtube.com/@SamCreative', label: 'YouTube' },
+    { icon: <FaFacebook size={20} />, href: 'https://www.facebook.com/profile.php?id=61570940347368', label: 'Facebook' },
+    { icon: <FaLinkedin size={20} />, href: 'https://www.linkedin.com/company/sam-creativesolutions/?viewAsMember=true', label: 'LinkedIn' },
+    { icon: <FaInstagram size={20} />, href: 'https://www.instagram.com/samcreative_solutions/', label: 'Instagram' },
+    { icon: <FaYoutube size={20} />, href: 'https://www.youtube.com/@SamCreative', label: 'YouTube' },
   ];
 
   type FooterLink = string | { name: string; page: string };
@@ -146,33 +138,30 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
               AI-powered solutions to stunning designs, we&apos;re your partner in digital transformation.
             </p>
 
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-yellow-400" />
-                <a href="mailto:samcreativeofficials@gmail.com" className="text-gray-300 hover:underline">
-                  samcreativeofficials@gmail.com
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <Mail className="w-5 h-5 text-yellow-400 mt-1" />
+                <a href="mailto:info@samcreative-solutions.com" className="text-gray-300 hover:underline">
+                  info@samcreative-solutions.com
                 </a>
               </div>
 
-              <div className="flex flex-col space-y-2">
-                <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-yellow-400" />
+              <div className="flex items-start space-x-3">
+                <Phone className="w-5 h-5 text-yellow-400 mt-1" />
+                <div>
                   <a
                     href="https://wa.me/923263778850"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-300 hover:underline"
+                    className="text-gray-300 hover:underline block"
                   >
                     +92 326 3778850
                   </a>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-yellow-400" />
                   <a
                     href="https://wa.me/923138372573"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-300 hover:underline"
+                    className="text-gray-300 hover:underline block"
                   >
                     +92 313 8372573
                   </a>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Calendar, User, Clock, ArrowLeft, Share2, Tag, TrendingUp, Search, Target, X, Check, Facebook, Twitter, Linkedin, Copy } from 'lucide-react';
+import { Calendar, User, Clock, ArrowLeft, Share2, Tag, TrendingUp, Search, Target, X, Check, Copy } from 'lucide-react';
 import FAQ from '../components/FAQ';
+import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 
 interface BlogPostProps {
   setCurrentPage?: (page: string) => void;
@@ -161,14 +162,14 @@ const EcommerceSEOGuide: React.FC<BlogPostProps> = ({ setCurrentPage }) => {
                     className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
                     title="Share on Facebook"
                   >
-                    <Facebook className="w-5 h-5" />
+                    <FaFacebook className="w-5 h-5" />
                   </button>
                   <button 
                     onClick={() => handleSocialShare('twitter')}
                     className="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-gray-900 transition-colors"
                     title="Share on Twitter"
                   >
-                    <Twitter className="w-5 h-5" />
+                    <FaTwitter className="w-5 h-5" />
                   </button>
                   <button 
                     onClick={handleShareClick}
@@ -707,7 +708,7 @@ const EcommerceSEOGuide: React.FC<BlogPostProps> = ({ setCurrentPage }) => {
                 onClick={() => handleSocialShare('facebook')}
                 className="w-full flex items-center space-x-4 p-4 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
               >
-                <Facebook className="w-6 h-6 text-blue-600" />
+                <FaFacebook className="w-6 h-6 text-blue-600" />
                 <span className="text-blue-700 font-medium">Share on Facebook</span>
               </button>
               
@@ -715,7 +716,7 @@ const EcommerceSEOGuide: React.FC<BlogPostProps> = ({ setCurrentPage }) => {
                 onClick={() => handleSocialShare('twitter')}
                 className="w-full flex items-center space-x-4 p-4 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors"
               >
-                <Twitter className="w-6 h-6 text-gray-700" />
+                <FaTwitter className="w-6 h-6 text-gray-700" />
                 <span className="text-gray-700 font-medium">Share on Twitter</span>
               </button>
               
@@ -723,7 +724,7 @@ const EcommerceSEOGuide: React.FC<BlogPostProps> = ({ setCurrentPage }) => {
                 onClick={() => handleSocialShare('linkedin')}
                 className="w-full flex items-center space-x-4 p-4 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors"
               >
-                <Linkedin className="w-6 h-6 text-blue-600" />
+                <FaLinkedin className="w-6 h-6 text-blue-600" />
                 <span className="text-blue-700 font-medium">Share on LinkedIn</span>
               </button>
             </div>

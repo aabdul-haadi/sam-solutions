@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Mail, Phone, MapPin, Send, CheckCircle, Clock, Users, Award, ChevronDown, AlertCircle, MessageCircle, Calendar, Star, Zap, Shield, Sparkles } from 'lucide-react';
-import { submitContactForm } from '../lib/supabase';
 
 interface ContactPageProps {
   setCurrentPage?: (page: string) => void;
@@ -37,17 +36,22 @@ const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage }) => {
     setShowEmailFallback(false);
 
     try {
-      const result = await submitContactForm(formData);
-      if (result.success) {
-        setIsSubmitted(true);
-        setTimeout(() => {
-          setIsSubmitted(false);
-          setFormData({ name: '', email: '', company: '', phone: '', service: '', budget: '', message: '', timeline: '' });
-        }, 3000);
-      } else {
-        setError(result.error || 'Failed to submit contact form');
-        setShowEmailFallback(true);
+      const response = await fetch('/api/submit-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
       }
+      
+      setIsSubmitted(true);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({ name: '', email: '', company: '', phone: '', service: '', budget: '', message: '', timeline: '' });
+      }, 3000);
+
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
       setShowEmailFallback(true);
@@ -72,7 +76,7 @@ ${formData.message || 'No message provided'}
     `.trim());
 
     window.open(
-      `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=samcreativeofficials@gmail.com&su=${subject}&body=${body}`,
+      `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=info@samcreative-solutions.com&su=${subject}&body=${body}`,
       '_blank',
       'noopener,noreferrer'
     );
@@ -457,7 +461,7 @@ ${formData.message || 'No message provided'}
                     </div>
                     <div className="flex-1">
                       <p className="font-bold text-gray-900">Email Us</p>
-                      <p className="text-sm text-gray-600">samcreativeofficials@gmail.com</p>
+                      <p className="text-sm text-gray-600">info@samcreative-solutions.com</p>
                       <button
                         onClick={handleEmailClick}
                         className="mt-2 text-sm text-yellow-600 hover:text-yellow-700 font-medium flex items-center space-x-1"
@@ -480,8 +484,14 @@ ${formData.message || 'No message provided'}
                     <div className="flex-1">
                       <p className="font-bold text-gray-900">Call Us</p>
                       <div className="space-y-1">
-                        <p className="text-sm text-gray-600">+92 326 3778850</p>
-                        <p className="text-sm text-gray-600">+92 313 8372573</p>
+                        <a href="tel:+923263778850" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+                          <Phone className="w-4 h-4" />
+                          <span>+92 326 3778850</span>
+                        </a>
+                        <a href="tel:+923138372573" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+                          <Phone className="w-4 h-4" />
+                          <span>+92 313 8372573</span>
+                        </a>
                       </div>
                       <p className="text-xs text-gray-500 mt-2">Mon-Sat, 9AM-6PM EST</p>
                     </div>

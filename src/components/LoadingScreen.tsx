@@ -9,6 +9,16 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    const hasVisited = sessionStorage.getItem('hasVisited');
+
+    if (hasVisited) {
+      setIsVisible(false);
+      onLoadingComplete();
+      return;
+    }
+
+    sessionStorage.setItem('hasVisited', 'true');
+
     const timer = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -29,55 +39,12 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
-      <div className="text-center">
-        {/* Brand Logo & Name */}
-        <div className="mb-10">
-          <div className="flex justify-center mb-6">
-            <img
-              src="/icon-04.png"
-              alt="SAM CREATIVE Logo"
-              className="w-32 h-32 md:w-40 md:h-40 object-contain mx-auto animate-pulse"
-            />
-          </div>
-
-          <h1
-            style={{ fontFamily: 'BigerOver' }}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 animate-fade-in-up"
-          >
-            SAM CREATIVE
-          </h1>
-
-          <p
-            className="text-yellow-400 text-xl md:text-2xl font-medium animate-fade-in-up"
-            style={{ animationDelay: '0.3s' }}
-          >
-            solutions
-          </p>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="w-72 md:w-80 mx-auto">
-          <div className="bg-gray-800 rounded-full h-1.5 mb-4 overflow-hidden">
-            <div 
-              className="bg-gradient-to-r from-yellow-400 to-yellow-600 h-full rounded-full transition-all duration-300 ease-out shadow-lg shadow-yellow-400/50"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <p className="text-gray-300 text-base font-medium">Loading {progress}%</p>
-        </div>
-
-        {/* Floating Elements */}
-        <div className="absolute top-1/4 left-1/4 animate-float">
-          <div className="w-3 h-3 bg-yellow-400 rounded-full opacity-60 blur-sm"></div>
-        </div>
-        <div className="absolute top-1/3 right-1/4 animate-float" style={{ animationDelay: '1s' }}>
-          <div className="w-4 h-4 bg-yellow-400 rounded-full opacity-40 blur-sm"></div>
-        </div>
-        <div className="absolute bottom-1/3 left-1/3 animate-float" style={{ animationDelay: '2s' }}>
-          <div className="w-3 h-3 bg-yellow-400 rounded-full opacity-50 blur-sm"></div>
-        </div>
+    <div className="fixed inset-0 bg-gray-900 flex flex-col justify-center items-center z-[100]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-500 mb-4"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      <div className="w-4/5 max-w-xs bg-gray-700 rounded-full h-2.5 overflow-hidden">
+        <div className="bg-amber-500 h-2.5 rounded-full" style={{ width: `${progress}%`, transition: 'width 0.2s' }}></div>
       </div>
+      <p className="text-amber-500 mt-3 text-lg font-medium">Loading...</p>
     </div>
   );
 };
