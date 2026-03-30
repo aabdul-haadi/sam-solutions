@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["https://9000-firebase-sam-solutionsgit-1774216538931.cluster-y3k7ko3fang56qzieg3trwgyfg.cloudworkstations.dev"],
+    "method": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "responseHeader": ["Content-Type", "Authorization"],
+    "maxAgeSeconds": 3600
+  }
+]

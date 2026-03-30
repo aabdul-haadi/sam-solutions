@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { supabase } from '../supabaseClient'; // Import supabase client
 import { Phone, Mail, MapPin, Server, Globe, Users, ArrowRight } from 'lucide-react';
 
 const ContactSection: React.FC = () => {
@@ -20,13 +21,11 @@ const ContactSection: React.FC = () => {
     e.preventDefault();
     setStatus('loading');
     try {
-      const response = await fetch('http://localhost:3001/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, source: 'ContactSection' }),
-      });
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert([formData]);
 
-      if (!response.ok) throw new Error('Network response was not ok.');
+      if (error) throw error;
       
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', service: 'Select service', comment: '' });

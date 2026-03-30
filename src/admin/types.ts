@@ -1,12 +1,18 @@
 export interface Application {
-    id: string;
-    fullName: string;
+    id: number;
+    created_at: string;
+    name: string;
     email: string;
-    fieldOfInterest: string;
-    university: string;
-    yearOfStudy: string;
-    applicationDate: string;
-    resumeUrl: string;
-    status: 'pending' | 'approved' | 'rejected';
-  }
-  
+    phone?: string;
+    dob?: string;
+    gender?: string;
+    degreeProgram?: string;
+    university?: string;
+    yearOfStudy?: string;
+    fieldOfInterest?: string;
+    skills?: string;
+    experience?: string;
+    startDate?: string;
+    cv_url: string;
+    status: string;
+}

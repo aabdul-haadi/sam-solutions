@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: './', // Ensure this is set to './' for relative paths
+  base: './',
   build: {
     rollupOptions: {
       output: {
@@ -13,5 +13,13 @@ export default defineConfig({
         }
       }
     }
-  }
+  },
+  optimizeDeps: {
+    include: ['framer-motion'],
+  },
+  server: {
+    hmr: {
+      timeout: 30000, // Increase timeout to 30 seconds
+    },
+  },
 });

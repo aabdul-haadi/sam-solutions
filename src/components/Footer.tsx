@@ -327,23 +327,6 @@ const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
           </p>
         </div>
       </div>
-
-      {/* Fade-in animation for toast */}
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-8px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-      `}</style>
     </footer>
   );
 };

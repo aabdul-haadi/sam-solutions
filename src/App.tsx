@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoadingScreen from './components/LoadingScreen';
 import ConsultationPopup from './components/ConsultationPopup';
 import CookieConsent from './components/CookieConsent';
@@ -13,9 +14,6 @@ import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
 import InnovationShowcase from './components/InnovationShowcase';
 import MarketingAgencyPage from './pages/MarketingAgencyPage';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-
-// Page components
 import PortfolioPage from './pages/PortfolioPage';
 import BlogPage from './pages/BlogPage';
 import ContactPage from './pages/ContactPage';
@@ -30,8 +28,6 @@ import AISolutionsPage from './pages/services/AISolutionsPage';
 import PerformanceMarketingPage from './pages/services/PerformanceMarketingPage';
 import InternshipPage from './pages/InternshipPage';
 import AdminPage from './admin/AdminPage';
-
-// Blog post components
 import FutureAIWebDevelopment2025 from './blogs/future-ai-web-development-2025';
 import EcommerceSEOGuide from './blogs/ecommerce-seo-guide';
 import ScalableSaaSApplications from './blogs/scalable-saas-applications';
