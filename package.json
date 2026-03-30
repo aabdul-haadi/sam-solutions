@@ -10,6 +10,9 @@
         "preview": "vite preview",
         "gen:placeholders": "node scripts/generate-placeholders.js"
     },
+    "engines": {
+        "node": "18.x"
+    },
     "dependencies": {
         "@supabase/supabase-js": "^2.100.1",
         "@types/express": "^5.0.6",
