@@ -5,26 +5,23 @@
     "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,  // Skip type checking of declaration files for faster compilation
-    "jsx": "react",  // React JSX support
-    "composite": true,  // Enable project references (required for multi-project setups)
-    "resolveJsonModule": true,  // Enable importing JSON files as modules
-    "outDir": "./dist",  // Where the compiled code should go
-    "baseUrl": "./",  // Base directory for non-relative module imports
+    "skipLibCheck": true,
+    "jsx": "react",
+    "composite": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
     "paths": {
-      "@components/*": ["src/components/*"],  // Example path alias for components
-      "@utils/*": ["src/utils/*"]  // Example path alias for utilities
+      "@components/*": ["src/components/*"],
+      "@utils/*": ["src/utils/*"]
     }
   },
   "include": [
-    "src/**/*"  // Include all source files
+    "src/**/*"
   ],
   "references": [
    { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ]
 }
-
-
-
-
