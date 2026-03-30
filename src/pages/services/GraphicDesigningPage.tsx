@@ -424,8 +424,9 @@ const GraphicDesigningPage: React.FC<GraphicDesigningPageProps> = ({ setCurrentP
   };
 
   return (
-<div className="min-h-screen bg-white">      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div className="min-h-screen bg-white">
+      {/* Hero Section - Compacted height, reduced text sizes */}
+      <section className="relative flex items-center justify-center overflow-hidden py-24 sm:py-32">
         <div className="absolute inset-0">
           <img
             src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=1920"
@@ -438,80 +439,68 @@ const GraphicDesigningPage: React.FC<GraphicDesigningPageProps> = ({ setCurrentP
 
         {/* Floating Elements */}
         <div className="absolute top-1/4 left-1/4 animate-float">
-          <Palette className="w-16 h-16 text-yellow-400/30" />
+          <Palette className="w-12 h-12 text-yellow-400/30" />
         </div>
         <div className="absolute top-1/3 right-1/4 animate-pulse">
-          <Sparkles className="w-12 h-12 text-yellow-400/20" />
+          <Sparkles className="w-10 h-10 text-yellow-400/20" />
         </div>
         <div className="absolute bottom-1/3 left-1/3 animate-bounce">
-          <Eye className="w-14 h-14 text-yellow-400/25" />
+          <Eye className="w-10 h-10 text-yellow-400/25" />
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <button
-            onClick={handleBackToHome}
-            className="absolute top-8 left-4 flex items-center text-white/80 hover:text-yellow-400 transition-colors group"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
-            Back to Home
-          </button>
-
           <div className="max-w-6xl mx-auto text-center text-white">
             <div className="animate-fade-in-up">
-              <div className="inline-flex items-center space-x-2 bg-yellow-400/20 backdrop-blur-sm px-6 py-3 rounded-full mb-8">
-                <Palette className="w-6 h-6 text-yellow-400" />
-                <span className="text-yellow-400 font-semibold text-lg">GRAPHIC DESIGN EXCELLENCE</span>
+              <div className="inline-flex items-center space-x-2 bg-yellow-400/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+                <Palette className="w-5 h-5 text-yellow-400" />
+                <span className="text-yellow-400 font-semibold text-sm">GRAPHIC DESIGN EXCELLENCE</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-8 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 <span className="text-white">Stunning Designs,</span><br />
-                <span className="text-yellow-400"> Built to Captivate and</span>
-                <br />
-                <span className="text-white">Drive Engagement</span>
+                <span className="text-yellow-400">Built to Captivate</span>
               </h1>
             </div>
 
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-200 mb-12 max-w-4xl mx-auto leading-relaxed">
-                Struggling with <span className="text-red-400 font-semibold">weak branding</span> and designs that don't convert? 
-                Our graphic design services create <span className="text-yellow-400 font-semibold">stunning, impactful designs</span> that 
-                communicate your brand message and drive engagement.
+              <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
+                From weak branding to impactful designs that communicate and drive engagement.
               </p>
             </div>
 
-            {/* Stats Row */}
-            <div className="animate-fade-in-up grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-12" style={{ animationDelay: '0.4s' }}>
+            {/* Stats Row - Compacted */}
+            <div className="animate-fade-in-up grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8" style={{ animationDelay: '0.4s' }}>
               <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">200%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Brand Recognition</p>
+                <div className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-1">200%</div>
+                <p className="text-gray-300 text-xs sm:text-sm">Brand Recognition</p>
               </div>
               <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">94%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Design Impact</p>
+                <div className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-1">94%</div>
+                <p className="text-gray-300 text-xs sm:text-sm">Design Impact</p>
               </div>
               <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">150%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Trust Increase</p>
+                <div className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-1">150%</div>
+                <p className="text-gray-300 text-xs sm:text-sm">Trust Increase</p>
               </div>
               <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">37%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Engagement Boost</p>
+                <div className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-1">37%</div>
+                <p className="text-gray-300 text-xs sm:text-sm">Engagement Boost</p>
               </div>
             </div>
 
-            <div className="animate-fade-in-up flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center" style={{ animationDelay: '0.6s' }}>
+            <div className="animate-fade-in-up flex flex-col sm:flex-row gap-4 justify-center" style={{ animationDelay: '0.6s' }}>
               <button
                 onClick={() => setCurrentPage && setCurrentPage('contact')}
-                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:shadow-2xl hover:shadow-yellow-400/40 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3"
+                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-6 sm:px-8 py-3 rounded-full font-bold text-base sm:text-lg hover:shadow-2xl hover:shadow-yellow-400/40 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2"
               >
-                <Rocket className="w-5 sm:w-6 h-5 sm:h-6" />
+                <Rocket className="w-4 sm:w-5 h-4 sm:h-5" />
                 <span>Start Your Design</span>
               </button>
               <button
                 onClick={() => setCurrentPage && setCurrentPage('portfolio')}
-                className="border-3 border-yellow-400 text-yellow-400 px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:bg-yellow-400 hover:text-black transition-all duration-300 flex items-center space-x-3"
+                className="border-2 border-yellow-400 text-yellow-400 px-6 sm:px-8 py-3 rounded-full font-bold text-base sm:text-lg hover:bg-yellow-400 hover:text-black transition-all duration-300 flex items-center space-x-2"
               >
-                <Eye className="w-5 sm:w-6 h-5 sm:h-6" />
+                <Eye className="w-4 sm:w-5 h-4 sm:h-5" />
                 <span>View Portfolio</span>
               </button>
             </div>
@@ -643,59 +632,58 @@ const GraphicDesigningPage: React.FC<GraphicDesigningPageProps> = ({ setCurrentP
         </div>
       </section>
 
-      {/* Design Services Section */}
-{/* Design Services Section – INFINITE SCROLL */}
-<section className="py-16 sm:py-20 bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white relative overflow-hidden">
-  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(242,195,75,0.1),transparent_50%)]"></div>
+      {/* Design Services Section – INFINITE SCROLL */}
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(242,195,75,0.1),transparent_50%)]"></div>
 
-  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    <div className="text-center mb-12 sm:mb-16">
-      <div className="inline-flex items-center space-x-2 bg-yellow-400/20 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-full mb-6 sm:mb-8">
-        <Settings className="w-5 sm:w-6 h-5 sm:h-6 text-yellow-400" />
-        <span className="text-yellow-400 font-semibold text-base sm:text-lg">OUR EXPERTISE</span>
-      </div>
-      <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
-        Our Expertise in <span className="text-yellow-400">Graphic Designing</span>
-      </h2>
-      <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
-        We specialize in creating designs that capture attention, strengthen branding, and inspire action
-      </p>
-    </div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-12 sm:mb-16">
+            <div className="inline-flex items-center space-x-2 bg-yellow-400/20 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-full mb-6 sm:mb-8">
+              <Settings className="w-5 sm:w-6 h-5 sm:h-6 text-yellow-400" />
+              <span className="text-yellow-400 font-semibold text-base sm:text-lg">OUR EXPERTISE</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
+              Our Expertise in <span className="text-yellow-400">Graphic Designing</span>
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+              We specialize in creating designs that capture attention, strengthen branding, and inspire action
+            </p>
+          </div>
 
-    {/* INFINITE MARQUEE */}
-    <div className="relative overflow-hidden py-8">
-      <div className="flex animate-marquee-infinite gap-8">
-        {[...designServices, ...designServices].map((service, index) => (
-          <div
-            key={`${service.name}-${index}`}
-            className="flex-shrink-0 group"
-          >
-            <div className="w-28 sm:w-32 md:w-36 h-28 sm:h-32 md:h-36 rounded-2xl shadow-2xl flex flex-col items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 border border-white/20 bg-white p-4">
-              <div className="text-4xl sm:text-5xl mb-2">{service.icon}</div>
-              <span className="text-black font-bold text-sm sm:text-base text-center px-2">{service.name}</span>
+          {/* INFINITE MARQUEE */}
+          <div className="relative overflow-hidden py-8">
+            <div className="flex animate-marquee-infinite gap-8">
+              {[...designServices, ...designServices].map((service, index) => (
+                <div
+                  key={`${service.name}-${index}`}
+                  className="flex-shrink-0 group"
+                >
+                  <div className="w-28 sm:w-32 md:w-36 h-28 sm:h-32 md:h-36 rounded-2xl shadow-2xl flex flex-col items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 border border-white/20 bg-white p-4">
+                    <div className="text-4xl sm:text-5xl mb-2">{service.icon}</div>
+                    <span className="text-black font-bold text-sm sm:text-base text-center px-2">{service.name}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </div>
+        </div>
 
-  {/* CSS ANIMATION */}
-  <style jsx>{`
-    @keyframes marquee-infinite {
-      0% { transform: translateX(0%); }
-      100% { transform: translateX(-50%); }
-    }
-    .animate-marquee-infinite {
-      display: flex;
-      width: max-content;
-      animation: marquee-infinite 22s linear infinite;
-    }
-    .animate-marquee-infinite:hover {
-      animation-play-state: paused;
-    }
-  `}</style>
-</section>
+        {/* CSS ANIMATION */}
+        <style jsx>{`
+          @keyframes marquee-infinite {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-marquee-infinite {
+            display: flex;
+            width: max-content;
+            animation: marquee-infinite 22s linear infinite;
+          }
+          .animate-marquee-infinite:hover {
+            animation-play-state: paused;
+          }
+        `}</style>
+      </section>
 
       {/* Portfolio Showcase */}
       <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-50 to-white">

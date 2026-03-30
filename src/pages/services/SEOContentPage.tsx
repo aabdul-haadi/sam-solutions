@@ -557,106 +557,76 @@ const SEOContentPage: React.FC<SEOContentPageProps> = ({ setCurrentPage }) => {
   };
 
   return (
-<div className="min-h-screen bg-white">      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <LazyImage
-            src="https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=1920"
-            alt="SEO and Content Marketing"
-            className="w-full h-full object-cover"
-            loadingClassName="w-full h-full"
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/80"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-transparent"></div>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section - Compacted with reduced height, no back button */}
+      <section className="relative flex items-center justify-center overflow-hidden py-16 sm:py-20">
+  <div className="absolute inset-0">
+    <LazyImage
+      src="https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      alt="SEO and Content Marketing"
+      className="w-full h-full object-cover"
+      loadingClassName="w-full h-full"
+    />
+    <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/80"></div>
+    <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-transparent"></div>
+  </div>
+
+  {/* Floating Elements - Compacted sizes */}
+  <div className="absolute top-1/4 left-1/4 animate-float">
+    <Search className="w-10 h-10 text-yellow-400/30" />
+  </div>
+  <div className="absolute top-1/3 right-1/4 animate-pulse">
+    <TrendingUp className="w-8 h-8 text-yellow-400/20" />
+  </div>
+  <div className="absolute bottom-1/3 left-1/3 animate-bounce">
+    <Target className="w-8 h-8 text-yellow-400/25" />
+  </div>
+
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="max-w-6xl mx-auto text-center text-white pt-8 sm:pt-12 md:pt-16">
+      <div className="animate-fade-in-up">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+          <span className="text-white">Struggling with Low Traffic</span>
+          <br />
+          <span className="text-yellow-400">and Poor Rankings?</span>
+        </h1>
+      </div>
+
+      <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+        <p className="text-sm sm:text-base md:text-lg text-gray-200 mb-6 max-w-4xl mx-auto leading-relaxed">
+          If your site isn't ranking high or driving traffic, you're missing out on potential sales. Our{' '}
+          <span className="text-yellow-400 font-semibold">custom SEO strategies</span> are designed to{' '}
+          <span className="text-yellow-400 font-semibold">improve search rankings</span>, boost organic traffic, and convert visitors into customers.
+        </p>
+      </div>
+
+      {/* Stats Row - Compacted */}
+      <div
+        className="animate-fade-in-up grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5"
+        style={{ animationDelay: '0.4s' }}
+      >
+        <div className="text-center">
+          <div className="text-xl sm:text-2xl font-bold text-yellow-400 mb-0.5">400%</div>
+          <p className="text-gray-300 text-xs">Traffic Increase</p>
         </div>
-
-        {/* Floating Elements */}
-        <div className="absolute top-1/4 left-1/4 animate-float">
-          <Search className="w-16 h-16 text-yellow-400/30" />
+        <div className="text-center">
+          <div className="text-xl sm:text-2xl font-bold text-yellow-400 mb-0.5">250%</div>
+          <p className="text-gray-300 text-xs">Ranking Improvement</p>
         </div>
-        <div className="absolute top-1/3 right-1/4 animate-pulse">
-          <TrendingUp className="w-12 h-12 text-yellow-400/20" />
+        <div className="text-center">
+          <div className="text-xl sm:text-2xl font-bold text-yellow-400 mb-0.5">180%</div>
+          <p className="text-gray-300 text-xs">Lead Generation</p>
         </div>
-        <div className="absolute bottom-1/3 left-1/3 animate-bounce">
-          <Target className="w-14 h-14 text-yellow-400/25" />
+        <div className="text-center">
+          <div className="text-xl sm:text-2xl font-bold text-yellow-400 mb-0.5">92%</div>
+          <p className="text-gray-300 text-xs">Client Retention</p>
         </div>
+      </div>
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <button
-            onClick={handleBackToHome}
-            className="absolute top-8 left-4 flex items-center text-white/80 hover:text-yellow-400 transition-colors group"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
-            Back to Home
-          </button>
-
-          <div className="max-w-6xl mx-auto text-center text-white">
-            <div className="animate-fade-in-up">
-              <div className="inline-flex items-center space-x-2 bg-yellow-400/20 backdrop-blur-sm px-6 py-3 rounded-full mb-8">
-                <Search className="w-6 h-6 text-yellow-400" />
-                <span className="text-yellow-400 font-semibold text-lg">SEO & CONTENT EXCELLENCE</span>
-              </div>
-
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-8 leading-tight">
-                <span className="text-white">Struggling with Low Traffic</span>
-                <br />
-                <span className="text-yellow-400">and Poor Rankings?</span>
-              </h1>
-            </div>
-
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-200 mb-12 max-w-4xl mx-auto leading-relaxed">
-                If your site isn't ranking high or driving traffic, you're missing out on potential sales. Our{' '}
-                <span className="text-yellow-400 font-semibold">custom SEO strategies</span> are designed to{' '}
-                <span className="text-yellow-400 font-semibold">improve search rankings</span>, boost organic traffic, and convert visitors into customers.
-              </p>
-            </div>
-
-            {/* Stats Row */}
-            <div
-              className="animate-fade-in-up grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-12"
-              style={{ animationDelay: '0.4s' }}
-            >
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">400%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Traffic Increase</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">250%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Ranking Improvement</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">180%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Lead Generation</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">92%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Client Retention</p>
-              </div>
-            </div>
-
-            <div
-              className="animate-fade-in-up flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center"
-              style={{ animationDelay: '0.6s' }}
-            >
-              <button
-                onClick={() => setCurrentPage && setCurrentPage('contact')}
-                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:shadow-2xl hover:shadow-yellow-400/40 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3"
-              >
-                <Rocket className="w-5 sm:w-6 h-5 sm:h-6" />
-                <span>Get Free SEO Audit</span>
-              </button>
-              <button
-                onClick={() => setCurrentPage && setCurrentPage('portfolio')}
-                className="border-3 border-yellow-400 text-yellow-400 px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:bg-yellow-400 hover:text-black transition-all duration-300 flex items-center space-x-3"
-              >
-                <Eye className="w-5 sm:w-6 h-5 sm:h-6" />
-                <span>View Case Studies</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* CTAs REMOVED */}
+    </div>
+  </div>
+</section>
 
       {/* Business Problems Section */}
       <section className="py-16 sm:py-20 bg-gradient-to-br from-white via-gray-100 to-white relative overflow-hidden">

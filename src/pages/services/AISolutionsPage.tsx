@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+  import React, { useState, useEffect } from 'react';
 import {
   ArrowLeft,
   Code,
@@ -397,9 +397,9 @@ const DevelopmentJourney: React.FC<{ phases: DevelopmentPhase[] }> = ({ phases }
       .animate-pulse-slow { animation: pulse-slow var(--pulse-duration) infinite; }
       .animation-delay-1000 { animation-delay: 1s; }
       @media (max-width: 1024px) {
-        .lg\\:flex-row-reverse, .lg\\:flex-row { flex-direction: column; }
-        .lg\\:w-5\\/12 { width: 100%; }
-        .lg\\:ml-12, .lg\\:mr-12 { margin-left: 0; margin-right: 0; }
+        .lg\:flex-row-reverse, .lg\:flex-row { flex-direction: column; }
+        .lg\:w-5\/12 { width: 100%; }
+        .lg\:ml-12, .lg\:mr-12 { margin-left: 0; margin-right: 0; }
       }
     `}</style>
   </section>
@@ -426,7 +426,7 @@ const AIAutomationPage: React.FC<AIAutomationPageProps> = ({ setCurrentPage }) =
   const closeModal = () => setSelectedProject(null);
 
   return (
-<div className="min-h-screen bg-white">      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+<div className="min-h-screen bg-white">      <section className="relative flex items-center justify-center overflow-hidden pt-40 pb-20 sm:pt-48 sm:pb-24">
         <div className="absolute inset-0">
           <img
             src="https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=1920"
@@ -446,76 +446,21 @@ const AIAutomationPage: React.FC<AIAutomationPageProps> = ({ setCurrentPage }) =
         <div className="absolute bottom-1/3 left-1/3 animate-bounce">
           <Rocket className="w-14 h-14 text-yellow-400/25" />
         </div>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <button
-            onClick={handleBackToHome}
-            className="absolute top-8 left-4 flex items-center text-white/80 hover:text-yellow-400 transition-colors group"
-            aria-label="Back to Home"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
-            Back to Home
-          </button>
-          <div className="max-w-6xl mx-auto text-center text-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-16 sm:pt-20">
+          
+          <div className="max-w-4xl mx-auto text-center text-white">
             <div className="animate-fade-in-up">
-              <div className="inline-flex items-center space-x-2 bg-yellow-400/20 backdrop-blur-sm px-6 py-3 rounded-full mb-8">
-                <Code className="w-6 h-6 text-yellow-400" />
-                <span className="text-yellow-400 font-semibold text-lg">AI AUTOMATION EXCELLENCE</span>
-              </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-8 leading-tight">
-                <span className="text-white">Intelligent Automations,</span>
-                <br />
-                <span className="text-yellow-400">Powered by AI</span>
-                <br />
-                <span className="text-white">to Supercharge Efficiency</span>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">
+                <span className="text-yellow-400">AI-Powered</span> Automation
+                
               </h1>
             </div>
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-200 mb-12 max-w-4xl mx-auto leading-relaxed">
-                Overwhelmed by repetitive tasks? Our <span className="text-yellow-400 font-semibold">AI-driven automations</span> streamline operations, reduce errors, and boost productivity.
+              <p className="text-base sm:text-lg text-gray-200 mb-8 max-w-2xl mx-auto">
+                Streamline operations, cut costs, and drive growth with our intelligent automation solutions.
               </p>
             </div>
-            <div
-              className="animate-fade-in-up grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-12"
-              style={{ animationDelay: '0.4s' }}
-            >
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">250%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Efficiency Increase</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">60%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Cost Reduction</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">99%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Uptime Guarantee</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">95%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Client Satisfaction</p>
-              </div>
-            </div>
-            <div
-              className="animate-fade-in-up flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center"
-              style={{ animationDelay: '0.6s' }}
-            >
-              <button
-                onClick={() => setCurrentPage?.('contact')}
-                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:shadow-2xl hover:shadow-yellow-400/40 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3"
-                aria-label="Start Your Automation"
-              >
-                <Rocket className="w-5 sm:w-6 h-5 sm:h-6" />
-                <span>Start Your Automation</span>
-              </button>
-              <button
-                onClick={() => setCurrentPage?.('portfolio')}
-                className="border-3 border-yellow-400 text-yellow-400 px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:bg-yellow-400 hover:text-black transition-all duration-300 flex items-center space-x-3"
-                aria-label="View Portfolio"
-              >
-                <Eye className="w-5 sm:w-6 h-5 sm:h-6" />
-                <span>View Portfolio</span>
-              </button>
-            </div>
+            
           </div>
         </div>
       </section>

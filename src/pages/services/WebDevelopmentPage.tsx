@@ -121,7 +121,7 @@ import { FaMapSigns, FaPalette, FaRocket, FaMobileAlt } from 'react-icons/fa';
 
 const solutions: Solution[] = [
   {
-    icon: <FaMapSigns className="w-24 h-24 text-green-500" />, // Green icon
+    icon: <FaMapSigns className="w-20 h-20 text-green-500" />,
     title: 'Easy Navigation',
     description: 'A user-friendly design with clear, intuitive menus and a logical flow.',
     result: '40% reduction in bounce rates and 30% increase in user engagement.',
@@ -130,7 +130,7 @@ const solutions: Solution[] = [
     metricLabel: 'User Engagement Boost',
   },
   {
-    icon: <FaPalette className="w-24 h-24 text-blue-500" />, // Blue icon
+    icon: <FaPalette className="w-20 h-20 text-blue-500" />,
     title: 'Professional Design',
     description: 'A polished, modern look that builds trust and aligns with your brand.',
     result: '75% of users are more likely to trust your business with a professional website.',
@@ -139,7 +139,7 @@ const solutions: Solution[] = [
     metricLabel: 'Trust Increase',
   },
   {
-    icon: <FaRocket className="w-24 h-24 text-red-500" />, // Red icon
+    icon: <FaRocket className="w-20 h-20 text-red-500" />,
     title: 'Fast Load Speed',
     description: 'Optimized images, fast hosting, and clean code to speed up your site.',
     result: '40% more visitors stay longer, and 20% more conversions.',
@@ -148,7 +148,7 @@ const solutions: Solution[] = [
     metricLabel: 'Conversion Increase',
   },
   {
-    icon: <FaMobileAlt className="w-24 h-24 text-yellow-500" />, // Yellow icon
+    icon: <FaMobileAlt className="w-20 h-20 text-yellow-500" />,
     title: 'Mobile-Friendly Experience',
     description: 'A responsive design that adapts perfectly to any screen size.',
     result: '57% higher chance of user recommendations and 25% increase in mobile traffic.',
@@ -472,8 +472,9 @@ const WebDevelopmentPage: React.FC<WebDevelopmentPageProps> = ({ setCurrentPage 
   const closeModal = () => setSelectedProject(null);
 
   return (
-<div className="min-h-screen bg-white">     
-   <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div className="min-h-screen bg-white">
+      {/* Hero Section - Compacted with reduced height, text sizes, and no buttons */}
+      <section className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=1920"
@@ -485,30 +486,22 @@ const WebDevelopmentPage: React.FC<WebDevelopmentPageProps> = ({ setCurrentPage 
           <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-transparent"></div>
         </div>
         <div className="absolute top-1/4 left-1/4 animate-float">
-          <Code className="w-16 h-16 text-yellow-400/30" />
+          <Code className="w-12 h-12 text-yellow-400/30" />
         </div>
         <div className="absolute top-1/3 right-1/4 animate-pulse">
-          <Globe className="w-12 h-12 text-yellow-400/20" />
+          <Globe className="w-10 h-10 text-yellow-400/20" />
         </div>
         <div className="absolute bottom-1/3 left-1/3 animate-bounce">
-          <Rocket className="w-14 h-14 text-yellow-400/25" />
+          <Rocket className="w-12 h-12 text-yellow-400/25" />
         </div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <button
-            onClick={handleBackToHome}
-            className="absolute top-8 left-4 flex items-center text-white/80 hover:text-yellow-400 transition-colors group"
-            aria-label="Back to Home"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
-            Back to Home
-          </button>
           <div className="max-w-6xl mx-auto text-center text-white">
             <div className="animate-fade-in-up">
-              <div className="inline-flex items-center space-x-2 bg-yellow-400/20 backdrop-blur-sm px-6 py-3 rounded-full mb-8">
-                <Code className="w-6 h-6 text-yellow-400" />
-                <span className="text-yellow-400 font-semibold text-lg">WEB DEVELOPMENT EXCELLENCE</span>
+              <div className="inline-flex items-center space-x-2 bg-yellow-400/20 backdrop-blur-sm px-5 py-2 rounded-full mb-6">
+                <Code className="w-5 h-5 text-yellow-400" />
+                <span className="text-yellow-400 font-semibold text-base">WEB DEVELOPMENT EXCELLENCE</span>
               </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-8 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-5 leading-tight">
                 <span className="text-white">Custom Websites,</span>
                 <br />
                 <span className="text-yellow-400">Built to Convert and</span>
@@ -517,7 +510,7 @@ const WebDevelopmentPage: React.FC<WebDevelopmentPageProps> = ({ setCurrentPage 
               </h1>
             </div>
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-200 mb-12 max-w-4xl mx-auto leading-relaxed">
+              <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
                 Struggling to drive sales? A generic design could be turning customers away. We create{' '}
                 <span className="text-yellow-400 font-semibold">custom websites</span> that{' '}
                 <span className="text-yellow-400 font-semibold">convert</span>, helping you boost your
@@ -525,50 +518,30 @@ const WebDevelopmentPage: React.FC<WebDevelopmentPageProps> = ({ setCurrentPage 
               </p>
             </div>
             <div
-              className="animate-fade-in-up grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-12"
+              className="animate-fade-in-up grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-8"
               style={{ animationDelay: '0.4s' }}
             >
               <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">300%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Traffic Increase</p>
+                <div className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-1">300%</div>
+                <p className="text-gray-300 text-xs sm:text-sm">Traffic Increase</p>
               </div>
               <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">85%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Faster Loading</p>
+                <div className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-1">85%</div>
+                <p className="text-gray-300 text-xs sm:text-sm">Faster Loading</p>
               </div>
               <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">150%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Conversion Boost</p>
+                <div className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-1">150%</div>
+                <p className="text-gray-300 text-xs sm:text-sm">Conversion Boost</p>
               </div>
               <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">98%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Client Satisfaction</p>
+                <div className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-1">98%</div>
+                <p className="text-gray-300 text-xs sm:text-sm">Client Satisfaction</p>
               </div>
-            </div>
-            <div
-              className="animate-fade-in-up flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center"
-              style={{ animationDelay: '0.6s' }}
-            >
-              <button
-                onClick={() => setCurrentPage?.('contact')}
-                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:shadow-2xl hover:shadow-yellow-400/40 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3"
-                aria-label="Start Your Project"
-              >
-                <Rocket className="w-5 sm:w-6 h-5 sm:h-6" />
-                <span>Start Your Project</span>
-              </button>
-              <button
-                onClick={() => setCurrentPage?.('portfolio')}
-                className="border-3 border-yellow-400 text-yellow-400 px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:bg-yellow-400 hover:text-black transition-all duration-300 flex items-center space-x-3"
-                aria-label="View Portfolio"
-              >
-                <Eye className="w-5 sm:w-6 h-5 sm:h-6" />
-                <span>View Portfolio</span>
-              </button>
             </div>
           </div>
         </div>
       </section>
+
       <section className="py-16 sm:py-20 bg-gradient-to-br from-white via-gray-100 to-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(0,0,0,0.1),transparent_50%)]"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -614,36 +587,20 @@ const WebDevelopmentPage: React.FC<WebDevelopmentPageProps> = ({ setCurrentPage 
           </div>
         </div>
       </section>
+      
       <section className="py-16 sm:py-20 bg-gradient-to-r from-gray-800 to-gray-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.4),transparent_70%)]"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">
             <span className="block">Stop Losing Sales!</span>
             <span className="block text-yellow-400">It’s Time to Ignite Your Growth!</span>
           </h2>
-          <p className="text-xl sm:text-2xl md:text-3xl mb-10 max-w-3xl mx-auto leading-snug">
+          <p className="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-snug">
             Transform your website into a powerful sales tool. Attract more customers, boost conversions, and watch your business thrive with a website that works as hard as you do!
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
-            <button
-              onClick={() => setCurrentPage?.('contact')}
-              className="bg-yellow-400 text-black px-8 sm:px-12 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:bg-yellow-500 transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl"
-              aria-label="Get Started Today"
-            >
-              <Rocket className="w-6 h-6" />
-              <span>Get Started Today</span>
-            </button>
-            <button
-              onClick={() => setCurrentPage?.('portfolio')}
-              className="border-2 border-yellow-400 text-yellow-400 px-8 sm:px-12 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:bg-yellow-400 hover:text-black transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl"
-              aria-label="Explore Our Work"
-            >
-              <Eye className="w-6 h-6" />
-              <span>Explore Our Work</span>
-            </button>
-          </div>
         </div>
       </section>
+
       <section className="py-16 sm:py-20 bg-gradient-to-br from-amber-50 via-white to-yellow-50 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.15),transparent_70%)]"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -664,23 +621,23 @@ const WebDevelopmentPage: React.FC<WebDevelopmentPageProps> = ({ setCurrentPage 
             {solutions.map((solution, index) => (
               <div key={index} className="relative">
                 <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-green-200/50">
-                  <div className="relative h-32 sm:h-40 flex items-center justify-center">
+                  <div className="relative h-28 sm:h-32 flex items-center justify-center">
                     {solution.icon}
                   </div>
-                  <div className="p-6 sm:p-8 relative text-center">
+                  <div className="p-5 sm:p-6 relative text-center">
                     <div className="absolute top-0 right-0 w-20 sm:w-24 h-20 sm:h-24 bg-green-400/10 rounded-full blur-xl -translate-y-8 sm:-translate-y-12 translate-x-8 sm:translate-x-12"></div>
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">{solution.title}</h3>
-                    <p className="text-gray-700 text-sm sm:text-base md:text-lg mb-4 sm:mb-6 leading-relaxed">{solution.description}</p>
-                    <div className="bg-green-50 p-3 sm:p-4 transition-transform mb-6">
-                      <p className="text-green-800 font-bold text-center text-sm sm:text-base">
+                    <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2 sm:mb-3">{solution.title}</h3>
+                    <p className="text-gray-700 text-sm sm:text-base mb-3 sm:mb-4 leading-relaxed">{solution.description}</p>
+                    <div className="bg-green-50 p-2 sm:p-3 transition-transform mb-4">
+                      <p className="text-green-800 font-bold text-center text-xs sm:text-sm">
                         {solution.result}
                       </p>
                     </div>
-                    <div className="space-y-2 sm:space-y-3 text-left pl-4">
+                    <div className="space-y-2 text-left pl-3">
                       {solution.features.map((feature, featureIndex) => (
-                        <div key={featureIndex} className="flex items-center space-x-3 transition-transform">
-                          <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
-                          <span className="text-gray-700 font-medium text-sm sm:text-base">{feature}</span>
+                        <div key={featureIndex} className="flex items-center space-x-2 transition-transform">
+                          <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-yellow-500 rounded-full"></div>
+                          <span className="text-gray-700 font-medium text-xs sm:text-sm">{feature}</span>
                         </div>
                       ))}
                     </div>
@@ -691,99 +648,101 @@ const WebDevelopmentPage: React.FC<WebDevelopmentPageProps> = ({ setCurrentPage 
           </div>
         </div>
       </section>
+
       <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white relative overflow-hidden">
-  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(242,195,75,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(242,195,75,0.1),transparent_50%)]"></div>
 
-  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    {/* Header */}
-    <div className="text-center mb-12 sm:mb-16">
-      <div className="inline-flex items-center space-x-2 bg-yellow-400/20 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-full mb-6 sm:mb-8">
-        <Settings className="w-5 sm:w-6 h-5 sm:h-6 text-yellow-400" />
-        <span className="text-yellow-400 font-semibold text-base sm:text-lg">CUTTING-EDGE TECHNOLOGY</span>
-      </div>
-      <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
-        Powered by <span className="text-yellow-400">Modern Tech</span>
-      </h2>
-      <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
-        We use the latest technologies and frameworks to build fast, secure, and scalable web applications
-      </p>
-    </div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Header */}
+          <div className="text-center mb-12 sm:mb-16">
+            <div className="inline-flex items-center space-x-2 bg-yellow-400/20 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-full mb-6 sm:mb-8">
+              <Settings className="w-5 sm:w-6 h-5 sm:h-6 text-yellow-400" />
+              <span className="text-yellow-400 font-semibold text-base sm:text-lg">CUTTING-EDGE TECHNOLOGY</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
+              Powered by <span className="text-yellow-400">Modern Tech</span>
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+              We use the latest technologies and frameworks to build fast, secure, and scalable web applications
+            </p>
+          </div>
 
-    {/* INFINITE SCROLLING TECH STACK */}
-    <div className="relative overflow-hidden py-8">
-      <div className="flex animate-marquee-infinite gap-8">
-        {[...techStacks, ...techStacks].map((tech, index) => (
-          <div
-            key={`${tech.name}-${index}`}
-            className="flex-shrink-0 group"
-          >
-            <div className="w-28 sm:w-32 md:w-36 h-28 sm:h-32 md:h-36 rounded-2xl shadow-2xl flex flex-col items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 border border-white/20 bg-white p-4">
-              <img
-                src={tech.logo}
-                alt={tech.name}
-                className="w-14 sm:w-16 md:w-18 h-14 sm:h-16 md:h-18 object-contain mb-2"
-                loading="lazy"
-              />
-              <span className="text-black font-bold text-sm sm:text-base">{tech.name}</span>
+          {/* INFINITE SCROLLING TECH STACK */}
+          <div className="relative overflow-hidden py-8">
+            <div className="flex animate-marquee-infinite gap-8">
+              {[...techStacks, ...techStacks].map((tech, index) => (
+                <div
+                  key={`${tech.name}-${index}`}
+                  className="flex-shrink-0 group"
+                >
+                  <div className="w-24 sm:w-28 md:w-32 h-24 sm:h-28 md:h-32 rounded-2xl shadow-2xl flex flex-col items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 border border-white/20 bg-white p-3">
+                    <img
+                      src={tech.logo}
+                      alt={tech.name}
+                      className="w-12 sm:w-14 md:w-16 h-12 sm:h-14 md:h-16 object-contain mb-1"
+                      loading="lazy"
+                    />
+                    <span className="text-black font-bold text-xs sm:text-sm">{tech.name}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-    </div>
 
-    {/* Static Tech Categories */}
-    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mt-12 sm:mt-16">
-      <div className="text-center group">
-        <div className="w-16 sm:w-20 h-16 sm:h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-          <Monitor className="w-8 sm:w-10 h-8 sm:h-10 text-white" />
+          {/* Static Tech Categories */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mt-12 sm:mt-16">
+            <div className="text-center group">
+              <div className="w-14 sm:w-16 h-14 sm:h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                <Monitor className="w-7 sm:w-8 h-7 sm:h-8 text-white" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-white mb-1">Frontend</h3>
+              <p className="text-gray-300 text-xs">React, Next.js, TypeScript</p>
+            </div>
+            <div className="text-center group">
+              <div className="w-14 sm:w-16 h-14 sm:h-16 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                <Server className="w-7 sm:w-8 h-7 sm:h-8 text-white" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-white mb-1">Backend</h3>
+              <p className="text-gray-300 text-xs">Node.js, Python, APIs</p>
+            </div>
+            <div className="text-center group">
+              <div className="w-14 sm:w-16 h-14 sm:h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                <Database className="w-7 sm:w-8 h-7 sm:h-8 text-white" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-white mb-1">Database</h3>
+              <p className="text-gray-300 text-xs">MongoDB, PostgreSQL</p>
+            </div>
+            <div className="text-center group">
+              <div className="w-14 sm:w-16 h-14 sm:h-16 bg-gradient-to-br from-orange-500 to-orange-700 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                <Globe className="w-7 sm:w-8 h-7 sm:h-8 text-white" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-white mb-1">Cloud</h3>
+              <p className="text-gray-300 text-xs">AWS, Docker, Kubernetes</p>
+            </div>
+          </div>
         </div>
-        <h3 className="text-lg sm:text-xl font-bold text-white mb-2">Frontend</h3>
-        <p className="text-gray-300 text-xs sm:text-sm">React, Next.js, TypeScript</p>
-      </div>
-      <div className="text-center group">
-        <div className="w-16 sm:w-20 h-16 sm:h-20 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-          <Server className="w-8 sm:w-10 h-8 sm:h-10 text-white" />
-        </div>
-        <h3 className="text-lg sm:text-xl font-bold text-white mb-2">Backend</h3>
-        <p className="text-gray-300 text-xs sm:text-sm">Node.js, Python, APIs</p>
-      </div>
-      <div className="text-center group">
-        <div className="w-16 sm:w-20 h-16 sm:h-20 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-          <Database className="w-8 sm:w-10 h-8 sm:h-10 text-white" />
-        </div>
-        <h3 className="text-lg sm:text-xl font-bold text-white mb-2">Database</h3>
-        <p className="text-gray-300 text-xs sm:text-sm">MongoDB, PostgreSQL</p>
-      </div>
-      <div className="text-center group">
-        <div className="w-16 sm:w-20 h-16 sm:h-20 bg-gradient-to-br from-orange-500 to-orange-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-          <Globe className="w-8 sm:w-10 h-8 sm:h-10 text-white" />
-        </div>
-        <h3 className="text-lg sm:text-xl font-bold text-white mb-2">Cloud</h3>
-        <p className="text-gray-300 text-xs sm:text-sm">AWS, Docker, Kubernetes</p>
-      </div>
-    </div>
-  </div>
 
-  {/* INFINITE MARQUEE ANIMATION */}
-  <style jsx>{`
-    @keyframes marquee-infinite {
-      0% {
-        transform: translateX(0%);
-      }
-      100% {
-        transform: translateX(-50%);
-      }
-    }
-    .animate-marquee-infinite {
-      display: flex;
-      width: max-content;
-      animation: marquee-infinite 25s linear infinite;
-    }
-    .animate-marquee-infinite:hover {
-      animation-play-state: paused; /* Optional: pause on hover */
-    }
-  `}</style>
-</section>
+        {/* INFINITE MARQUEE ANIMATION */}
+        <style jsx>{`
+          @keyframes marquee-infinite {
+            0% {
+              transform: translateX(0%);
+            }
+            100% {
+              transform: translateX(-50%);
+            }
+          }
+          .animate-marquee-infinite {
+            display: flex;
+            width: max-content;
+            animation: marquee-infinite 25s linear infinite;
+          }
+          .animate-marquee-infinite:hover {
+            animation-play-state: paused;
+          }
+        `}</style>
+      </section>
+
       <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
@@ -1017,36 +976,19 @@ const WebDevelopmentPage: React.FC<WebDevelopmentPageProps> = ({ setCurrentPage 
         </div>
       </section>
 
-      {/* Final CTA Section */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white relative overflow-hidden">
+      {/* Final CTA Section - Compacted */}
+      <section className="py-12 sm:py-16 bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(242,195,75,0.1),transparent_50%)]"></div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
               Ready to Transform Your <span className="text-yellow-400">Digital Presence?</span>
             </h2>
-            <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 sm:mb-12 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">
               Join hundreds of satisfied clients who have transformed their businesses with our web
               development expertise. Let's create something extraordinary together.
             </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
-              <button
-                onClick={() => setCurrentPage && setCurrentPage('contact')}
-                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 sm:px-12 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:shadow-2xl hover:shadow-yellow-400/40 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3"
-              >
-                <Rocket className="w-5 sm:w-6 h-5 sm:h-6" />
-                <span>Start Your Project Today</span>
-              </button>
-              <button
-                onClick={() => setCurrentPage && setCurrentPage('portfolio')}
-                className="border-3 border-yellow-400 text-yellow-400 px-8 sm:px-12 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:bg-yellow-400 hover:text-black transition-all duration-300 flex items-center space-x-3"
-              >
-                <Eye className="w-5 sm:w-6 h-5 sm:h-6" />
-                <span>View More Projects</span>
-              </button>
-            </div>
           </div>
         </div>
       </section>

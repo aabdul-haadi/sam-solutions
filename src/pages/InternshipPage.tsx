@@ -47,12 +47,49 @@ const InternshipPage: React.FC<InternshipPageProps> = ({ setCurrentPage }) => {
     resume: null as File | null,
     motivation: '',
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [cvOption, setCvOption] = useState('upload');
 
   const totalSteps = 4;
 
-  const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, totalSteps));
-  const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
+  const validateStep = (step: number) => {
+    const newErrors: Record<string, string> = {};
+    if (step === 1) {
+      if (!formData.fullName) newErrors.fullName = 'Full name is required.';
+      if (!formData.email) {
+        newErrors.email = 'Email is required.';
+      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        newErrors.email = 'Email is invalid.';
+      }
+      if (!formData.dob) newErrors.dob = 'Date of birth is required.';
+    } else if (step === 2) {
+      if (!formData.program) newErrors.program = 'Academic program is required.';
+      if (!formData.university) newErrors.university = 'University name is required.';
+      if (!formData.yearOfStudy) newErrors.yearOfStudy = 'Year of study is required.';
+      if (!formData.fieldOfInterest) newErrors.fieldOfInterest = 'Field of interest is required.';
+      if (!formData.skills) newErrors.skills = 'Skills are required.';
+    } else if (step === 3) {
+      if (!formData.startDate) newErrors.startDate = 'Preferred start date is required.';
+      if (!formData.motivation) newErrors.motivation = 'Motivation is required.';
+    } else if (step === 4) {
+        if (cvOption === 'upload' && !formData.resume) {
+            newErrors.resume = 'Please upload your resume or generate one.';
+        }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const nextStep = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep(prev => Math.min(prev + 1, totalSteps));
+    }
+  };
+
+  const prevStep = () => {
+    setCurrentStep(prev => Math.max(prev - 1, 1));
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -62,6 +99,9 @@ const InternshipPage: React.FC<InternshipPageProps> = ({ setCurrentPage }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFormData(prev => ({ ...prev, resume: e.target.files[0] }));
+      if (errors.resume) {
+        setErrors(prev => ({...prev, resume: ''}));
+      }
     }
   };
 
@@ -82,8 +122,10 @@ const InternshipPage: React.FC<InternshipPageProps> = ({ setCurrentPage }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    setIsSubmitted(true);
+    if (validateStep(totalSteps)) {
+      console.log(formData);
+      setIsSubmitted(true);
+    }
   };
   
   const handleDone = () => {
@@ -98,11 +140,14 @@ const InternshipPage: React.FC<InternshipPageProps> = ({ setCurrentPage }) => {
           <div className="p-8 bg-white rounded-2xl shadow-md border border-gray-200">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">Step 1: Personal Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <input name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Full Name *" required className="w-full px-4 py-3 border border-gray-300 rounded-lg" />
-              <input name="email" value={formData.email} onChange={handleInputChange} placeholder="Email Address *" required type="email" className="w-full px-4 py-3 border border-gray-300 rounded-lg" />
-              <input name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Phone Number *" required type="tel" className="w-full px-4 py-3 border border-gray-300 rounded-lg" />
+              <input name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Enter your full name" required className="w-full px-4 py-3 border border-gray-300 rounded-lg" />
+              {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName}</p>}
+              <input name="email" value={formData.email} onChange={handleInputChange} placeholder="Enter your email address" required type="email" className="w-full px-4 py-3 border border-gray-300 rounded-lg" />
+              {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+              <input name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Enter your phone number" required type="tel" className="w-full px-4 py-3 border border-gray-300 rounded-lg" />
               <input name="dob" value={formData.dob} onChange={handleInputChange} required type="date" className="w-full px-4 py-3 border border-gray-300 rounded-lg" />
-              <select name="gender" value={formData.gender} onChange={handleInputChange} required className="w-full px-4 py-3 border border-gray-300 rounded-lg">
+              {errors.dob && <p className="text-red-500 text-sm">{errors.dob}</p>}
+              <select name="gender" value={formData.gender} onChange={handleInputChange} className="w-full px-4 py-3 border border-gray-300 rounded-lg">
                 <option value="">Select Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
@@ -116,14 +161,10 @@ const InternshipPage: React.FC<InternshipPageProps> = ({ setCurrentPage }) => {
             <div className="p-8 bg-white rounded-2xl shadow-md border border-gray-200">
                 <h2 className="text-2xl font-semibold text-gray-800 mb-6">Step 2: Education & Skills</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <input name="university" value={formData.university} onChange={handleInputChange} placeholder="University/College *" required className="w-full px-4 py-3 border border-gray-300 rounded-lg" />
-                    <select name="program" value={formData.program} onChange={handleInputChange} required className="w-full px-4 py-3 border border-gray-300 rounded-lg">
-                        <option value="">Select Program</option>
-                        <option value="BSCS">BSCS</option>
-                        <option value="BSSE">BSSE</option>
-                        <option value="BSAI">BSAI</option>
-                        <option value="other">Other</option>
-                    </select>
+                    <input name="program" value={formData.program} onChange={handleInputChange} placeholder="Enter your program/degree name" required className="w-full px-4 py-3 border border-gray-300 rounded-lg" />
+                    {errors.program && <p className="text-red-500 text-sm">{errors.program}</p>}
+                    <input name="university" value={formData.university} onChange={handleInputChange} placeholder="Enter your university name" required className="w-full px-4 py-3 border border-gray-300 rounded-lg" />
+                    {errors.university && <p className="text-red-500 text-sm">{errors.university}</p>}
                     <select name="yearOfStudy" value={formData.yearOfStudy} onChange={handleInputChange} required className="w-full px-4 py-3 border border-gray-300 rounded-lg">
                         <option value="">Year of Study</option>
                         <option value="1">1st Year</option>
@@ -132,15 +173,18 @@ const InternshipPage: React.FC<InternshipPageProps> = ({ setCurrentPage }) => {
                         <option value="4">4th Year</option>
                         <option value="graduate">Graduate</option>
                     </select>
+                    {errors.yearOfStudy && <p className="text-red-500 text-sm">{errors.yearOfStudy}</p>}
                     <select name="fieldOfInterest" value={formData.fieldOfInterest} onChange={handleInputChange} required className="w-full px-4 py-3 border border-gray-300 rounded-lg">
-                        <option value="">Select Field of Interest</option>
+                        <option value="">Which role are you applying for?</option>
                         <option value="frontend">Frontend Development</option>
                         <option value="backend">Backend Development</option>
                         <option value="ai_ml">AI & ML</option>
                         <option value="social_media">Social Media & Graphics</option>
                         <option value="seo">SEO & Content Writing</option>
                     </select>
-                    <textarea name="skills" value={formData.skills} onChange={handleInputChange} placeholder="Skills (e.g., React, Node.js, Python) *" required rows={4} className="md:col-span-2 w-full px-4 py-3 border border-gray-300 rounded-lg"></textarea>
+                    {errors.fieldOfInterest && <p className="text-red-500 text-sm">{errors.fieldOfInterest}</p>}
+                    <textarea name="skills" value={formData.skills} onChange={handleInputChange} placeholder="List your key skills (e.g., HTML, CSS, JavaScript)" required rows={4} className="md:col-span-2 w-full px-4 py-3 border border-gray-300 rounded-lg"></textarea>
+                    {errors.skills && <p className="text-red-500 text-sm">{errors.skills}</p>}
                 </div>
             </div>
         );
@@ -149,8 +193,12 @@ const InternshipPage: React.FC<InternshipPageProps> = ({ setCurrentPage }) => {
           <div className="p-8 bg-white rounded-2xl shadow-md border border-gray-200">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">Step 3: Experience & Motivation</h2>
              <div className="space-y-6">
-                <textarea name="experience" value={formData.experience} onChange={handleInputChange} placeholder="Previous Experience (Optional)" rows={5} className="w-full px-4 py-3 border border-gray-300 rounded-lg"></textarea>
-                <textarea name="motivation" value={formData.motivation} onChange={handleInputChange} placeholder="Why are you interested in this internship? *" required rows={5} className="w-full px-4 py-3 border border-gray-300 rounded-lg"></textarea>
+                <textarea name="experience" value={formData.experience} onChange={handleInputChange} placeholder="If you have prior experience, please describe briefly." rows={5} className="w-full px-4 py-3 border border-gray-300 rounded-lg"></textarea>
+                <input name="startDate" value={formData.startDate} onChange={handleInputChange} required type="date" className="w-full px-4 py-3 border border-gray-300 rounded-lg" />
+                {errors.startDate && <p className="text-red-500 text-sm">{errors.startDate}</p>}
+                 <p className='text-gray-500'>Duration: 8 Weeks (fixed)</p>
+                <textarea name="motivation" value={formData.motivation} onChange={handleInputChange} placeholder="Tell us why you’re passionate about this role." required rows={5} className="w-full px-4 py-3 border border-gray-300 rounded-lg"></textarea>
+                {errors.motivation && <p className="text-red-500 text-sm">{errors.motivation}</p>}
             </div>
           </div>
         );
@@ -172,24 +220,33 @@ const InternshipPage: React.FC<InternshipPageProps> = ({ setCurrentPage }) => {
                 {cvOption === 'upload' ? (
                     <div>
                         <input type="file" name="resume" onChange={handleFileChange} required={cvOption === 'upload'} accept=".pdf,.docx" className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"/>
+                        {errors.resume && <p className="text-red-500 text-sm mt-2">{errors.resume}</p>}
                     </div>
                 ) : (
                     <div>
-                        <div id="cv-preview" className="p-6 border rounded-lg bg-gray-50">
-                           <h2 className="text-2xl font-bold">{formData.fullName}</h2>
-                            <p>{formData.email} | {formData.phone}</p>
-                            <hr className="my-4" />
-                            <h3 className="text-lg font-semibold">Education</h3>
-                            <p>{formData.program} at {formData.university} ({formData.yearOfStudy})</p>
-                            <hr className="my-4" />
-                            <h3 className="text-lg font-semibold">Skills</h3>
-                            <p>{formData.skills}</p>
-                            <hr className="my-4" />
-                            <h3 className="text-lg font-semibold">Experience</h3>
-                            <p>{formData.experience}</p>
-                             <hr className="my-4" />
-                            <h3 className="text-lg font-semibold">Motivation</h3>
-                            <p>{formData.motivation}</p>
+                        <div id="cv-preview" className="p-6 border rounded-lg bg-gray-50 space-y-4">
+                           <h2 className="text-2xl font-bold text-gray-800">{formData.fullName}</h2>
+                            <p className="text-gray-600">{formData.email} | {formData.phone}</p>
+                            <hr />
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-700">Education</h3>
+                                <p className="text-gray-600">{formData.program} at {formData.university} ({formData.yearOfStudy})</p>
+                            </div>
+                            <hr />
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-700">Skills</h3>
+                                <p className="text-gray-600">{formData.skills}</p>
+                            </div>
+                            <hr />
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-700">Experience</h3>
+                                <p className="text-gray-600">{formData.experience || 'No prior experience mentioned.'}</p>
+                            </div>
+                             <hr />
+                             <div>
+                                <h3 className="text-lg font-semibold text-gray-700">Motivation</h3>
+                                <p className="text-gray-600">{formData.motivation}</p>
+                            </div>
                         </div>
                         <button type="button" onClick={generatePdf} className="mt-4 px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600">
                             Generate & Download PDF
@@ -207,13 +264,13 @@ const InternshipPage: React.FC<InternshipPageProps> = ({ setCurrentPage }) => {
     <>
       <Helmet>
         <title>Internship Application - Sam Solutions</title>
-        <meta name="description" content="Apply for our remote internship program."/>
+        <meta name="description" content="Apply for our 8-week remote internship program."/>
       </Helmet>
       <div className={`bg-gray-50 min-h-screen flex items-center justify-center py-12 px-4 ${isSubmitted ? 'filter blur-sm' : ''}`}>
         <div className="max-w-2xl w-full mx-auto">
           <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-gray-900">Internship Configurator</h1>
-              <p className="text-md text-gray-600">Complete the following steps to apply.</p>
+              <h1 className="text-4xl font-bold text-gray-900">Internship Application Form</h1>
+              <p className="text-md text-gray-600">Complete the following steps to apply for our 8-week remote internship.</p>
           </div>
           <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
             <ProgressIndicator currentStep={currentStep} totalSteps={totalSteps} />

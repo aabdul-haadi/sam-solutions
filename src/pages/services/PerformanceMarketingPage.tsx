@@ -452,99 +452,75 @@ const PerformanceMarketingPage: React.FC<PerformanceMarketingPageProps> = ({ set
   const closeModal = () => setSelectedProject(null);
 
   return (
-<div className="min-h-screen bg-white">      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=1920"
-            alt="Performance Marketing"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/80"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-transparent"></div>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section - Compacted with reduced text size and height */}
+      <section className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden pt-28">
+  <div className="absolute inset-0">
+    <img
+      src="https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      alt="Performance Marketing"
+      className="w-full h-full object-cover"
+      loading="lazy"
+    />
+    <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/80"></div>
+    <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-transparent"></div>
+  </div>
+  <div className="absolute top-1/4 left-1/4 animate-float">
+    <Target className="w-10 h-10 text-yellow-400/30" />
+  </div>
+  <div className="absolute top-1/3 right-1/4 animate-pulse">
+    <BarChart2 className="w-8 h-8 text-yellow-400/20" />
+  </div>
+  <div className="absolute bottom-1/3 left-1/3 animate-bounce">
+    <Rocket className="w-10 h-10 text-yellow-400/25" />
+  </div>
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="max-w-6xl mx-auto text-center text-white">
+      <div className="animate-fade-in-up">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+          <span className="text-white">Maximize ROI,</span>
+          <br />
+          <span className="text-yellow-400">Drive Conversions,</span>
+          <br />
+          <span className="text-white">and Scale Growth</span>
+        </h1>
+      </div>
+      <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+        <p className="text-sm sm:text-base md:text-lg text-gray-200 mb-6 max-w-3xl mx-auto leading-relaxed">
+          Struggling with <span className="text-yellow-400 font-semibold">low conversions</span> and wasted ad spend? Our performance marketing strategies optimize your campaigns, target the right audience, and turn clicks into customers.
+        </p>
+      </div>
+      <div
+        className="animate-fade-in-up grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-6"
+        style={{ animationDelay: '0.4s' }}
+      >
+        <div className="text-center">
+          <div className="text-xl sm:text-2xl font-bold text-yellow-400 mb-1">3x</div>
+          <p className="text-gray-300 text-xs">Conversion Rates</p>
         </div>
-        <div className="absolute top-1/4 left-1/4 animate-float">
-          <Target className="w-16 h-16 text-yellow-400/30" />
+        <div className="text-center">
+          <div className="text-xl sm:text-2xl font-bold text-yellow-400 mb-1">70%</div>
+          <p className="text-gray-300 text-xs">CTR Increase</p>
         </div>
-        <div className="absolute top-1/3 right-1/4 animate-pulse">
-          <BarChart2 className="w-12 h-12 text-yellow-400/20" />
+        <div className="text-center">
+          <div className="text-xl sm:text-2xl font-bold text-yellow-400 mb-1">30%</div>
+          <p className="text-gray-300 text-xs">ROI Improvement</p>
         </div>
-        <div className="absolute bottom-1/3 left-1/3 animate-bounce">
-          <Rocket className="w-14 h-14 text-yellow-400/25" />
+        <div className="text-center">
+          <div className="text-xl sm:text-2xl font-bold text-yellow-400 mb-1">40%</div>
+          <p className="text-gray-300 text-xs">Higher ROI</p>
         </div>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <button
-            onClick={handleBackToHome}
-            className="absolute top-8 left-4 flex items-center text-white/80 hover:text-yellow-400 transition-colors group"
-            aria-label="Back to Home"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
-            Back to Home
-          </button>
-          <div className="max-w-6xl mx-auto text-center text-white">
-            <div className="animate-fade-in-up">
-              <div className="inline-flex items-center space-x-2 bg-yellow-400/20 backdrop-blur-sm px-6 py-3 rounded-full mb-8">
-                <Target className="w-6 h-6 text-yellow-400" />
-                <span className="text-yellow-400 font-semibold text-lg">PERFORMANCE MARKETING</span>
-              </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-8 leading-tight">
-                <span className="text-white">Maximize ROI,</span>
-                <br />
-                <span className="text-yellow-400">Drive Conversions,</span>
-                <br />
-                <span className="text-white">and Scale Growth</span>
-              </h1>
-            </div>
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-200 mb-12 max-w-4xl mx-auto leading-relaxed">
-                Struggling with <span className="text-yellow-400 font-semibold">low conversions</span> and wasted ad spend? Our performance marketing strategies optimize your campaigns, target the right audience, and turn clicks into customers.
-              </p>
-            </div>
-            <div
-              className="animate-fade-in-up grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mb-12"
-              style={{ animationDelay: '0.4s' }}
-            >
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">3x</div>
-                <p className="text-gray-300 text-sm sm:text-base">Conversion Rates</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">70%</div>
-                <p className="text-gray-300 text-sm sm:text-base">CTR Increase</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">30%</div>
-                <p className="text-gray-300 text-sm sm:text-base">ROI Improvement</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-yellow-400 mb-2">40%</div>
-                <p className="text-gray-300 text-sm sm:text-base">Higher ROI</p>
-              </div>
-            </div>
-            <div
-              className="animate-fade-in-up flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center"
-              style={{ animationDelay: '0.6s' }}
-            >
-              <button
-                onClick={() => setCurrentPage?.('contact')}
-                className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:shadow-2xl hover:shadow-yellow-400/40 transition-all duration-300 transform hover:scale-105 flex items-center space-x-3"
-                aria-label="Start Your Campaign"
-              >
-                <Rocket className="w-5 sm:w-6 h-5 sm:h-6" />
-                <span>Start Your Campaign</span>
-              </button>
-              <button
-                onClick={() => setCurrentPage?.('portfolio')}
-                className="border-3 border-yellow-400 text-yellow-400 px-8 sm:px-10 py-4 sm:py-5 rounded-full font-bold text-lg sm:text-xl hover:bg-yellow-400 hover:text-black transition-all duration-300 flex items-center space-x-3"
-                aria-label="View Portfolio"
-              >
-                <Eye className="w-5 sm:w-6 h-5 sm:h-6" />
-                <span>View Portfolio</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
+      <div
+        className="animate-fade-in-up flex flex-col sm:flex-row gap-4 justify-center"
+        style={{ animationDelay: '0.6s' }}
+      >
+      
+       
+      </div>
+    </div>
+  </div>
+</section>
       <section className="py-16 sm:py-20 bg-gradient-to-br from-white via-gray-100 to-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(0,0,0,0.1),transparent_50%)]"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -607,7 +583,6 @@ const PerformanceMarketingPage: React.FC<PerformanceMarketingPageProps> = ({ set
           <div className="text-center mb-12 sm:mb-16 lg:mb-20">
             <div className="inline-flex items-center space-x-2 bg-white px-4 sm:px-6 py-2 sm:py-3 rounded-full mb-6 sm:mb-8 shadow-lg">
               <Target className="w-5 sm:w-6 h-5 sm:h-6 text-green-600" />
-              <span className="text-green-600 font-bold text-base sm:text-lg">MARKETING SOLUTIONS</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 sm:mb-8">
               Now Imagine Having Campaigns That <span className="text-yellow-600">Truly Work for You</span>
