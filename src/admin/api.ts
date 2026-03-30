@@ -23,3 +23,14 @@ export const updateApplicationStatus = async (id: number, status: string): Promi
         throw new Error(error.message);
     }
 };
+
+export const deleteApplication = async (id: number): Promise<void> => {
+    const { error } = await supabase
+        .from('internship_applications')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+};

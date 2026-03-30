@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import LoadingScreen from './components/LoadingScreen';
-import ConsultationPopup from './components/ConsultationPopup';
 import CookieConsent from './components/CookieConsent';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -48,17 +47,21 @@ function App() {
 }
 
 const MainLayout = () => {
-  const [isConsultationOpen, setIsConsultationOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleConsultationClick = () => {
+    navigate('/contact');
+  };
 
   return (
     <div className="min-h-screen bg-white text-black overflow-x-hidden">
-      <Header openConsultation={() => setIsConsultationOpen(true)} />
+      <Header openConsultation={handleConsultationClick} />
       <Routes>
         <Route
           path="/"
           element={
             <>
-              <Hero openConsultation={() => setIsConsultationOpen(true)} />
+              <Hero openConsultation={handleConsultationClick} />
               <Services />
               <AIServices />
               <InnovationShowcase />
@@ -90,7 +93,6 @@ const MainLayout = () => {
         <Route path="/blog/mobile-first-design" element={<MobileFirstDesign />} />
       </Routes>
       <Footer />
-      <ConsultationPopup isOpen={isConsultationOpen} onClose={() => setIsConsultationOpen(false)} />
       <CookieConsent />
     </div>
   );

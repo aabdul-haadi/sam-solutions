@@ -148,6 +148,7 @@ const InternshipPage: React.FC = () => {
                 yearOfStudy: formData.yearOfStudy,
                 fieldOfInterest: formData.fieldOfInterest,
                 cv_url: cvUrl,
+                status: 'Pending', // Add this line
             };
 
             const { error: insertError } = await supabase.from('internship_applications').insert([submissionData]);
@@ -157,7 +158,7 @@ const InternshipPage: React.FC = () => {
             setTimeout(() => navigate('/'), 3000);
         } catch (error: any) {
             console.error('Submission Error:', error);
-            setSubmissionError(`Submission failed. Please try again or email your CV to careers@sam-solutions.com.`);
+            setSubmissionError(`Submission failed. Please try again or email your CV to info@sam-solutions.com.`);
         }
 
         setIsSubmitting(false);
@@ -215,7 +216,7 @@ const InternshipPage: React.FC = () => {
                         </div>
                         {submissionError && (
                             <div className="mt-4 text-center text-red-600 bg-red-50 p-3 rounded-lg">
-                                <p>{submissionError.split(' or ')[0]} or <a href="mailto:careers@sam-solutions.com" className="font-semibold underline">{submissionError.split(' or ')[1]}</a></p>
+                                <p>{submissionError.split(' or ')[0]} or <a href="mailto:info@samcreative-solutions.com" className="font-semibold underline">{submissionError.split(' or ')[1]}</a></p>
                             </div>
                         )}
                     </form>
