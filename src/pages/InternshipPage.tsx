@@ -92,6 +92,22 @@ const InternshipPage: React.FC = () => {
                 y += 7;
             });
         }
+        
+        // Add footer to all pages
+        const pageCount = (doc as any).internal.getNumberOfPages();
+        doc.setFontSize(10);
+        doc.setTextColor(128, 128, 128);
+        for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            const pageHeight = doc.internal.pageSize.height;
+            const pageWidth = doc.internal.pageSize.width;
+            
+            // Footer Text spanning 3 columns
+            doc.text("LinkedIn: in/sam-creative", 14, pageHeight - 10);
+            doc.text("Web: samcreative-solutions.com", pageWidth / 2, pageHeight - 10, { align: "center" });
+            doc.text("Email: info@samcreative-solutions.com", pageWidth - 14, pageHeight - 10, { align: "right" });
+        }
+
         return doc;
     };
 
@@ -158,7 +174,11 @@ const InternshipPage: React.FC = () => {
             setTimeout(() => navigate('/'), 3000);
         } catch (error: any) {
             console.error('Submission Error:', error);
-            setSubmissionError(`Submission failed. Please try again or email your CV to info@sam-solutions.com.`);
+            if (error.code === '23505') {
+                 setSubmissionError("You have already submitted an application with this Email or Phone number.");
+            } else {
+                 setSubmissionError(`Submission failed. Please try again or email your CV to info@sam-solutions.com.`);
+            }
         }
 
         setIsSubmitting(false);
@@ -233,16 +253,16 @@ const InternshipPage: React.FC = () => {
 const Step1 = ({ formData, errors, onChange }: any) => (
     <div className="space-y-4">
         <h3 className="text-xl font-bold text-gray-800">Personal Information</h3>
-        <FormInput name="name" label="Full Name" value={formData.name} onChange={onChange} error={errors.name} placeholder="e.g., John Doe" />
-        <FormInput name="email" label="Email Address" type="email" value={formData.email} onChange={onChange} error={errors.email} placeholder="e.g., john.doe@example.com" />
-        <FormInput name="phone" label="Phone Number" type="tel" value={formData.phone} onChange={onChange} error={errors.phone} placeholder="e.g., +1 234 567 890" />
+        <FormInput name="name" label="Full Name" value={formData.name} onChange={onChange} error={errors.name} placeholder="e.g., Ali Ahmed" />
+        <FormInput name="email" label="Email Address" type="email" value={formData.email} onChange={onChange} error={errors.email} placeholder="e.g., ali.ahmed@example.com" />
+        <FormInput name="phone" label="Phone Number" type="tel" value={formData.phone} onChange={onChange} error={errors.phone} placeholder="e.g., +92 300 1234567" />
     </div>
 );
 
 const Step2 = ({ formData, errors, onChange }: any) => (
     <div className="space-y-4">
         <h3 className="text-xl font-bold text-gray-800">Academics & Interests</h3>
-        <FormInput name="university" label="University" value={formData.university} onChange={onChange} error={errors.university} placeholder="e.g., Stanford University" />
+        <FormInput name="university" label="University" value={formData.university} onChange={onChange} error={errors.university} placeholder="e.g., FAST-NUCES or NUST" />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <FormSelect name="yearOfStudy" label="Year of Study" value={formData.yearOfStudy} onChange={onChange} error={errors.yearOfStudy} options={[
                 { value: '1', label: '1st Year' }, { value: '2', label: '2nd Year' }, { value: '3', label: '3rd Year' }, { value: '4', label: '4th Year' }, { value: 'graduate', label: 'Graduate' }

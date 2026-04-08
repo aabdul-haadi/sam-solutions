@@ -15,19 +15,22 @@ const AdminPage: React.FC = () => {
     }, [isAuthenticated, location.pathname, navigate]);
 
     const handleLogin = (password: string) => {
-        if (password === '#$1234#admin') {
-            sessionStorage.setItem('isAuthenticated', 'true');
-            setIsAuthenticated(true);
-            navigate('/admin/dashboard');
-        } else {
-            throw new Error('Incorrect password');
-        }
+        // Validation already performed by LoginPage component via backend call
+        sessionStorage.setItem('isAuthenticated', 'true');
+        setIsAuthenticated(true);
+        navigate('/admin/dashboard');
+    };
+
+    const handleLogout = () => {
+        sessionStorage.removeItem('isAuthenticated');
+        setIsAuthenticated(false);
+        navigate('/admin/login');
     };
 
     return (
         <Routes>
             <Route path="login" element={<LoginPage onLogin={handleLogin} />} />
-            <Route path="dashboard" element={isAuthenticated ? <Dashboard /> : null} />
+            <Route path="dashboard" element={isAuthenticated ? <Dashboard onLogout={handleLogout} /> : null} />
         </Routes>
     );
 };

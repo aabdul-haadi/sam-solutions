@@ -7,11 +7,15 @@ import 'react-quill/dist/quill.snow.css'; // import styles
 interface OfferLetterProps {
     application: Application | null;
     onClose: () => void;
+    onStatusUpdate?: (id: number, status: string) => void;
 }
 
-const OfferLetter: React.FC<OfferLetterProps> = ({ application, onClose }) => {
+const OfferLetter: React.FC<OfferLetterProps> = ({ application, onClose, onStatusUpdate }) => {
     const [hiringManager, setHiringManager] = useState('SAM CREATIVE SOLUTIONS');
     const [letterContent, setLetterContent] = useState('');
+    const [emailSubject, setEmailSubject] = useState('Internship Offer - SAM Creative Solutions');
+    const [emailBody, setEmailBody] = useState('');
+    const [isSending, setIsSending] = useState(false);
     const letterPreviewRef = useRef<HTMLDivElement>(null);
 
     const companyName = "SAM CREATIVE SOLUTIONS";
@@ -33,14 +37,48 @@ const OfferLetter: React.FC<OfferLetterProps> = ({ application, onClose }) => {
                 <p><strong>${hiringManager}</strong></p>
             `;
             setLetterContent(template);
+            setEmailBody(`Dear ${application.name},\n\nCongratulations! We are thrilled to offer you an internship at ${companyName}. Please find your official offer letter attached.\n\nBest regards,\nThe ${companyName} Team`);
         }
     }, [application, hiringManager]);
 
     if (!application) return null;
 
-    const handleDownload = () => {
-        if (letterPreviewRef.current) {
-            generatePdfFromElement(letterPreviewRef.current, application.name);
+    const handleDownload = async () => {
+        if (letterPreviewRef.current && application) {
+            await generatePdfFromElement(letterPreviewRef.current, application.name);
+        }
+    };
+
+    const handleSendEmail = async () => {
+        if (!application || !letterPreviewRef.current) return;
+        setIsSending(true);
+        try {
+            const blob = await generatePdfFromElement(letterPreviewRef.current);
+            const formData = new FormData();
+            formData.append('to', application.email);
+            formData.append('subject', emailSubject);
+            formData.append('body', emailBody);
+            formData.append('attachment', blob, `${application.name}_Offer_Letter.pdf`);
+
+            const response = await fetch('http://localhost:3001/api/send-email', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            if (result.success) {
+                if (onStatusUpdate) {
+                    onStatusUpdate(application.id, 'Offer Sent');
+                }
+                alert('Email sent securely to ' + application.email);
+                onClose();
+            } else {
+                alert('Backend Error: ' + result.error);
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Failed to connect to backend server. Make sure you run `npm run serve`.');
+        } finally {
+            setIsSending(false);
         }
     };
 
@@ -67,6 +105,19 @@ const OfferLetter: React.FC<OfferLetterProps> = ({ application, onClose }) => {
                                 placeholder="e.g., Jane Doe, HR Manager"
                             />
                         </div>
+
+                        <div className="mb-6 bg-blue-50 p-4 rounded-md border border-blue-100">
+                            <h4 className="text-sm font-bold text-blue-800 mb-3">Email Configuration</h4>
+                            <div className="mb-3">
+                                <label className="block text-xs font-semibold text-gray-700 mb-1">Subject</label>
+                                <input type="text" value={emailSubject} onChange={e => setEmailSubject(e.target.value)} className="w-full px-3 py-2 text-sm border border-gray-300 rounded outline-none focus:border-indigo-500"/>
+                            </div>
+                            <div>
+                                <label className="block text-xs font-semibold text-gray-700 mb-1">Email Body (Plain Text)</label>
+                                <textarea value={emailBody} onChange={e => setEmailBody(e.target.value)} rows={4} className="w-full px-3 py-2 text-sm border border-gray-300 rounded outline-none focus:border-indigo-500" />
+                                <p className="text-xs text-gray-500 mt-1">The PDF visible on the right will automatically be attached to this email.</p>
+                            </div>
+                        </div>
                         <div>
                              <h4 className="text-md font-semibold text-gray-800 mb-2">Letter Content</h4>
                              <ReactQuill 
@@ -90,12 +141,19 @@ const OfferLetter: React.FC<OfferLetterProps> = ({ application, onClose }) => {
                     </div>
                 </div>
 
-                <div className="flex-shrink-0 px-6 py-4 border-t border-gray-200 flex justify-end">
+                <div className="flex-shrink-0 px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
                     <button
                         onClick={handleDownload}
-                        className="px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
+                        className="px-6 py-2.5 bg-gray-600 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all"
                     >
                         Download PDF
+                    </button>
+                    <button
+                        onClick={handleSendEmail}
+                        disabled={isSending}
+                        className={`px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none transition-all ${isSending ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    >
+                        {isSending ? 'Securely Sending...' : 'Direct Send Email'}
                     </button>
                 </div>
             </div>

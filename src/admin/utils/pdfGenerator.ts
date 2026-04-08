@@ -1,7 +1,7 @@
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-export const generatePdfFromElement = async (element: HTMLElement, applicantName: string) => {
+export const generatePdfFromElement = async (element: HTMLElement, applicantName?: string): Promise<Blob> => {
     const canvas = await html2canvas(element, {
         scale: 2, // Higher scale for better quality
         useCORS: true,
@@ -41,5 +41,8 @@ export const generatePdfFromElement = async (element: HTMLElement, applicantName
     const marginY = (pdfHeight - finalCanvasHeight) / 2;
 
     pdf.addImage(imgData, 'PNG', marginX, marginY, finalCanvasWidth, finalCanvasHeight);
-    pdf.save(`${applicantName}_Offer_Letter.pdf`);
+    if (applicantName) {
+        pdf.save(`${applicantName}_Offer_Letter.pdf`);
+    }
+    return pdf.output('blob');
 };

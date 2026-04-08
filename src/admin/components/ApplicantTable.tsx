@@ -43,6 +43,7 @@ const ApplicantTable: React.FC<ApplicantTableProps> = ({ applications, onStatusC
     const renderStatusBadge = (status: string) => {
         const baseClasses = "px-2 py-1 text-xs font-semibold rounded-full";
         if (status === 'Approved') return `${baseClasses} bg-green-100 text-green-800`;
+        if (status === 'Offer Sent') return `${baseClasses} bg-purple-100 text-purple-800`;
         if (status === 'Rejected') return `${baseClasses} bg-red-100 text-red-800`;
         return `${baseClasses} bg-yellow-100 text-yellow-800`;
     };
@@ -72,6 +73,7 @@ const ApplicantTable: React.FC<ApplicantTableProps> = ({ applications, onStatusC
                             </div>
                             <p className="text-sm text-gray-600 mt-1">{app.university}</p>
                             <p className="text-sm text-gray-500 mt-1">{app.fieldOfInterest}</p>
+                            <p className="text-sm font-medium text-gray-700 mt-1">{app.phone || 'N/A'}</p>
                         </div>
                         <div className="mt-4 pt-4 border-t border-gray-200">
                              <div className="mb-4">
@@ -80,8 +82,9 @@ const ApplicantTable: React.FC<ApplicantTableProps> = ({ applications, onStatusC
                                     onChange={(e) => onStatusChange(app.id, e.target.value)}
                                     className="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md shadow-sm"
                                 >
-                                    <option>Pending</option>
+                                     <option>Pending</option>
                                     <option>Approved</option>
+                                    <option>Offer Sent</option>
                                     <option>Rejected</option>
                                 </select>
                             </div>
@@ -107,6 +110,7 @@ const ApplicantTable: React.FC<ApplicantTableProps> = ({ applications, onStatusC
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">University</th>
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Field of Interest</th>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             <th scope="col" className="relative px-6 py-3">
                                 <span className="sr-only">Actions</span>
@@ -122,14 +126,16 @@ const ApplicantTable: React.FC<ApplicantTableProps> = ({ applications, onStatusC
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{app.university}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{app.fieldOfInterest}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-medium">{app.phone || 'N/A'}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <select
                                         value={app.status}
                                         onChange={(e) => onStatusChange(app.id, e.target.value)}
                                         className="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md shadow-sm"
                                     >
-                                        <option>Pending</option>
+                                         <option>Pending</option>
                                         <option>Approved</option>
+                                        <option>Offer Sent</option>
                                         <option>Rejected</option>
                                     </select>
                                 </td>
@@ -197,7 +203,7 @@ const ApplicantTable: React.FC<ApplicantTableProps> = ({ applications, onStatusC
             )}
 
             <ApplicantDetailsModal application={selectedApplication} onClose={() => setSelectedApplication(null)} />
-            <OfferLetter application={showOfferLetter} onClose={() => setShowOfferLetter(null)} />
+            <OfferLetter application={showOfferLetter} onClose={() => setShowOfferLetter(null)} onStatusUpdate={onStatusChange} />
         </>
     );
 };

@@ -23,13 +23,29 @@ const AdminPage: React.FC = () => {
   const [sort, setSort] = useState('applicationDate');
   const [search, setSearch] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === 'adminadmin' && password === 'admin123admin') {
-      setIsLoggedIn(true);
-      setError('');
-    } else {
-      setError('Invalid username or password');
+    setError('');
+    
+    try {
+      const response = await fetch('http://localhost:3001/api/admin-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsLoggedIn(true);
+        setError('');
+      } else {
+        setError(data.error || 'Invalid username or password');
+      }
+    } catch (err) {
+      setError('Failed to connect to authentication server');
     }
   };
 

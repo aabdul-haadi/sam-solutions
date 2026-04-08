@@ -5,19 +5,32 @@ const LoginPage = ({ onLogin }: { onLogin: (password: string) => void }) => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
-    setTimeout(() => {
-      if (password === '#$1234#admin') {
+    try {
+      const response = await fetch('http://localhost:3001/api/admin-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
         onLogin(password);
       } else {
-        setError('Incorrect password');
+        setError(data.error || 'Incorrect password');
       }
+    } catch (err) {
+      setError('Failed to connect to authentication server');
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (

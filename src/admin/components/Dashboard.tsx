@@ -3,8 +3,13 @@ import AdminLayout from './AdminLayout';
 import ApplicantTable from './ApplicantTable';
 import { fetchApplications, updateApplicationStatus, deleteApplication } from '../api';
 import { Application } from '../types';
+import { supabase } from '../../supabaseClient';
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+    onLogout?: () => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     const [applications, setApplications] = useState<Application[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -26,6 +31,23 @@ const Dashboard: React.FC = () => {
         };
 
         loadApplications();
+
+        const subscription = supabase
+            .channel('internship_applications_changes')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'internship_applications' }, payload => {
+                if (payload.eventType === 'INSERT') {
+                    setApplications(prev => [payload.new as Application, ...prev]);
+                } else if (payload.eventType === 'UPDATE') {
+                    setApplications(prev => prev.map(app => app.id === payload.new.id ? payload.new as Application : app));
+                } else if (payload.eventType === 'DELETE') {
+                    setApplications(prev => prev.filter(app => app.id !== payload.old.id));
+                }
+            })
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(subscription);
+        };
     }, []);
 
     const handleStatusChange = async (id: number, status: string) => {
@@ -68,6 +90,7 @@ const Dashboard: React.FC = () => {
             All: applications.length,
             Pending: applications.filter(app => app.status === 'Pending').length,
             Approved: applications.filter(app => app.status === 'Approved').length,
+            'Offer Sent': applications.filter(app => app.status === 'Offer Sent').length,
             Rejected: applications.filter(app => app.status === 'Rejected').length,
         };
     }, [applications]);
@@ -76,8 +99,19 @@ const Dashboard: React.FC = () => {
         <AdminLayout>
             <div>
                 <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
                         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+                        {onLogout && (
+                            <button
+                                onClick={onLogout}
+                                className="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors shadow-md flex items-center gap-2"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                                Logout
+                            </button>
+                        )}
                     </div>
                 </header>
 
