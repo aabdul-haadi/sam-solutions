@@ -1,14 +1,267 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Check, Zap, Crown, MessageCircle, ExternalLink, Code, ShoppingCart, Layers, Palette, Video, Bot, ChevronDown, ChevronUp, Play, Users, Award } from 'lucide-react';
+import { Check, Zap, MessageCircle, ExternalLink, Code, ShoppingCart, Layers, Palette, Video, Bot, ChevronDown, ChevronUp, Play, Users, Award } from 'lucide-react';
 
 interface PricingPageProps {
   setCurrentPage?: (page: string) => void;
 }
 
+// Centralized pricing data for easy maintenance and updates
+const pricingData = {
+  'web-development': {
+    basic: { price: 560, originalPrice: 799 },
+    premium: { price: 999, originalPrice: 1299 }
+  },
+  'ecommerce': {
+    basic: { price: 560, originalPrice: 799 },
+    premium: { price: 999, originalPrice: 1299 }
+  },
+  'saas': {
+    basic: { price: 560, originalPrice: 799 },
+    premium: { price: 999, originalPrice: 1299 }
+  },
+  'ai-solutions': {
+    basic: { price: 560, originalPrice: 799 },
+    premium: { price: 999, originalPrice: 1299 }
+  },
+  'design': {
+    basic: { price: 560, originalPrice: 799 },
+    premium: { price: 999, originalPrice: 1299 }
+  },
+  'animation': {
+    basic: { price: 560, originalPrice: 799 },
+    premium: { price: 999, originalPrice: 1299 }
+  }
+};
+
+const services = [
+  {
+    id: 'web-development',
+    title: 'Web Dev',
+    fullTitle: 'AI Web Development',
+    icon: <Code className="w-6 h-6 sm:w-8 sm:h-8" />,
+    description: 'Custom websites and web applications',
+    packages: {
+      basic: {
+        name: 'Starter Website',
+        duration: '2-3 weeks',
+        features: [
+          'Up to 5 pages',
+          'Responsive design',
+          'Basic SEO optimization',
+          'Contact form',
+          'Social media integration',
+          '90 days support'
+        ],
+        extras: ['SSL Certificate', 'Google Analytics Setup']
+      },
+      premium: {
+        name: 'Professional Website',
+        duration: '3-5 weeks',
+        features: [
+          'Up to 15 pages',
+          'Custom design & animations',
+          'Advanced SEO',
+          'Content management system',
+          'E-commerce functionality',
+          '90 days support'
+        ],
+        extras: ['Advanced Analytics', 'Email Marketing Setup']
+      }
+    }
+  },
+  {
+    id: 'ecommerce',
+    title: 'E-commerce',
+    fullTitle: 'E-commerce Solutions',
+    icon: <ShoppingCart className="w-6 h-6 sm:w-8 sm:h-8" />,
+    description: 'Online stores with payment integration',
+    packages: {
+      basic: {
+        name: 'Starter Store',
+        duration: '3-4 weeks',
+        features: [
+          'Up to 50 products',
+          'Payment integration',
+          'Inventory management',
+          'Order tracking',
+          'Customer accounts',
+          '60 days support'
+        ],
+        extras: ['Payment Gateway Setup', 'Product Upload']
+      },
+      premium: {
+        name: 'Enterprise Store',
+        duration: '5-8 weeks',
+        features: [
+          'Unlimited products',
+          'Multiple payment gateways',
+          'Advanced inventory',
+          'Multi-vendor support',
+          'Advanced analytics',
+          '120 days support'
+        ],
+        extras: ['Advanced Marketing Tools', 'Multi-vendor Setup']
+      }
+    }
+  },
+  {
+    id: 'saas',
+    title: 'SaaS Apps',
+    fullTitle: 'SaaS Applications',
+    icon: <Layers className="w-6 h-6 sm:w-8 sm:h-8" />,
+    description: 'Scalable software solutions',
+    packages: {
+      basic: {
+        name: 'MVP Application',
+        duration: '6-8 weeks',
+        features: [
+          'Core functionality',
+          'User authentication',
+          'Basic dashboard',
+          'Database setup',
+          'API development',
+          '90 days support'
+        ],
+        extras: ['API Documentation', 'User Training']
+      },
+      premium: {
+        name: 'Enterprise SaaS',
+        duration: '10-16 weeks',
+        features: [
+          'Full feature set',
+          'Advanced user management',
+          'Analytics dashboard',
+          'Third-party integrations',
+          'Advanced security',
+          '180 days support'
+        ],
+        extras: ['Advanced Security', 'Custom Integrations']
+      }
+    }
+  },
+  {
+    id: 'ai-solutions',
+    title: 'AI Solutions',
+    fullTitle: 'AI Solutions',
+    icon: <Bot className="w-6 h-6 sm:w-8 sm:h-8" />,
+    description: 'Custom AI integrations',
+    packages: {
+      basic: {
+        name: 'AI Chatbot',
+        duration: '3-5 weeks',
+        features: [
+          'Custom chatbot',
+          'Website integration',
+          'Basic NLP',
+          'FAQ automation',
+          'Lead capture',
+          '60 days support'
+        ],
+        extras: ['Custom Training Data', 'Analytics Setup']
+      },
+      premium: {
+        name: 'AI Automation Suite',
+        duration: '8-12 weeks',
+        features: [
+          'Advanced AI workflows',
+          'Multi-platform',
+          'Custom AI models',
+          'Process automation',
+          'Predictive analytics',
+          '120 days support'
+        ],
+        extras: ['Advanced AI Models', 'Process Automation']
+      }
+    }
+  },
+  {
+    id: 'design',
+    title: 'Design',
+    fullTitle: 'Graphic Design',
+    icon: <Palette className="w-6 h-6 sm:w-8 sm:h-8" />,
+    description: 'Visual identity & brand',
+    packages: {
+      basic: {
+        name: 'Brand Essentials',
+        duration: '1-2 weeks',
+        features: [
+          'Logo design',
+          'Business card',
+          'Social templates',
+          'Brand palette',
+          'High-res files',
+          '30 days support'
+        ],
+        extras: ['Brand Guidelines', 'Social Media Kit']
+      },
+      premium: {
+        name: 'Complete Brand',
+        duration: '2-4 weeks',
+        features: [
+          'Logo + concepts',
+          'Complete stationery',
+          'Brand guidelines',
+          'Marketing materials',
+          'Website graphics',
+          '60 days support'
+        ],
+        extras: ['Brand Strategy', 'Marketing Materials']
+      }
+    }
+  },
+  {
+    id: 'animation',
+    title: 'Animation',
+    fullTitle: '2D/3D Animation',
+    icon: <Video className="w-6 h-6 sm:w-8 sm:h-8" />,
+    description: 'Engaging animations',
+    packages: {
+      basic: {
+        name: 'Basic Animation',
+        duration: '2-3 weeks',
+        features: [
+          '30-second animation',
+          '2D motion graphics',
+          'Basic character',
+          'Background music',
+          'HD quality',
+          '30 days support'
+        ],
+        extras: ['Storyboard', 'Custom Music']
+      },
+      premium: {
+        name: 'Pro Animation',
+        duration: '4-6 weeks',
+        features: [
+          '60-second animation',
+          '3D motion graphics',
+          'Advanced rigging',
+          'Custom soundtrack',
+          '4K quality',
+          '60 days support'
+        ],
+        extras: ['3D Modeling', 'Advanced Effects']
+      }
+    }
+  }
+];
+
 const PricingPage: React.FC<PricingPageProps> = ({ setCurrentPage }) => {
   const [activeCategory, setActiveCategory] = useState('web-development');
   const [expandedPlan, setExpandedPlan] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+
+  // Helper function to get price with discount
+  const getPackagePrice = (serviceId: string, packageType: 'basic' | 'premium') => {
+    const data = pricingData[serviceId as keyof typeof pricingData];
+    if (!data) return { price: 0, originalPrice: 0, discount: 0 };
+    const { price, originalPrice } = data[packageType];
+    const discount = Math.round(((originalPrice - price) / originalPrice) * 100);
+    return { price, originalPrice, discount };
+  };
+
+  // Format price as USD
+  const formatPrice = (price: number) => `$${price.toLocaleString()}`;
 
   // Detect mobile
   useEffect(() => {
@@ -17,12 +270,6 @@ const PricingPage: React.FC<PricingPageProps> = ({ setCurrentPage }) => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  const handleBackToHome = () => {
-    if (setCurrentPage) {
-      setCurrentPage('home');
-    }
-  };
 
   const handleContactUs = () => {
     window.open('https://wa.me/923138372573', '_blank');
@@ -33,243 +280,6 @@ const PricingPage: React.FC<PricingPageProps> = ({ setCurrentPage }) => {
       setCurrentPage('blog');
     }
   };
-
-  const services = [
-    {
-      id: 'web-development',
-      title: 'Web Dev',
-      fullTitle: 'Web Development',
-      icon: <Code className="w-6 h-6 sm:w-8 sm:h-8" />,
-      description: 'Custom websites and web applications',
-      packages: {
-        basic: {
-          name: 'Starter Website',
-          price: '$1,299',
-          originalPrice: '$1,699',
-          duration: '2-3 weeks',
-          features: [
-            'Up to 5 pages',
-            'Responsive design',
-            'Basic SEO optimization',
-            'Contact form',
-            'Social media integration',
-            '30 days support'
-          ],
-          extras: ['SSL Certificate', 'Google Analytics Setup']
-        },
-        premium: {
-          name: 'Professional Website',
-          price: '$2,999',
-          originalPrice: '$3,699',
-          duration: '3-5 weeks',
-          features: [
-            'Up to 15 pages',
-            'Custom design & animations',
-            'Advanced SEO',
-            'Content management system',
-            'E-commerce functionality',
-            '90 days support'
-          ],
-          extras: ['Advanced Analytics', 'Email Marketing Setup']
-        }
-      }
-    },
-    {
-      id: 'ecommerce',
-      title: 'E-commerce',
-      fullTitle: 'E-commerce Solutions',
-      icon: <ShoppingCart className="w-6 h-6 sm:w-8 sm:h-8" />,
-      description: 'Online stores with payment integration',
-      packages: {
-        basic: {
-          name: 'Starter Store',
-          price: '$1,899',
-          originalPrice: '$2,399',
-          duration: '3-4 weeks',
-          features: [
-            'Up to 50 products',
-            'Payment integration',
-            'Inventory management',
-            'Order tracking',
-            'Customer accounts',
-            '60 days support'
-          ],
-          extras: ['Payment Gateway Setup', 'Product Upload']
-        },
-        premium: {
-          name: 'Enterprise Store',
-          price: '$4,999',
-          originalPrice: '$6,199',
-          duration: '5-8 weeks',
-          features: [
-            'Unlimited products',
-            'Multiple payment gateways',
-            'Advanced inventory',
-            'Multi-vendor support',
-            'Advanced analytics',
-            '120 days support'
-          ],
-          extras: ['Advanced Marketing Tools', 'Multi-vendor Setup']
-        }
-      }
-    },
-    {
-      id: 'saas',
-      title: 'SaaS Apps',
-      fullTitle: 'SaaS Applications',
-      icon: <Layers className="w-6 h-6 sm:w-8 sm:h-8" />,
-      description: 'Scalable software solutions',
-      packages: {
-        basic: {
-          name: 'MVP Application',
-          price: '$4,999',
-          originalPrice: '$6,999',
-          duration: '6-8 weeks',
-          features: [
-            'Core functionality',
-            'User authentication',
-            'Basic dashboard',
-            'Database setup',
-            'API development',
-            '90 days support'
-          ],
-          extras: ['API Documentation', 'User Training']
-        },
-        premium: {
-          name: 'Enterprise SaaS',
-          price: '$12,999',
-          originalPrice: '$16,999',
-          duration: '10-16 weeks',
-          features: [
-            'Full feature set',
-            'Advanced user management',
-            'Analytics dashboard',
-            'Third-party integrations',
-            'Advanced security',
-            '180 days support'
-          ],
-          extras: ['Advanced Security', 'Custom Integrations']
-        }
-      }
-    },
-    {
-      id: 'ai-solutions',
-      title: 'AI Solutions',
-      fullTitle: 'AI Solutions',
-      icon: <Bot className="w-6 h-6 sm:w-8 sm:h-8" />,
-      description: 'Custom AI integrations',
-      packages: {
-        basic: {
-          name: 'AI Chatbot',
-          price: '$1,999',
-          originalPrice: '$2,699',
-          duration: '3-5 weeks',
-          features: [
-            'Custom chatbot',
-            'Website integration',
-            'Basic NLP',
-            'FAQ automation',
-            'Lead capture',
-            '60 days support'
-          ],
-          extras: ['Custom Training Data', 'Analytics Setup']
-        },
-        premium: {
-          name: 'AI Automation Suite',
-          price: '$7,999',
-          originalPrice: '$10,999',
-          duration: '8-12 weeks',
-          features: [
-            'Advanced AI workflows',
-            'Multi-platform',
-            'Custom AI models',
-            'Process automation',
-            'Predictive analytics',
-            '120 days support'
-          ],
-          extras: ['Advanced AI Models', 'Process Automation']
-        }
-      }
-    },
-    {
-      id: 'design',
-      title: 'Design',
-      fullTitle: 'Graphic Design',
-      icon: <Palette className="w-6 h-6 sm:w-8 sm:h-8" />,
-      description: 'Visual identity & brand',
-      packages: {
-        basic: {
-          name: 'Brand Essentials',
-          price: '$599',
-          originalPrice: '$799',
-          duration: '1-2 weeks',
-          features: [
-            'Logo design',
-            'Business card',
-            'Social templates',
-            'Brand palette',
-            'High-res files',
-            '30 days support'
-          ],
-          extras: ['Brand Guidelines', 'Social Media Kit']
-        },
-        premium: {
-          name: 'Complete Brand',
-          price: '$1,299',
-          originalPrice: '$1,699',
-          duration: '2-4 weeks',
-          features: [
-            'Logo + concepts',
-            'Complete stationery',
-            'Brand guidelines',
-            'Marketing materials',
-            'Website graphics',
-            '60 days support'
-          ],
-          extras: ['Brand Strategy', 'Marketing Materials']
-        }
-      }
-    },
-    {
-      id: 'animation',
-      title: 'Animation',
-      fullTitle: '2D/3D Animation',
-      icon: <Video className="w-6 h-6 sm:w-8 sm:h-8" />,
-      description: 'Engaging animations',
-      packages: {
-        basic: {
-          name: 'Basic Animation',
-          price: '$999',
-          originalPrice: '$1,299',
-          duration: '2-3 weeks',
-          features: [
-            '30-second animation',
-            '2D motion graphics',
-            'Basic character',
-            'Background music',
-            'HD quality',
-            '30 days support'
-          ],
-          extras: ['Storyboard', 'Custom Music']
-        },
-        premium: {
-          name: 'Pro Animation',
-          price: '$2,999',
-          originalPrice: '$3,999',
-          duration: '4-6 weeks',
-          features: [
-            '60-second animation',
-            '3D motion graphics',
-            'Advanced rigging',
-            'Custom soundtrack',
-            '4K quality',
-            '60 days support'
-          ],
-          extras: ['3D Modeling', 'Advanced Effects']
-        }
-      }
-    }
-  ];
 
   const currentService = services.find(s => s.id === activeCategory);
 
@@ -330,32 +340,19 @@ const PricingPage: React.FC<PricingPageProps> = ({ setCurrentPage }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-white to-yellow-100">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white py-12 sm:py-16 md:py-20 relative overflow-hidden">
+      <section className="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white pt-24 pb-12 sm:pt-28 sm:pb-14 md:pt-28 md:pb-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(242,195,75,0.1),transparent_50%)]"></div>
         
         <div className="container mx-auto px-3 sm:px-4 relative z-10">
-          <button 
-            onClick={handleBackToHome}
-            className="flex items-center text-gray-300 hover:text-white transition-colors mb-6 sm:mb-8 text-sm sm:text-base group"
-          >
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
-            Back to Home
-          </button>
-          
           <div className="max-w-4xl mx-auto text-center">
-            <div className="flex items-center justify-center space-x-3 sm:space-x-4 mb-4 sm:mb-6">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center">
-                <Crown className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
-              </div>
-              <div className="text-left">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-1 sm:mb-2">Flexible Pricing</h1>
-                <p className="text-yellow-400 text-base sm:text-lg md:text-xl font-medium">Tailored for Your Needs</p>
-              </div>
+            <div className="mb-6 sm:mb-7">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-3">
+                Affordable <span className="text-yellow-400">Pricing</span>
+              </h1>
+              <p className="text-sm sm:text-base md:text-lg text-white/90 leading-relaxed max-w-2xl mx-auto px-2 sm:px-0">
+                Quality solutions at budget-friendly prices. Save up to 70% on development costs.
+              </p>
             </div>
-            
-            <p className="text-sm sm:text-base md:text-lg text-white/90 mb-6 sm:mb-8 leading-relaxed max-w-3xl mx-auto px-2 sm:px-0">
-              Transparent, competitive pricing with no hidden fees. Choose the perfect package for your project.
-            </p>
           </div>
         </div>
       </section>
@@ -392,235 +389,237 @@ const PricingPage: React.FC<PricingPageProps> = ({ setCurrentPage }) => {
       <div className="container mx-auto px-3 sm:px-4 py-10 sm:py-12 md:py-16">
         <div className="max-w-7xl mx-auto">
           {/* Service Selector */}
-         <div className="mb-10 sm:mb-12 md:mb-16">
-  <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-6 sm:mb-8">
-    Choose Your Service
-  </h2>
+          <div className="mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-6 sm:mb-8">
+              Choose Your Service
+            </h2>
 
-  <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
-    {services.map((service) => (
-      <button
-        key={service.id}
-        onClick={() => setActiveCategory(service.id)}
-        className={`p-3 sm:p-4 md:p-6 rounded-lg sm:rounded-xl font-medium transition-all duration-300 
-          flex flex-col items-center justify-center group
-          ${activeCategory === service.id
-            ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black shadow-xl transform scale-105'
-            : 'bg-white text-gray-700 shadow-md hover:shadow-lg hover:scale-105 border border-gray-100'
-          }`}
-        title={service.fullTitle}
-      >
-        {/* Icon - Perfectly Centered */}
-        <div className="mb-3 sm:mb-4 flex items-center justify-center">
-          <div className={`transition-colors duration-300 ${
-            activeCategory === service.id 
-              ? 'text-black' 
-              : 'text-yellow-600 group-hover:text-yellow-700'
-          }`}>
-            {service.icon}
+            <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
+              {services.map((service) => (
+                <button
+                  key={service.id}
+                  onClick={() => setActiveCategory(service.id)}
+                  className={`p-3 sm:p-4 md:p-6 rounded-lg sm:rounded-xl font-medium transition-all duration-300 
+                    flex flex-col items-center justify-center group
+                    ${activeCategory === service.id
+                      ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-black shadow-xl transform scale-105'
+                      : 'bg-white text-gray-700 shadow-md hover:shadow-lg hover:scale-105 border border-gray-100'
+                    }`}
+                  title={service.fullTitle}
+                >
+                  <div className="mb-3 sm:mb-4 flex items-center justify-center">
+                    <div className={`transition-colors duration-300 ${
+                      activeCategory === service.id 
+                        ? 'text-black' 
+                        : 'text-yellow-600 group-hover:text-yellow-700'
+                    }`}>
+                      {service.icon}
+                    </div>
+                  </div>
+                  <div className="text-center font-semibold text-xs sm:text-sm leading-tight">
+                    {isMobile ? service.title : service.fullTitle.split(' ')[0]}
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-
-        {/* Title - Centered Text */}
-        <div className="text-center font-semibold text-xs sm:text-sm leading-tight">
-          {isMobile ? service.title : service.fullTitle.split(' ')[0]}
-        </div>
-      </button>
-    ))}
-  </div>
-</div>
 
           {/* Pricing Cards */}
-          {currentService && (
-            <div className="mb-12 sm:mb-16 md:mb-20">
-              <div className="text-center mb-8 sm:mb-10 md:mb-12">
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">{currentService.fullTitle}</h3>
-                <p className="text-sm sm:text-base md:text-lg text-gray-600">{currentService.description}</p>
-              </div>
+          {currentService && (() => {
+            const basicPrice = getPackagePrice(currentService.id, 'basic');
+            const premiumPrice = getPackagePrice(currentService.id, 'premium');
+            
+            return (
+              <div className="mb-12 sm:mb-16 md:mb-20">
+                <div className="text-center mb-8 sm:mb-10 md:mb-12">
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">{currentService.fullTitle}</h3>
+                  <p className="text-sm sm:text-base md:text-lg text-gray-600">{currentService.description}</p>
+                </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
-                {/* Basic Package */}
-                <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 p-5 sm:p-6 md:p-8 relative hover:shadow-xl transition-all duration-300">
-                  <div className="text-center mb-6 sm:mb-8">
-                    <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2">{currentService.packages.basic.name}</h4>
-                    <div className="mb-3 sm:mb-4">
-                      <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">{currentService.packages.basic.price}</span>
-                      <span className="text-sm sm:text-base md:text-lg text-gray-500 line-through ml-2">{currentService.packages.basic.originalPrice}</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+                  {/* Basic Package */}
+                  <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 p-5 sm:p-6 md:p-8 relative hover:shadow-xl transition-all duration-300">
+                    <div className="text-center mb-6 sm:mb-8">
+                      <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2">{currentService.packages.basic.name}</h4>
+                      <div className="mb-3 sm:mb-4">
+                        <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">{formatPrice(basicPrice.price)}</span>
+                        <span className="text-sm sm:text-base md:text-lg text-gray-500 line-through ml-2">{formatPrice(basicPrice.originalPrice)}</span>
+                      </div>
+                      <div className="bg-green-100 text-green-800 px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium inline-block mb-2">
+                        🔥 Save {basicPrice.discount}%
+                      </div>
+                      <div className="text-gray-600 text-xs sm:text-sm">{currentService.packages.basic.duration}</div>
                     </div>
-                    <div className="bg-yellow-100 text-yellow-800 px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium inline-block mb-2">
-                      Save {Math.round((1 - parseInt(currentService.packages.basic.price.replace('$', '').replace(',', '')) / parseInt(currentService.packages.basic.originalPrice.replace('$', '').replace(',', ''))) * 100)}%
-                    </div>
-                    <div className="text-gray-600 text-xs sm:text-sm">{currentService.packages.basic.duration}</div>
+                    
+                    <ul className="space-y-2 sm:space-y-3 md:space-y-4 mb-6 sm:mb-8">
+                      {currentService.packages.basic.features.map((feature, index) => (
+                        <li key={index} className="flex items-start space-x-2 sm:space-x-3">
+                          <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                          <span className="text-gray-700 text-sm sm:text-base">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <button
+                      onClick={() => setExpandedPlan(expandedPlan === 'basic' ? null : 'basic')}
+                      className="w-full mb-3 sm:mb-4 flex items-center justify-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors text-sm sm:text-base"
+                    >
+                      <span>View Details</span>
+                      {expandedPlan === 'basic' ? <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4" /> : <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />}
+                    </button>
+
+                    {expandedPlan === 'basic' && (
+                      <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-50 rounded-lg">
+                        <h5 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Additional Services:</h5>
+                        <ul className="space-y-1 text-xs sm:text-sm text-gray-600">
+                          {currentService.packages.basic.extras.map((extra, index) => (
+                            <li key={index}>• {extra}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    
+                    <button
+                      onClick={handleContactUs}
+                      className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                    >
+                      <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+                      <span>Get Started</span>
+                      <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
+                    </button>
                   </div>
-                  
-                  <ul className="space-y-2 sm:space-y-3 md:space-y-4 mb-6 sm:mb-8">
-                    {currentService.packages.basic.features.map((feature, index) => (
-                      <li key={index} className="flex items-start space-x-2 sm:space-x-3">
+
+                  {/* Premium Package */}
+                  <div className="bg-gradient-to-br from-gray-900 to-black rounded-xl sm:rounded-2xl shadow-xl p-5 sm:p-6 md:p-8 relative md:transform md:scale-105 hover:shadow-2xl transition-all duration-300 order-first md:order-none">
+                    <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
+                      <div className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-4 py-1 sm:px-5 sm:py-1 md:px-6 md:py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap">
+                        BEST VALUE
+                      </div>
+                    </div>
+                    
+                    <div className="text-center mb-6 sm:mb-8">
+                      <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2">{currentService.packages.premium.name}</h4>
+                      <div className="mb-3 sm:mb-4">
+                        <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">{formatPrice(premiumPrice.price)}</span>
+                        <span className="text-sm sm:text-base md:text-lg text-gray-400 line-through ml-2">{formatPrice(premiumPrice.originalPrice)}</span>
+                      </div>
+                      <div className="bg-yellow-400 text-black px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium inline-block mb-2">
+                        🎯 Save {premiumPrice.discount}%
+                      </div>
+                      <div className="text-gray-300 text-xs sm:text-sm">{currentService.packages.premium.duration}</div>
+                    </div>
+                    
+                    <ul className="space-y-2 sm:space-y-3 md:space-y-4 mb-6 sm:mb-8">
+                      {currentService.packages.premium.features.map((feature, index) => (
+                        <li key={index} className="flex items-start space-x-2 sm:space-x-3">
+                          <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                          <span className="text-white text-sm sm:text-base">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <button
+                      onClick={() => setExpandedPlan(expandedPlan === 'premium' ? null : 'premium')}
+                      className="w-full mb-3 sm:mb-4 flex items-center justify-center space-x-2 text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
+                    >
+                      <span>View Details</span>
+                      {expandedPlan === 'premium' ? <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4" /> : <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />}
+                    </button>
+
+                    {expandedPlan === 'premium' && (
+                      <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-800 rounded-lg">
+                        <h5 className="font-semibold text-white mb-2 text-sm sm:text-base">Additional Services:</h5>
+                        <ul className="space-y-1 text-xs sm:text-sm text-gray-300">
+                          {currentService.packages.premium.extras.map((extra, index) => (
+                            <li key={index}>• {extra}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    
+                    <button
+                      onClick={handleContactUs}
+                      className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                    >
+                      <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+                      <span>Get Started</span>
+                      <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
+                    </button>
+                  </div>
+
+                  {/* Custom Package */}
+                  <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 p-5 sm:p-6 md:p-8 relative hover:shadow-xl transition-all duration-300">
+                    <div className="text-center mb-6 sm:mb-8">
+                      <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2">Custom Solution</h4>
+                      <div className="mb-3 sm:mb-4">
+                        <span className="text-xl sm:text-2xl md:text-2xl font-bold text-gray-900">Let's Discuss</span>
+                      </div>
+                      <div className="bg-yellow-100 text-yellow-800 px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium inline-block mb-2">
+                        Tailored for You
+                      </div>
+                      <div className="text-gray-600 text-xs sm:text-sm">Timeline varies</div>
+                    </div>
+                    
+                    <ul className="space-y-2 sm:space-y-3 md:space-y-4 mb-6 sm:mb-8">
+                      <li className="flex items-start space-x-2 sm:space-x-3">
                         <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-700 text-sm sm:text-base">{feature}</span>
+                        <span className="text-gray-700 text-sm sm:text-base">Fully customized solution</span>
                       </li>
-                    ))}
-                  </ul>
-
-                  <button
-                    onClick={() => setExpandedPlan(expandedPlan === 'basic' ? null : 'basic')}
-                    className="w-full mb-3 sm:mb-4 flex items-center justify-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors text-sm sm:text-base"
-                  >
-                    <span>View Details</span>
-                    {expandedPlan === 'basic' ? <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4" /> : <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />}
-                  </button>
-
-                  {expandedPlan === 'basic' && (
-                    <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-50 rounded-lg">
-                      <h5 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Additional Services:</h5>
-                      <ul className="space-y-1 text-xs sm:text-sm text-gray-600">
-                        {currentService.packages.basic.extras.map((extra, index) => (
-                          <li key={index}>• {extra}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  
-                  <button
-                    onClick={handleContactUs}
-                    className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
-                  >
-                    <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span>Get Started</span>
-                    <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
-                  </button>
-                </div>
-
-                {/* Premium Package */}
-                <div className="bg-gradient-to-br from-gray-900 to-black rounded-xl sm:rounded-2xl shadow-xl p-5 sm:p-6 md:p-8 relative md:transform md:scale-105 hover:shadow-2xl transition-all duration-300 order-first md:order-none">
-                  <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-4 py-1 sm:px-5 sm:py-1 md:px-6 md:py-2 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap">
-                      MOST POPULAR
-                    </div>
-                  </div>
-                  
-                  <div className="text-center mb-6 sm:mb-8">
-                    <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2">{currentService.packages.premium.name}</h4>
-                    <div className="mb-3 sm:mb-4">
-                      <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">{currentService.packages.premium.price}</span>
-                      <span className="text-sm sm:text-base md:text-lg text-gray-400 line-through ml-2">{currentService.packages.premium.originalPrice}</span>
-                    </div>
-                    <div className="bg-yellow-400 text-black px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium inline-block mb-2">
-                      Save {Math.round((1 - parseInt(currentService.packages.premium.price.replace('$', '').replace(',', '')) / parseInt(currentService.packages.premium.originalPrice.replace('$', '').replace(',', ''))) * 100)}%
-                    </div>
-                    <div className="text-gray-300 text-xs sm:text-sm">{currentService.packages.premium.duration}</div>
-                  </div>
-                  
-                  <ul className="space-y-2 sm:space-y-3 md:space-y-4 mb-6 sm:mb-8">
-                    {currentService.packages.premium.features.map((feature, index) => (
-                      <li key={index} className="flex items-start space-x-2 sm:space-x-3">
-                        <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-white text-sm sm:text-base">{feature}</span>
+                      <li className="flex items-start space-x-2 sm:space-x-3">
+                        <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                        <span className="text-gray-700 text-sm sm:text-base">Unlimited features</span>
                       </li>
-                    ))}
-                  </ul>
+                      <li className="flex items-start space-x-2 sm:space-x-3">
+                        <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                        <span className="text-gray-700 text-sm sm:text-base">Priority support</span>
+                      </li>
+                      <li className="flex items-start space-x-2 sm:space-x-3">
+                        <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                        <span className="text-gray-700 text-sm sm:text-base">Dedicated manager</span>
+                      </li>
+                      <li className="flex items-start space-x-2 sm:space-x-3">
+                        <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                        <span className="text-gray-700 text-sm sm:text-base">Extended warranty</span>
+                      </li>
+                      <li className="flex items-start space-x-2 sm:space-x-3">
+                        <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                        <span className="text-gray-700 text-sm sm:text-base">Ongoing maintenance</span>
+                      </li>
+                    </ul>
 
-                  <button
-                    onClick={() => setExpandedPlan(expandedPlan === 'premium' ? null : 'premium')}
-                    className="w-full mb-3 sm:mb-4 flex items-center justify-center space-x-2 text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
-                  >
-                    <span>View Details</span>
-                    {expandedPlan === 'premium' ? <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4" /> : <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />}
-                  </button>
+                    <button
+                      onClick={() => setExpandedPlan(expandedPlan === 'custom' ? null : 'custom')}
+                      className="w-full mb-3 sm:mb-4 flex items-center justify-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors text-sm sm:text-base"
+                    >
+                      <span>View Details</span>
+                      {expandedPlan === 'custom' ? <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4" /> : <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />}
+                    </button>
 
-                  {expandedPlan === 'premium' && (
-                    <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-800 rounded-lg">
-                      <h5 className="font-semibold text-white mb-2 text-sm sm:text-base">Additional Services:</h5>
-                      <ul className="space-y-1 text-xs sm:text-sm text-gray-300">
-                        {currentService.packages.premium.extras.map((extra, index) => (
-                          <li key={index}>• {extra}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  
-                  <button
-                    onClick={handleContactUs}
-                    className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
-                  >
-                    <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span>Get Started</span>
-                    <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
-                  </button>
-                </div>
-
-                {/* Custom Package */}
-                <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 p-5 sm:p-6 md:p-8 relative hover:shadow-xl transition-all duration-300">
-                  <div className="text-center mb-6 sm:mb-8">
-                    <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2">Custom Solution</h4>
-                    <div className="mb-3 sm:mb-4">
-                      <span className="text-xl sm:text-2xl md:text-2xl font-bold text-gray-900">Let's Discuss</span>
-                    </div>
-                    <div className="bg-yellow-100 text-yellow-800 px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium inline-block mb-2">
-                      Tailored for You
-                    </div>
-                    <div className="text-gray-600 text-xs sm:text-sm">Timeline varies</div>
+                    {expandedPlan === 'custom' && (
+                      <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-50 rounded-lg">
+                        <h5 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">What's Included:</h5>
+                        <ul className="space-y-1 text-xs sm:text-sm text-gray-600">
+                          <li>• Detailed requirements analysis</li>
+                          <li>• Custom architecture design</li>
+                          <li>• Unlimited revisions</li>
+                          <li>• White-glove service</li>
+                        </ul>
+                      </div>
+                    )}
+                    
+                    <button
+                      onClick={handleContactUs}
+                      className="w-full bg-black text-yellow-400 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:bg-gray-900 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 border-2 border-yellow-400"
+                    >
+                      <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+                      <span>Contact Us</span>
+                      <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
+                    </button>
                   </div>
-                  
-                  <ul className="space-y-2 sm:space-y-3 md:space-y-4 mb-6 sm:mb-8">
-                    <li className="flex items-start space-x-2 sm:space-x-3">
-                      <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 text-sm sm:text-base">Fully customized solution</span>
-                    </li>
-                    <li className="flex items-start space-x-2 sm:space-x-3">
-                      <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 text-sm sm:text-base">Unlimited features</span>
-                    </li>
-                    <li className="flex items-start space-x-2 sm:space-x-3">
-                      <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 text-sm sm:text-base">Priority support</span>
-                    </li>
-                    <li className="flex items-start space-x-2 sm:space-x-3">
-                      <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 text-sm sm:text-base">Dedicated manager</span>
-                    </li>
-                    <li className="flex items-start space-x-2 sm:space-x-3">
-                      <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 text-sm sm:text-base">Extended warranty</span>
-                    </li>
-                    <li className="flex items-start space-x-2 sm:space-x-3">
-                      <Check className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 text-sm sm:text-base">Ongoing maintenance</span>
-                    </li>
-                  </ul>
-
-                  <button
-                    onClick={() => setExpandedPlan(expandedPlan === 'custom' ? null : 'custom')}
-                    className="w-full mb-3 sm:mb-4 flex items-center justify-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors text-sm sm:text-base"
-                  >
-                    <span>View Details</span>
-                    {expandedPlan === 'custom' ? <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4" /> : <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />}
-                  </button>
-
-                  {expandedPlan === 'custom' && (
-                    <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-50 rounded-lg">
-                      <h5 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">What's Included:</h5>
-                      <ul className="space-y-1 text-xs sm:text-sm text-gray-600">
-                        <li>• Detailed requirements analysis</li>
-                        <li>• Custom architecture design</li>
-                        <li>• Unlimited revisions</li>
-                        <li>• White-glove service</li>
-                      </ul>
-                    </div>
-                  )}
-                  
-                  <button
-                    onClick={handleContactUs}
-                    className="w-full bg-black text-yellow-400 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:bg-gray-900 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2 border-2 border-yellow-400"
-                  >
-                    <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span>Contact Us</span>
-                    <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
-                  </button>
                 </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
 
           {/* From Our Blog Section */}
           <section className="mb-10 sm:mb-12 md:mb-16">

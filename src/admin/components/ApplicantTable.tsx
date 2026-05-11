@@ -41,21 +41,58 @@ const ApplicantTable: React.FC<ApplicantTableProps> = ({ applications, onStatusC
     };
 
     const renderStatusBadge = (status: string) => {
-        const baseClasses = "px-2 py-1 text-xs font-semibold rounded-full";
-        if (status === 'Approved') return `${baseClasses} bg-green-100 text-green-800`;
-        if (status === 'Offer Sent') return `${baseClasses} bg-purple-100 text-purple-800`;
-        if (status === 'Rejected') return `${baseClasses} bg-red-100 text-red-800`;
-        return `${baseClasses} bg-yellow-100 text-yellow-800`;
+        const baseClasses = "inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full";
+        if (status === 'Approved') return (
+            <span className={`${baseClasses} bg-gradient-to-r from-green-400 to-green-500 text-white shadow-sm`}>
+                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                Approved
+            </span>
+        );
+        if (status === 'Offer Sent') return (
+            <span className={`${baseClasses} bg-gradient-to-r from-purple-400 to-purple-500 text-white shadow-sm`}>
+                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
+                Offer Sent
+            </span>
+        );
+        if (status === 'Rejected') return (
+            <span className={`${baseClasses} bg-gradient-to-r from-red-400 to-red-500 text-white shadow-sm`}>
+                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+                Rejected
+            </span>
+        );
+        return (
+            <span className={`${baseClasses} bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-sm`}>
+                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                </svg>
+                Pending
+            </span>
+        );
     };
 
     if (applications.length === 0) {
         return (
-            <div className="text-center py-12 px-4 bg-white shadow-lg rounded-xl">
-                <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path vectorEffect="non-scaling-stroke" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2z" />
-                </svg>
-                <h3 className="mt-2 text-sm font-medium text-gray-900">No applications found</h3>
-                <p className="mt-1 text-sm text-gray-500">No applications match the current filter.</p>
+            <div className="text-center py-16 px-6 bg-gradient-to-br from-gray-50 to-gray-100 shadow-xl rounded-2xl border border-gray-200">
+                <div className="mx-auto w-24 h-24 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center mb-6">
+                    <svg className="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path vectorEffect="non-scaling-stroke" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">No applications found</h3>
+                <p className="text-lg text-gray-600 mb-6">No applications match the current filter criteria.</p>
+                <div className="inline-flex items-center px-4 py-2 bg-white rounded-lg shadow-md border border-gray-200">
+                    <svg className="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span className="text-sm text-gray-600">Try adjusting your filters</span>
+                </div>
             </div>
         );
     }
@@ -63,95 +100,183 @@ const ApplicantTable: React.FC<ApplicantTableProps> = ({ applications, onStatusC
     return (
         <>
             {/* Mobile and Tablet Card View */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:hidden gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:hidden gap-6">
                 {applications.map(app => (
-                    <div key={app.id} className="bg-white shadow-lg rounded-xl p-4 flex flex-col justify-between">
-                        <div>
-                            <div className="flex justify-between items-start">
-                                <h3 className="text-lg font-bold text-gray-900">{app.name}</h3>
-                                <span className={renderStatusBadge(app.status)}>{app.status}</span>
+                    <div key={app.id} className="bg-white shadow-xl rounded-2xl p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div className="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 className="text-xl font-bold text-gray-900 mb-1">{app.name}</h3>
+                                <p className="text-sm text-gray-600">{app.email}</p>
                             </div>
-                            <p className="text-sm text-gray-600 mt-1">{app.university}</p>
-                            <p className="text-sm text-gray-500 mt-1">{app.fieldOfInterest}</p>
-                            <p className="text-sm font-medium text-gray-700 mt-1">{app.phone || 'N/A'}</p>
+                            {renderStatusBadge(app.status)}
                         </div>
-                        <div className="mt-4 pt-4 border-t border-gray-200">
-                             <div className="mb-4">
-                                 <select
-                                    value={app.status}
-                                    onChange={(e) => onStatusChange(app.id, e.target.value)}
-                                    className="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md shadow-sm"
-                                >
-                                     <option>Pending</option>
-                                    <option>Approved</option>
-                                    <option>Offer Sent</option>
-                                    <option>Rejected</option>
-                                </select>
+                        <div className="space-y-2 mb-4">
+                            <div className="flex items-center text-sm text-gray-600">
+                                <svg className="w-4 h-4 mr-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.84L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.84l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+                                </svg>
+                                {app.university}
                             </div>
-                            <div className="flex justify-end space-x-2">
-                                <button onClick={() => setSelectedApplication(app)} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-all text-sm">View</button>
-                                <button onClick={() => handleSendEmail(app.email, app.name, app.status)} className="px-3 py-1 bg-green-100 text-green-600 rounded-md hover:bg-green-200 transition-all text-sm">Email</button>
-                                {app.status === 'Approved' && (
-                                    <button onClick={() => setShowOfferLetter(app)} className="px-3 py-1 bg-blue-100 text-blue-600 rounded-md hover:bg-blue-200 transition-all text-sm">Offer</button>
-                                )}
-                                <button onClick={() => handleDelete(app)} className="px-3 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200 transition-all text-sm">Delete</button>
-
+                            <div className="flex items-center text-sm text-gray-600">
+                                <svg className="w-4 h-4 mr-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                                </svg>
+                                {app.fieldOfInterest}
                             </div>
+                            <div className="flex items-center text-sm text-gray-600">
+                                <svg className="w-4 h-4 mr-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                                </svg>
+                                {app.phone || 'N/A'}
+                            </div>
+                        </div>
+                        <div className="mb-4">
+                            <select
+                                value={app.status}
+                                onChange={(e) => onStatusChange(app.id, e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm"
+                            >
+                                <option>Pending</option>
+                                <option>Approved</option>
+                                <option>Offer Sent</option>
+                                <option>Rejected</option>
+                            </select>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                            <button onClick={() => setSelectedApplication(app)} className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                View
+                            </button>
+                            <button onClick={() => handleSendEmail(app.email, app.name, app.status)} className="flex-1 px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                Email
+                            </button>
+                            {app.status === 'Approved' && (
+                                <button onClick={() => setShowOfferLetter(app)} className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                    <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Offer
+                                </button>
+                            )}
+                            <button onClick={() => handleDelete(app)} className="flex-1 px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                <svg className="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                                Delete
+                            </button>
                         </div>
                     </div>
                 ))}
             </div>
 
             {/* Desktop Table View */}
-            <div className="hidden lg:block bg-white shadow-xl rounded-xl overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">University</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Field of Interest</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th scope="col" className="relative px-6 py-3">
-                                <span className="sr-only">Actions</span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {applications.map(app => (
-                            <tr key={app.id} className="hover:bg-gray-50 transition-colors">
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm font-medium text-gray-900">{app.name}</div>
-                                    <div className="text-sm text-gray-500">{app.email}</div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{app.university}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{app.fieldOfInterest}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-medium">{app.phone || 'N/A'}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <select
-                                        value={app.status}
-                                        onChange={(e) => onStatusChange(app.id, e.target.value)}
-                                        className="block w-full pl-3 pr-10 py-2 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md shadow-sm"
-                                    >
-                                         <option>Pending</option>
-                                        <option>Approved</option>
-                                        <option>Offer Sent</option>
-                                        <option>Rejected</option>
-                                    </select>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                    <button onClick={() => setSelectedApplication(app)} className="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-md hover:bg-indigo-200 transition-all">View</button>
-                                    <button onClick={() => handleSendEmail(app.email, app.name, app.status)} className="px-3 py-1 bg-green-100 text-green-600 rounded-md hover:bg-green-200 transition-all">Email</button>
-                                    {app.status === 'Approved' && (
-                                        <button onClick={() => setShowOfferLetter(app)} className="px-3 py-1 bg-blue-100 text-blue-600 rounded-md hover:bg-blue-200 transition-all">Offer Letter</button>
-                                    )}
-                                    <button onClick={() => handleDelete(app)} className="px-3 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200 transition-all">Delete</button>
-
-                                </td>
+            <div className="hidden lg:block bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-100">
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200 table-fixed">
+                        <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
+                            <tr>
+                                <th scope="col" className="w-[22%] lg:w-[25%] xl:w-[20%] px-4 lg:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Applicant</th>
+                                <th scope="col" className="w-[20%] lg:w-[20%] xl:w-[18%] px-4 lg:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">University</th>
+                                <th scope="col" className="w-[15%] px-4 lg:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider hidden xl:table-cell">Field</th>
+                                <th scope="col" className="w-[18%] lg:w-[15%] xl:w-[15%] px-4 lg:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider hidden lg:table-cell">Phone</th>
+                                <th scope="col" className="w-[15%] lg:w-[15%] xl:w-[12%] px-4 lg:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                                <th scope="col" className="w-[25%] lg:w-[25%] xl:w-[20%] px-4 lg:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {applications.map(app => (
+                                <tr key={app.id} className="hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200">
+                                    <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
+                                        <div className="flex items-center">
+                                            <div className="flex-shrink-0 h-8 w-8 lg:h-10 lg:w-10">
+                                                <div className="h-8 w-8 lg:h-10 lg:w-10 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
+                                                    <span className="text-xs lg:text-sm font-medium text-white">{app.name.charAt(0).toUpperCase()}</span>
+                                                </div>
+                                            </div>
+                                            <div className="ml-3 lg:ml-4">
+                                                <div className="text-sm font-semibold text-gray-900">{app.name}</div>
+                                                <div className="text-xs lg:text-sm text-gray-500">{app.email}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-xs lg:text-sm text-gray-600">
+                                        <div className="flex items-center">
+                                            <svg className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.84L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.84l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+                                            </svg>
+                                            <span className="truncate">{app.university}</span>
+                                        </div>
+                                    </td>
+                                    <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-xs lg:text-sm text-gray-600 hidden xl:table-cell">
+                                        <div className="flex items-center">
+                                            <svg className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                                            </svg>
+                                            <span className="truncate">{app.fieldOfInterest}</span>
+                                        </div>
+                                    </td>
+                                    <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-xs lg:text-sm text-gray-700 font-medium hidden lg:table-cell">
+                                        <div className="flex items-center">
+                                            <svg className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                                            </svg>
+                                            <span className="truncate">{app.phone || 'N/A'}</span>
+                                        </div>
+                                    </td>
+                                    <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
+                                        <select
+                                            value={app.status}
+                                            onChange={(e) => onStatusChange(app.id, e.target.value)}
+                                            className="block w-full px-2 lg:px-3 py-1 lg:py-2 text-xs lg:text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm"
+                                        >
+                                            <option>Pending</option>
+                                            <option>Approved</option>
+                                            <option>Offer Sent</option>
+                                            <option>Rejected</option>
+                                        </select>
+                                    </td>
+                                    <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-xs lg:text-sm font-medium">
+                                        <div className="flex flex-col lg:flex-row space-y-1 lg:space-y-0 lg:space-x-1">
+                                            <button onClick={() => setSelectedApplication(app)} className="inline-flex items-center justify-center px-2 lg:px-3 py-1 lg:py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs lg:text-sm font-medium rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                                <svg className="w-3 h-3 lg:w-4 lg:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                                View
+                                            </button>
+                                            <button onClick={() => handleSendEmail(app.email, app.name, app.status)} className="inline-flex items-center justify-center px-2 lg:px-3 py-1 lg:py-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-xs lg:text-sm font-medium rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                                <svg className="w-3 h-3 lg:w-4 lg:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                                </svg>
+                                                Email
+                                            </button>
+                                            {app.status === 'Approved' && (
+                                                <button onClick={() => setShowOfferLetter(app)} className="inline-flex items-center justify-center px-2 lg:px-3 py-1 lg:py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white text-xs lg:text-sm font-medium rounded-lg hover:from-purple-600 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                                    <svg className="w-3 h-3 lg:w-4 lg:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                    </svg>
+                                                    Offer
+                                                </button>
+                                            )}
+                                            <button onClick={() => handleDelete(app)} className="inline-flex items-center justify-center px-2 lg:px-3 py-1 lg:py-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs lg:text-sm font-medium rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                                                <svg className="w-3 h-3 lg:w-4 lg:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {showDeleteConfirm && (

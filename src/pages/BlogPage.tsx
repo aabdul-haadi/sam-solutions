@@ -151,13 +151,13 @@ const BlogPage: React.FC<BlogPageProps> = ({ setCurrentPage }) => {
       <section className="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.15),transparent_60%)] opacity-50 pointer-events-none" />
         
-        <div className="pt-20 pb-16 md:pb-20 lg:pb-24">
+        <div className="pt-24 md:pt-28 pb-14 md:pb-16 lg:pb-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-5 leading-tight">
                 Insights & <span className="text-yellow-400">Expertise</span>
               </h1>
-              <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 leading-relaxed max-w-3xl mx-auto">
+              <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-6 leading-relaxed max-w-3xl mx-auto">
                 Stay ahead with the latest trends, insights, and expert knowledge in web development, 
                 AI technology, and digital innovation.
               </p>

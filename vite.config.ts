@@ -20,5 +20,11 @@ export default defineConfig({
     hmr: {
       timeout: 30000, // Increase timeout to 30 seconds
     },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+    },
   },
 });

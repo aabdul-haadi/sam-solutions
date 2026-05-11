@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { OptimizedImage } from './OptimizedImage';
 
 const Hero: React.FC = () => {
+  const navigate = useNavigate();
   const heroImage = (
     <div className="relative flex items-center justify-center mt-8 lg:mt-0">
       <div className="relative w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] rounded-full overflow-hidden shadow-2xl z-10 border-4 md:border-8 border-white">
@@ -52,6 +54,7 @@ const Hero: React.FC = () => {
             
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
               <button
+                onClick={() => navigate('/contact')}
                 className="w-full sm:w-auto relative bg-gray-900 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-gray-800 transition-all duration-300 flex items-center justify-center space-x-2 text-base overflow-hidden group"
               >
                 <div className="absolute top-0 left-0 w-3 h-3 bg-amber-500" style={{ clipPath: 'polygon(0 0, 100% 0, 0 100%)' }}></div>
@@ -60,6 +63,7 @@ const Hero: React.FC = () => {
                 <span className="z-10 font-thin text-lg transition-transform duration-300 group-hover:translate-x-1">→</span>
               </button>
               <button
+                onClick={() => navigate('/contact')}
                 className="w-full sm:w-auto relative bg-amber-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-amber-600 transition-all duration-300 flex items-center justify-center space-x-2 text-base overflow-hidden group"
               >
                 <div className="absolute top-0 left-0 w-3 h-3 bg-gray-900" style={{ clipPath: 'polygon(0 0, 100% 0, 0 100%)' }}></div>

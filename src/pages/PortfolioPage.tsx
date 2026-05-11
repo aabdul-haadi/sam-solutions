@@ -12,7 +12,6 @@ import React, {
   memo,
 } from 'react';
 import {
-  ArrowLeft,
   Eye,
   Filter,
   X,
@@ -249,8 +248,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
   );
 
   // ================== HANDLERS ==================
-  const handleBackToHome = useCallback(() => setCurrentPage?.('home'), [setCurrentPage]);
-
+  
   const openProject = useCallback((project: Project) => {
     setSelectedProject(project);
     setCurrentImageIndex(0);
@@ -341,23 +339,14 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ setCurrentPage }) => {
     <>
       <div className="min-h-screen bg-white">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white pt-24 pb-16 md:py-20 overflow-hidden">
+        <section className="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white pt-24 md:pt-28 pb-12 md:pb-16 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.12),transparent_60%)] pointer-events-none" />
           <div className="container mx-auto px-4 relative z-10">
-            <button
-              onClick={handleBackToHome}
-              className="flex items-center text-gray-300 hover:text-yellow-400 transition-colors mb-8 group text-sm md:text-base"
-              aria-label="Back to home"
-            >
-              <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-              Back to Home
-            </button>
-
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-5 leading-tight">
                 Our <span className="text-yellow-400">Portfolio</span>
               </h1>
-              <p className="text-lg md:text-xl text-gray-300 mb-12 leading-relaxed max-w-3xl mx-auto">
+              <p className="text-base md:text-lg text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
                 Excellence in design, innovation in execution — across industries.
               </p>
 

@@ -14,9 +14,12 @@ CREATE TABLE IF NOT EXISTS public.contact_submissions (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     name text NOT NULL,
     email text NOT NULL,
+    company text,
     phone text,
     service text,
-    comment text NOT NULL
+    budget text,
+    message text NOT NULL,
+    timeline text
 );
 
 -- 2. Create the 'internship_applications' table

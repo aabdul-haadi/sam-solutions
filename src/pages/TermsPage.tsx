@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, FileText, AlertCircle, Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import { FileText, AlertCircle, Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
 
 interface TermsPageProps {
   setCurrentPage?: (page: string) => void;
@@ -51,11 +51,6 @@ const blogPosts = [
 ];
 
 const TermsPage: React.FC<TermsPageProps> = ({ setCurrentPage }) => {
-  const handleBackToHome = () => {
-    if (setCurrentPage) {
-      setCurrentPage('home');
-    }
-  };
 
   // Sort blog posts by date (most recent first)
   const recentPosts = [...blogPosts]
@@ -68,14 +63,6 @@ const TermsPage: React.FC<TermsPageProps> = ({ setCurrentPage }) => {
       <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.1),transparent_50%)]"></div>
         <div className="container mx-auto px-4 py-8 relative z-10">
-          <button 
-            onClick={handleBackToHome}
-            className="flex items-center text-gray-300 hover:text-yellow-400 transition-colors mb-6"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            Back to Home
-          </button>
-          
           <div className="flex items-center space-x-4 mb-6">
             <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
               <FileText className="w-6 h-6 text-yellow-600" />

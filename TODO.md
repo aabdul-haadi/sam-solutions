@@ -1,0 +1,7 @@
+- [x] Revamp `/pricing` hero: remove icon and "Tailored for Your Needs", apply modern responsive hero UI
+- [ ] Reduce pricing values per latest user targets
+- [ ] Fix backend contact submission handling in `server.js`
+- [ ] Add new Supabase migration for contact submissions hardening + keepalive logs table/policies
+- [ ] Add weekly keepalive endpoint/job handler in backend
+- [ ] Update frontend contact form submission UX/error handling in `src/pages/ContactPage.tsx`
+- [ ] Run critical-path verification for contact flow + pricing display

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown, Globe, BarChart, PenTool, Layout, Code, CheckCircle, TrendingUp, Users, Zap } from 'lucide-react';
 
 const Header: React.FC = () => {
@@ -7,12 +8,13 @@ const Header: React.FC = () => {
   const [isMobileServicesMenuOpen, setIsMobileServicesMenuOpen] = useState(false);
   const [activeService, setActiveService] = useState(0);
   const servicesMenuRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const navLinks = [
     { title: 'Home', dropdown: false, href: '/' },
     { title: 'Portfolio', dropdown: false, href: '/portfolio' },
     { title: 'Blog', dropdown: false, href: '/blog' },
-    { title: 'About', dropdown: false, href: '/about' },
+    { title: 'About', dropdown: false, href: '/#about' },
     { title: 'Contact', dropdown: false, href: '/contact' },
     { title: 'Services', dropdown: true, href: '#' },
     { title: 'Pricing', dropdown: false, href: '/pricing' },
@@ -114,31 +116,38 @@ const Header: React.FC = () => {
           <nav className="hidden lg:flex items-center space-x-6">
             {navLinks.map((link, index) => (
                 <div key={index} className="relative">
-                    <a
-                        href={link.href}
-                        className="flex items-center text-gray-700 hover:text-amber-500 transition-colors duration-300 font-medium"
-                        onClick={(e) => {
-                            if (link.dropdown) {
+                    {link.dropdown ? (
+                        <a
+                            href={link.href}
+                            className="flex items-center text-gray-700 hover:text-amber-500 transition-colors duration-300 font-medium"
+                            onClick={(e) => {
                                 e.preventDefault();
                                 setIsServicesMenuOpen(!isServicesMenuOpen);
-                            }
-                        }}
-                    >
-                        {link.title}
-                        {link.dropdown && <ChevronDown className="ml-1 h-4 w-4" />}
-                    </a>
+                            }}
+                        >
+                            {link.title}
+                            <ChevronDown className="ml-1 h-4 w-4" />
+                        </a>
+                    ) : (
+                        <Link
+                            to={link.href}
+                            className="flex items-center text-gray-700 hover:text-amber-500 transition-colors duration-300 font-medium"
+                        >
+                            {link.title}
+                        </Link>
+                    )}
                     {link.dropdown && isServicesMenuOpen && (
                         <div ref={servicesMenuRef} className="absolute top-10 right-0 mt-2 w-[48rem] bg-white rounded-lg shadow-2xl z-20 overflow-hidden">
                            <div className="flex">
                                 <div className="w-2/5 bg-gray-50 p-6">
                                     {servicesLinks.map((service, i) => (
-                                        <a key={i} href={service.href} 
+                                        <Link key={i} to={service.href} 
                                            className={`flex items-center space-x-4 p-4 rounded-lg transition-all duration-300 ${activeService === i ? 'bg-white shadow-md' : 'hover:bg-gray-200'}`}
                                            onMouseEnter={() => setActiveService(i)}
                                         >
                                             <span className={`transition-colors duration-300 ${activeService === i ? 'text-amber-500' : 'text-gray-500'}`}>{service.icon}</span>
                                             <span className="font-medium text-gray-800">{service.title}</span>
-                                        </a>
+                                        </Link>
                                     ))}
                                 </div>
                                 <div key={activeService} className="w-3/5 p-8 flex flex-col justify-center bg-cover bg-center relative text-white animate-fade-in" style={{backgroundImage: `url(${servicesLinks[activeService].image})`}}>
@@ -169,7 +178,7 @@ const Header: React.FC = () => {
                            <div className="bg-gray-50 p-4 border-t border-gray-200">
                                 <div className="flex justify-between items-center">
                                      <p className="text-gray-600 text-sm font-medium">Need a custom solution?</p>
-                                    <button className="bg-amber-500 text-white font-bold py-2 px-5 rounded-full shadow-md hover:bg-amber-600 transition-all duration-300 text-sm">
+                                    <button onClick={() => navigate('/contact')} className="bg-amber-500 text-white font-bold py-2 px-5 rounded-full shadow-md hover:bg-amber-600 transition-all duration-300 text-sm">
                                         Get Free Consultation
                                     </button>
                                 </div>
@@ -182,7 +191,7 @@ const Header: React.FC = () => {
 
           {/* Right Side */}
           <div className="hidden lg:flex items-center space-x-4">
-            <button className="bg-amber-500 text-white font-bold py-3 px-6 rounded-full shadow-md hover:bg-amber-600 transition-all duration-300">
+            <button onClick={() => navigate('/contact')} className="bg-amber-500 text-white font-bold py-3 px-6 rounded-full shadow-md hover:bg-amber-600 transition-all duration-300">
               Get Free Consultation
             </button>
           </div>
@@ -238,40 +247,46 @@ const Header: React.FC = () => {
           <nav className="flex flex-col space-y-2">
             {navLinks.map((link, index) => (
               <div key={index}>
-                <a
-                  href={link.href}
-                  className="flex items-center justify-between text-gray-700 hover:text-amber-500 font-medium py-3 text-lg"
-                  onClick={(e) => {
-                    if (link.dropdown) {
+                {link.dropdown ? (
+                  <a
+                    href={link.href}
+                    className="flex items-center justify-between text-gray-700 hover:text-amber-500 font-medium py-3 text-lg"
+                    onClick={(e) => {
                       e.preventDefault();
                       setIsMobileServicesMenuOpen(!isMobileServicesMenuOpen);
-                    } else {
-                      setIsMenuOpen(false);
-                    }
-                  }}
-                >
-                  <span>{link.title}</span>
-                  {link.dropdown && <ChevronDown className={`h-5 w-5 transition-transform ${isMobileServicesMenuOpen ? 'transform rotate-180' : ''}`} />}
-                </a>
+                    }}
+                  >
+                    <span>{link.title}</span>
+                    <ChevronDown className={`h-5 w-5 transition-transform ${isMobileServicesMenuOpen ? 'transform rotate-180' : ''}`} />
+                  </a>
+                ) : (
+                  <Link
+                    to={link.href}
+                    className="flex items-center justify-between text-gray-700 hover:text-amber-500 font-medium py-3 text-lg"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <span>{link.title}</span>
+                  </Link>
+                )}
                 {link.dropdown && isMobileServicesMenuOpen && (
                   <div className="pl-4 pt-2 pb-2 space-y-2">
                     {servicesLinks.map((service, i) => (
-                      <a 
+                      <Link 
                         key={i} 
-                        href={service.href} 
+                        to={service.href} 
                         className="flex items-center space-x-3 text-gray-600 hover:text-amber-500 py-2"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         <span className="text-amber-500">{service.icon}</span>
                         <span>{service.title}</span>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 )}
               </div>
             ))}
             <div className="border-t pt-6 mt-6">
-                <button className="bg-amber-500 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-amber-600 w-full text-lg">
+                <button onClick={() => { navigate('/contact'); setIsMenuOpen(false); }} className="bg-amber-500 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-amber-600 w-full text-lg">
                   Get Free Consultation
                 </button>
             </div>

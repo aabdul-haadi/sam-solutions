@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Mail, Phone, MapPin, Send, CheckCircle, Clock, Users, Award, ChevronDown, AlertCircle, MessageCircle, Calendar, Star, Zap, Shield, Sparkles } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, Clock, Users, Award, ChevronDown, AlertCircle, MessageCircle, Calendar, Star, Zap, Shield, Sparkles } from 'lucide-react';
 
 interface ContactPageProps {
   setCurrentPage?: (page: string) => void;
@@ -36,7 +36,10 @@ const ContactPage: React.FC<ContactPageProps> = ({ setCurrentPage }) => {
     setShowEmailFallback(false);
 
     try {
-      const response = await fetch('/api/submit-form', {
+      const apiBase = (import.meta.env.VITE_API_BASE_URL || '').trim();
+      const submitUrl = apiBase ? `${apiBase}/api/submit-form` : 'http://localhost:3001/api/submit-form';
+
+      const response = await fetch(submitUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -82,8 +85,6 @@ ${formData.message || 'No message provided'}
     );
   };
 
-  const handleBackToHome = () => setCurrentPage?.('home');
-
   const toggleFAQ = (index: number) => {
     setActiveFAQ(activeFAQ === index ? null : index);
   };
@@ -124,30 +125,16 @@ ${formData.message || 'No message provided'}
     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
   </div>
   
-  <div className="pt-20 pb-12 md:pb-16 relative z-10">
+  <div className="pt-24 md:pt-28 pb-10 md:pb-14 relative z-10">
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-      <button
-        onClick={handleBackToHome}
-        className="flex items-center text-gray-300 hover:text-yellow-400 transition-all duration-300 mb-6 md:mb-8 group text-sm md:text-base"
-      >
-        <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
-        Back to Home
-      </button>
-
-      <div className="max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center space-x-2 bg-yellow-400/10 border border-yellow-400/20 rounded-full px-4 py-2 mb-6">
-          <Sparkles className="w-4 h-4 text-yellow-400" />
-          <span className="text-sm text-yellow-400 font-medium">Ready to Transform Your Business</span>
-        </div>
-
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 leading-tight tracking-tight">
+      <div className="max-w-3xl mx-auto text-center">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-4 leading-snug tracking-tight">
           Let's Create <span className="text-yellow-400 relative">
             Magic
             <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></span>
           </span> Together
         </h1>
-        
-        <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 md:mb-10 leading-relaxed max-w-3xl mx-auto">
+        <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-6 md:mb-8 leading-relaxed max-w-2xl mx-auto">
           Share your vision with us. We'll craft a digital solution that exceeds expectations and drives results.
         </p>
 
@@ -181,19 +168,19 @@ ${formData.message || 'No message provided'}
 
 
       {/* MAIN CONTENT WITH ENHANCED DESIGN */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20 -mt-8 relative z-20">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16 -mt-8 relative z-20">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8">
           {/* ENHANCED CONTACT FORM */}
           <div className="lg:col-span-8">
             <div className="bg-gradient-to-br from-white via-white to-gray-50 rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
               {/* FORM HEADER */}
-              <div className="bg-gradient-to-r from-gray-900 to-black p-6 md:p-8">
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Start Your Journey</h2>
-                <p className="text-gray-300">Fill out the form below and we'll craft a custom solution for you</p>
+              <div className="bg-gradient-to-r from-gray-900 to-black p-4 md:p-6">
+                <h2 className="text-xl md:text-2xl font-bold text-white mb-2">Start Your Journey</h2>
+                <p className="text-gray-300 text-sm">Fill out the form below and we'll craft a custom solution for you</p>
               </div>
 
               {/* FORM CONTENT */}
-              <div className="p-6 md:p-8">
+              <div className="p-4 md:p-6">
                 {isSubmitted ? (
                   <div className="text-center py-10 md:py-12">
                     <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 animate-bounce">
@@ -406,19 +393,19 @@ ${formData.message || 'No message provided'}
             </div>
 
             {/* BENEFITS SECTION */}
-            <div className="mt-8 md:mt-12">
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 text-center">Why Partner With Us?</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="mt-6 md:mt-8">
+              <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4 text-center">Why Partner With Us?</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {benefits.map((benefit, i) => (
                   <div
                     key={i}
-                    className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-5 border border-gray-100 hover:border-yellow-300 transition-all duration-300 group hover:shadow-lg"
+                    className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 border border-gray-100 hover:border-yellow-300 transition-all duration-300 group hover:shadow-lg"
                   >
-                    <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <benefit.icon className="w-6 h-6 text-black" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                      <benefit.icon className="w-5 h-5 text-black" />
                     </div>
-                    <h4 className="font-bold text-gray-900 mb-2 text-sm md:text-base">{benefit.title}</h4>
-                    <p className="text-xs md:text-sm text-gray-600">{benefit.desc}</p>
+                    <h4 className="font-bold text-gray-900 mb-1 text-sm">{benefit.title}</h4>
+                    <p className="text-xs text-gray-600">{benefit.desc}</p>
                   </div>
                 ))}
               </div>
@@ -426,25 +413,25 @@ ${formData.message || 'No message provided'}
           </div>
 
           {/* ENHANCED SIDEBAR */}
-          <div className="lg:col-span-4 space-y-6 md:space-y-8">
+          <div className="lg:col-span-4 space-y-4 md:space-y-6">
             {/* QUICK ACTIONS */}
-              <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100">
-                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">Quick Connect</h3>
+              <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-4 md:p-6 shadow-xl border border-gray-100">
+                <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4">Quick Connect</h3>
                 
                 {/* WHATSAPP - UPDATED NUMBER */}
-                <div className="mb-6">
+                <div className="mb-4">
                   <a
                     href="https://wa.me/923138372573"
                     target="_blank"
                     rel="noopener noreferrer"
-                  className="group flex items-center justify-between bg-gradient-to-r from-green-500 to-green-600 text-white rounded-2xl p-5 hover:shadow-lg hover:shadow-green-500/30 transition-all duration-300 transform hover:scale-105"
+                  className="group flex items-center justify-between bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl p-4 hover:shadow-lg hover:shadow-green-500/30 transition-all duration-300 transform hover:scale-105"
                 >
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                      <MessageCircle className="w-6 h-6" />
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                      <MessageCircle className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="font-bold text-lg">WhatsApp</p>
+                      <p className="font-bold text-base">WhatsApp</p>
                       <p className="text-sm opacity-90">Instant Response</p>
                     </div>
                   </div>
@@ -453,11 +440,11 @@ ${formData.message || 'No message provided'}
               </div>
 
               {/* EMAIL */}
-              <div className="mb-6">
-                <div className="group bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-2xl p-5 hover:border-yellow-300 hover:shadow-lg transition-all duration-300">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Mail className="w-6 h-6 text-yellow-600" />
+              <div className="mb-4">
+                <div className="group bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-xl p-4 hover:border-yellow-300 hover:shadow-lg transition-all duration-300">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <Mail className="w-5 h-5 text-yellow-600" />
                     </div>
                     <div className="flex-1">
                       <p className="font-bold text-gray-900">Email Us</p>
@@ -476,10 +463,10 @@ ${formData.message || 'No message provided'}
 
               {/* PHONE */}
               <div>
-                <div className="group bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-2xl p-5 hover:border-yellow-300 hover:shadow-lg transition-all duration-300">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Phone className="w-6 h-6 text-blue-600" />
+                <div className="group bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-xl p-4 hover:border-yellow-300 hover:shadow-lg transition-all duration-300">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <Phone className="w-5 h-5 text-blue-600" />
                     </div>
                     <div className="flex-1">
                       <p className="font-bold text-gray-900">Call Us</p>
@@ -501,13 +488,13 @@ ${formData.message || 'No message provided'}
             </div>
 
             {/* APPOINTMENT */}
-            <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200 rounded-3xl p-6 md:p-8 shadow-lg">
-              <div className="flex items-start space-x-4 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl flex items-center justify-center shadow-lg">
-                  <Calendar className="w-6 h-6 text-black" />
+            <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200 rounded-2xl p-4 md:p-6 shadow-lg">
+              <div className="flex items-start space-x-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center shadow-lg">
+                  <Calendar className="w-5 h-5 text-black" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">Schedule a Call</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-1">Schedule a Call</h3>
                   <p className="text-sm text-gray-700">Book a personalized consultation with our experts</p>
                 </div>
               </div>
@@ -515,33 +502,33 @@ ${formData.message || 'No message provided'}
                 href="https://calendly.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full bg-gradient-to-r from-gray-900 to-black text-white text-center py-3.5 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                className="block w-full bg-gradient-to-r from-gray-900 to-black text-white text-center py-3 rounded-lg font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
                 Book Appointment
               </a>
             </div>
 
             {/* SOCIAL MEDIA */}
-         <div className="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100">
-  <h3 className="text-xl font-bold text-gray-900 mb-6">Follow Our Journey</h3>
-  <div className="grid grid-cols-3 gap-4">
+         <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-4 md:p-6 shadow-xl border border-gray-100">
+  <h3 className="text-lg font-bold text-gray-900 mb-4">Follow Our Journey</h3>
+  <div className="grid grid-cols-3 gap-3">
     <a
       href="https://www.facebook.com/profile.php?id=61570940347368"
-      className="group bg-blue-500 text-white rounded-full w-16 h-16 flex items-center justify-center hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105"
+      className="group bg-blue-500 text-white rounded-full w-14 h-14 flex items-center justify-center hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105"
     >
-      <span className="text-xl font-bold">f</span>
+      <span className="text-lg font-bold">f</span>
     </a>
     <a
       href="https://www.linkedin.com/company/sam-creativesolutions/?viewAsMember=true"
-      className="group bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/30 transition-all duration-300 transform hover:scale-105"
+      className="group bg-blue-600 text-white rounded-full w-14 h-14 flex items-center justify-center hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/30 transition-all duration-300 transform hover:scale-105"
     >
       <span className="text-xl font-bold">in</span>
     </a>
     <a
       href="https://www.instagram.com/samcreative_solutions/"
-      className="group bg-gradient-to-br from-pink-500 to-purple-500 text-white rounded-full w-16 h-16 flex items-center justify-center hover:shadow-lg hover:shadow-pink-500/30 transition-all duration-300 transform hover:scale-105"
+      className="group bg-gradient-to-br from-pink-500 to-purple-500 text-white rounded-full w-14 h-14 flex items-center justify-center hover:shadow-lg hover:shadow-pink-500/30 transition-all duration-300 transform hover:scale-105"
     >
-      <span className="text-xl font-bold">ig</span>
+      <span className="text-lg font-bold">ig</span>
     </a>
   </div>
 </div>
@@ -551,19 +538,19 @@ ${formData.message || 'No message provided'}
       </div>
 
       {/* ENHANCED FAQ SECTION */}
-      <section className="bg-gradient-to-b from-gray-50 to-white py-16 md:py-20">
+      <section className="bg-gradient-to-b from-gray-50 to-white py-12 md:py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">
               Your Questions, <span className="text-yellow-500">Answered</span>
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-base md:text-lg">
+            <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
               Everything you need to know before starting your project
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+            <div className="grid md:grid-cols-2 gap-3 md:gap-4">
               {faqs.map((faq, i) => (
                 <div
                   key={i}
@@ -571,7 +558,7 @@ ${formData.message || 'No message provided'}
                   onClick={() => toggleFAQ(i)}
                 >
                   <div className={`
-                    bg-white rounded-2xl p-6 shadow-lg border transition-all duration-300
+                    bg-white rounded-xl p-4 shadow-lg border transition-all duration-300
                     ${activeFAQ === i 
                       ? 'border-yellow-400 shadow-xl shadow-yellow-400/20' 
                       : 'border-gray-100 hover:border-yellow-300 hover:shadow-xl'
@@ -612,24 +599,24 @@ ${formData.message || 'No message provided'}
           </div>
 
           {/* CTA SECTION */}
-          <div className="mt-16 md:mt-20 text-center">
-            <div className="bg-gradient-to-br from-gray-900 to-black rounded-3xl p-8 md:p-12 max-w-4xl mx-auto relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/10 rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-40 h-40 bg-yellow-400/10 rounded-full translate-y-20 -translate-x-20"></div>
+          <div className="mt-12 md:mt-16 text-center">
+            <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-6 md:p-8 max-w-4xl mx-auto relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-yellow-400/10 rounded-full -translate-y-12 translate-x-12"></div>
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-yellow-400/10 rounded-full translate-y-16 -translate-x-16"></div>
               
               <div className="relative z-10">
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
                   Ready to Start Your Project?
                 </h3>
-                <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+                <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
                   Join 150+ satisfied clients who transformed their business with us
                 </p>
                 <button
                   onClick={() => document.getElementById('name')?.focus()}
-                  className="group bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-8 md:px-12 py-4 md:py-5 rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-yellow-400/40 transition-all duration-300 transform hover:scale-105"
+                  className="group bg-gradient-to-r from-yellow-400 to-yellow-600 text-black px-6 md:px-10 py-3 md:py-4 rounded-full font-bold text-base hover:shadow-2xl hover:shadow-yellow-400/40 transition-all duration-300 transform hover:scale-105"
                 >
                   <span className="flex items-center justify-center space-x-3">
-                    <Sparkles className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
+                    <Sparkles className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
                     <span>Get Started Now</span>
                   </span>
                 </button>
