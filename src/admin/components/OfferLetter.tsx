@@ -3,7 +3,6 @@ import { Application } from '../types';
 import { generatePdfFromElement } from '../utils/pdfGenerator';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // import styles
-import logo from '../../assets/black-icon-sam.webp'; // Assuming the logo is moved/located in src/assets
 
 interface OfferLetterProps {
     application: Application | null;
@@ -134,7 +133,7 @@ const OfferLetter: React.FC<OfferLetterProps> = ({ application, onClose, onStatu
                     <div className="w-2/3 p-8 overflow-y-auto bg-white" >
                         <div ref={letterPreviewRef} className="p-8 border border-gray-200 rounded-md shadow-lg bg-white">
                            <div className="flex items-center mb-12">
-                                <img src={logo} alt="Company Logo" className="h-12 w-12 mr-4"/>
+                                <img src="/black-icon-sam.png" alt="Company Logo" className="h-12 w-12 mr-4"/>
                                 <h1 className="text-2xl font-bold text-gray-800">{companyName}</h1>
                            </div>
                            <div dangerouslySetInnerHTML={{ __html: letterContent }} />

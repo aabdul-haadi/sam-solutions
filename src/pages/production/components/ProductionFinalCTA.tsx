@@ -15,7 +15,7 @@ const ProductionFinalCTA: React.FC = () => {
           </p>
           <p className="mb-8 text-sm text-black/70">No long-term lock-ins. Flexible upgrades as your brand grows.</p>
           <a
-            href="https://wa.me/923138372573?text=Hi%20SAM%20Creative%20Solutions%2C%20I%20want%20to%20start%20a%20monthly%20production%20package."
+            href="https://wa.me/03132480332?text=Hi%20SAM%20Creative%20Solutions%2C%20I%20want%20to%20start%20a%20monthly%20production%20package."
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Book your production package on WhatsApp"

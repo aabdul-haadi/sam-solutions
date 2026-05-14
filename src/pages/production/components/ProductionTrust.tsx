@@ -28,15 +28,32 @@ const categoryFolders: Record<CategoryKey, string> = {
 const slugifyForFile = (value: string) =>
   value
     .toLowerCase()
-    .replace(/[’']/g, '')
-    .replace(/[^\w\s.-]/g, '')
+    .replace(/[’']/g, '') // Remove apostrophes
+    .replace(/[^\w\s.-]/g, '') // Keep letters, numbers, spaces, dots, and hyphens
     .trim()
-    .replace(/\s+/g, '_');
+    .replace(/\s+/g, '_'); // Replace spaces with underscores
+
+// Eagerly import all logos from the assets folder. 
+// Vite will include all matching files in the production build and provide their resolved URLs.
+const logoModules = import.meta.glob<{ default: string }>(
+  '../../../assets/brands-logo/logos/**/*.png',
+  { eager: true }
+);
+
+// Pre-normalize glob keys to 'folder/filename.png' for reliable lookup
+const normalizedLogos: Record<string, string> = {};
+Object.entries(logoModules).forEach(([path, module]) => {
+  const parts = path.split('/logos/');
+  if (parts.length > 1) {
+    // Use lowercase keys for case-insensitive matching in production
+    normalizedLogos[parts[1].toLowerCase()] = module.default;
+  }
+});
 
 const brandCategories: Record<CategoryKey, string[]> = {
   'Food & Beverage': [
     'Allah Raazi',
-    'Coffe_by_ms',
+    'Coffee by MS',
     'Ramzan Dairy',
     'GET Burridos',
     'Burger Bunker',
@@ -47,7 +64,7 @@ const brandCategories: Record<CategoryKey, string[]> = {
     'Burger Shurger',
     'The Wok Hei',
     'Kolachi Farms',
-    "Alen's Grilled Fried Chicken",
+    "Alen_s Grilled Fried Chicken",
     'Pizzeria',
     'Booba Bear Brew',
     'Hotway Pizza',
@@ -60,7 +77,7 @@ const brandCategories: Record<CategoryKey, string[]> = {
     'Sarma Organic',
     'Glowzen Beauty',
     'Obskin Official',
-    'SAPHORAE',
+    'Saphorae',
     'Plum Glow',
     'Fliss Cosmetics',
     'NH Herbs',
@@ -68,8 +85,8 @@ const brandCategories: Record<CategoryKey, string[]> = {
     'Serene Beauty',
     'The 16 Scents',
     'Syoss Skin',
-    'GIUTAONE',
-    'Z_A Organic',
+    'Giutaone',
+    'ZA Organic',
     'Decorrista PR 2',
     'Mashal Candles',
     'Foreverscent',
@@ -78,25 +95,32 @@ const brandCategories: Record<CategoryKey, string[]> = {
     'Vintage Glam',
     'Al Meeqat',
   ],
-  'Fashion & Clothing': ['The Lines.pk', 'Zattitude', 'Kapah Official', 'Lorven Official', 'Oncekonfor', 'Irza Textile', 'Toliya.co', 'Raab.pk', 'Konfor'],
+  'Fashion & Clothing': ['The Lines.pk', 'Zattitude', 'Kapah Official', 'Lorven Official', 'Once Konfor', 'Irza Textile', 'Toliya.co', 'Raab.pk', 'Konfor'],
   'Home, Decor & Lifestyle': ['Homez Decorz', 'Neutrisa', 'Zerolifestyle', 'SM1 Store', 'Hommy', 'Comfort Realm', 'TJ Pure', 'Craftandco.pk', 'Decorrista', 'Gift Bliss'],
-  'Organic, Health & Wellness': ['HERBEX', 'Mountain Gold', 'Keyzaar.pk', 'Gameon.style'],
+  'Organic, Health & Wellness': ['Herbex', 'Mountain Gold', 'Keyzaar.pk', 'Gameon.style'],
   'Jewellery, Accessories & Watches': ['Hamid Watches', 'Zahoor Scents', 'Saqeez'],
   'Fragrance & Candles': ['Mashal Candles', 'Foreverscent', 'The 16 Scents', 'Zahoor Scents'],
-  'E-Commerce & Multi-Product Stores': ['SM1 Store', 'Toliya.co', 'GADGITT'],
+  'E-Commerce & Multi-Product Stores': ['SM1 Store', 'Toliya.co', 'Gadgitt'],
   Automotive: ['Carraze'],
   'Books & Publishing': ['Umar Kitab G'],
 };
 
 const logoUrl = (brand: string, category: CategoryKey) => {
-  // Using new URL() allows Vite to correctly resolve and hash these assets for production
-  const path = `../../../assets/brands-logo/logos/${categoryFolders[category]}/${slugifyForFile(brand)}.webp`;
-  return new URL(path, import.meta.url).href;
+  // Special case for Burger Shurger with external URL
+  if (brand === 'Burger Shurger') {
+    return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYBKEIx8EYZ0KGMr7zUYsBSj9Rmr3JneoZJg&s';
+  }
+
+  const folder = categoryFolders[category];
+  const fileName = slugifyForFile(brand);
+  const lookupKey = `${folder}/${fileName}.png`.toLowerCase();
+
+  return normalizedLogos[lookupKey] || '';
 };
 
 type BrandItem = { name: string; category: CategoryKey };
 
-const durations = [36, 44, 40, 48];
+const durations = [24, 30, 28, 34];
 
 const ProductionTrust: React.FC = () => {
   const totalUniqueBrands = useMemo(() => {
@@ -133,8 +157,7 @@ const ProductionTrust: React.FC = () => {
             Trusted by 75+ Brands
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-gray-600">
-            We’ve delivered monthly content production across multiple industries.
-            Currently mapped: {totalUniqueBrands} unique brand names.
+            We’ve delivered monthly content production across multiple industries. Currently mapped: {totalUniqueBrands} unique brand names.
           </p>
         </div>
 
@@ -144,7 +167,7 @@ const ProductionTrust: React.FC = () => {
             return (
               <div key={`row-${rowIndex}`} className="group overflow-hidden py-3 sm:py-4">
                 <div
-                  className="flex w-max will-change-transform group-hover:[animation-play-state:paused]"
+                  className="flex w-max items-center will-change-transform group-hover:[animation-play-state:paused]"
                   style={{
                     animationName: rowIndex % 2 === 0 ? 'marqueeLeft' : 'marqueeRight',
                     animationDuration: `${durations[rowIndex % durations.length]}s`,
@@ -155,13 +178,16 @@ const ProductionTrust: React.FC = () => {
                   {loopRow.map((brand, i) => (
                     <figure
                       key={`${rowIndex}-${brand.category}-${brand.name}-${i}`}
-                      className="mx-1.5 flex h-28 min-w-[180px] items-center justify-center bg-transparent p-2 sm:mx-2 sm:h-32 sm:min-w-[240px] sm:p-3"
+                      className="mx-8 flex h-16 min-w-[120px] items-center justify-center bg-transparent rounded-full sm:mx-12 sm:h-20 sm:min-w-[160px]"
                       title={brand.name}
                     >
-                      <img
-                        src={logoUrl(brand.name, brand.category)}
+                      {(() => {
+                        const url = logoUrl(brand.name, brand.category);
+                        return url ? (
+                        <img
+                          src={url}
                         alt={`${brand.name} logo`}
-                        className="h-20 w-20 rounded-full object-contain sm:h-24 sm:w-24"
+                          className="h-full w-full object-contain rounded-full"
                         loading="lazy"
                         onError={(e) => {
                           e.currentTarget.style.display = 'none';
@@ -169,9 +195,12 @@ const ProductionTrust: React.FC = () => {
                           if (fallback) fallback.style.display = 'inline-flex';
                         }}
                       />
-                      <span className="hidden px-2 text-center text-sm font-semibold leading-tight text-gray-700">
+                        ) : (
+                          <span className="inline-flex px-2 text-center text-xs font-bold uppercase tracking-widest text-gray-400">
                         {brand.name}
                       </span>
+                        );
+                      })()}
                     </figure>
                   ))}
                 </div>
