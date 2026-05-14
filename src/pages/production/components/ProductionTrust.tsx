@@ -87,8 +87,11 @@ const brandCategories: Record<CategoryKey, string[]> = {
   'Books & Publishing': ['Umar Kitab G'],
 };
 
-const logoUrl = (brand: string, category: CategoryKey) =>
-  `/src/assets/brands-logo/logos/${categoryFolders[category]}/${slugifyForFile(brand)}.png`;
+const logoUrl = (brand: string, category: CategoryKey) => {
+  // Using new URL() allows Vite to correctly resolve and hash these assets for production
+  const path = `../../../assets/brands-logo/logos/${categoryFolders[category]}/${slugifyForFile(brand)}.png`;
+  return new URL(path, import.meta.url).href;
+};
 
 type BrandItem = { name: string; category: CategoryKey };
 
