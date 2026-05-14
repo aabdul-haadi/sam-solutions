@@ -28,9 +28,10 @@ const BrandIcon: React.FC<{ name: string; color: string; icon: string; className
   return (
     <img
       src={icon}
-      alt={`${name} icon`}
+      alt={`${name} Digital Marketing Partner - Reach customers on ${name}`}
       className={`${className ?? ''} w-6 h-6 sm:w-8 sm:h-8 object-contain`}
       onError={() => setImgFailed(true)}
+      loading="lazy"
     />
   );
 };
@@ -47,24 +48,99 @@ const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPag
   const phoneRef = useRef<HTMLDivElement>(null);
   const autoPlayRef = useRef<NodeJS.Timeout>();
 
+  // Advanced SEO and Dynamic Metadata Management
+  useEffect(() => {
+    const seoData = {
+      hero: {
+        title: "OmniReach | #1 AI-Driven Digital Marketing Agency Karachi",
+        description: "Scale your brand with OmniReach. We specialize in AI SEO, Paid Media, and Social Media Marketing to help customers find you on Google, ChatGPT, and beyond."
+      },
+      services: {
+        title: "Marketing Services | AI SEO & Paid Media Solutions | OmniReach",
+        description: "Explore our digital marketing services: AI-powered SEO, Targeted Paid Media campaigns, Social Media management, and Creative production tailored for growth."
+      },
+      process: {
+        title: "Our Marketing Process | Data-Driven Growth Strategy | OmniReach",
+        description: "From Discovery to Optimization, learn how OmniReach uses a proven 4-step process to deliver maximum ROI for your marketing campaigns."
+      },
+      about: {
+        title: "About OmniReach | Expert Digital Marketing Team in PK",
+        description: "OmniReach is a team of passionate digital marketers in Karachi helping businesses thrive in the age of AI and search innovation."
+      },
+      contact: {
+        title: "Contact OmniReach | Free Digital Marketing Consultation",
+        description: "Ready to grow your business? Contact OmniReach for a free consultation on AI SEO, Social Media, and Paid Media services."
+      }
+    };
+
+    const currentSEO = seoData[currentPage];
+    document.title = currentSEO.title;
+    
+    // Update or create meta description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', currentSEO.description);
+
+    // Set canonical link
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', window.location.href);
+  }, [currentPage]);
+
+  // JSON-LD Structured Data for Local Business SEO
+  useEffect(() => {
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "MarketingAgency",
+      "name": "OmniReach",
+      "url": window.location.origin,
+      "logo": `${window.location.origin}/logo.png`, 
+      "telephone": "+923138372573",
+      "email": "samcreativeofficials@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Karachi",
+        "addressCountry": "PK"
+      },
+      "sameAs": [
+        "https://wa.me/923138372573"
+      ],
+      "priceRange": "$$"
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(structuredData);
+    document.head.appendChild(script);
+    return () => { document.head.removeChild(script); };
+  }, []);
+
   // Brand logos data for the phone screen (use absolute paths so assets are served)
   const brandLogos = [
-    { name: 'Google', color: '#4285F4', icon: '/src/assets/icons/google.png' },
-    { name: 'ChatGPT', color: '#10A37F', icon: '/src/assets/icons/chatgpt.png' },
-    { name: 'Instagram', color: '#E4405F', icon: '/src/assets/icons/insta.png' },
-    { name: 'TikTok', color: '#000000', icon: '/src/assets/icons/tiktok.png' },
-    { name: 'YouTube', color: '#FF0000', icon: '/src/assets/icons/youtube.png' },
-    { name: 'Amazon', color: '#FF9900', icon: '/src/assets/icons/amazon.png' },
-    { name: 'Spotify', color: '#1DB954', icon: '/src/assets/icons/spotify.png' },
-    { name: 'LinkedIn', color: '#0A66C2', icon: '/src/assets/icons/linkedin.png' },
-    { name: 'Facebook', color: '#1877F2', icon: '/src/assets/icons/facebook.png' },
-    { name: 'Twitter', color: '#1DA1F2', icon: '/src/assets/icons/twitter.png' },
-    { name: 'Shopify', color: '#96BF48', icon: '/src/assets/icons/shopify.png' },
-    { name: 'Pinterest', color: '#E60023', icon: '/src/assets/icons/pinterest.png' },
-    { name: 'Snapchat', color: '#FFFC00', icon: '/src/assets/icons/snapchat.png' },
-    { name: 'Twitch', color: '#9146FF', icon: '/src/assets/icons/twitch.png' },
-    { name: 'Reddit', color: '#FF4500', icon: '/src/assets/icons/reddit.png' },
-    { name: 'Discord', color: '#5865F2', icon: '/src/assets/icons/discord.png' },
+    { name: 'Google', color: '#4285F4', icon: new URL('../assets/icons/google.png', import.meta.url).href },
+    { name: 'ChatGPT', color: '#10A37F', icon: new URL('../assets/icons/chatgpt.png', import.meta.url).href },
+    { name: 'Instagram', color: '#E4405F', icon: new URL('../assets/icons/insta.png', import.meta.url).href },
+    { name: 'TikTok', color: '#000000', icon: new URL('../assets/icons/tiktok.png', import.meta.url).href },
+    { name: 'YouTube', color: '#FF0000', icon: new URL('../assets/icons/youtube.png', import.meta.url).href },
+    { name: 'Amazon', color: '#FF9900', icon: new URL('../assets/icons/amazon.png', import.meta.url).href },
+    { name: 'Spotify', color: '#1DB954', icon: new URL('../assets/icons/spotify.png', import.meta.url).href },
+    { name: 'LinkedIn', color: '#0A66C2', icon: new URL('../assets/icons/linkedin.png', import.meta.url).href },
+    { name: 'Facebook', color: '#1877F2', icon: new URL('../assets/icons/facebook.png', import.meta.url).href },
+    { name: 'Twitter', color: '#1DA1F2', icon: new URL('../assets/icons/twitter.png', import.meta.url).href },
+    { name: 'Shopify', color: '#96BF48', icon: new URL('../assets/icons/shopify.png', import.meta.url).href },
+    { name: 'Pinterest', color: '#E60023', icon: new URL('../assets/icons/pinterest.png', import.meta.url).href },
+    { name: 'Snapchat', color: '#FFFC00', icon: new URL('../assets/icons/snapchat.png', import.meta.url).href },
+    { name: 'Twitch', color: '#9146FF', icon: new URL('../assets/icons/twitch.png', import.meta.url).href },
+    { name: 'Reddit', color: '#FF4500', icon: new URL('../assets/icons/reddit.png', import.meta.url).href },
+    { name: 'Discord', color: '#5865F2', icon: new URL('../assets/icons/discord.png', import.meta.url).href },
   ];
 
   // Services for the dropdown
@@ -427,7 +503,7 @@ const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPag
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white overflow-hidden sticky top-0">
+    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white overflow-hidden sticky top-0">
       {/* Original gradient background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
@@ -457,6 +533,7 @@ const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPag
       {/* Vibrating WhatsApp Phone Icon */}
       <button
         onClick={handleWhatsAppClick}
+        aria-label="Chat with our marketing experts on WhatsApp"
         className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-2xl animate-vibrate hover:scale-110 transition-transform"
       >
         <MessageCircle className="text-white w-6 h-6" />
@@ -478,6 +555,7 @@ const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPag
             {/* Hamburger Menu Button */}
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle Menu"
               className="md:hidden p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
             >
               {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
@@ -495,6 +573,7 @@ const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPag
                 <button
                   key={item.id}
                   onClick={() => navigateToPage(item.id as PageContent)}
+                  aria-label={`Go to ${item.label}`}
                   className={`text-xs sm:text-sm font-medium transition-colors px-3 py-1.5 rounded-full ${
                     currentPage === item.id 
                       ? 'bg-white/20 text-white' 
@@ -843,7 +922,7 @@ const MarketingAgencyPage: React.FC<MarketingAgencyHeroProps> = ({ setCurrentPag
           background-size: 200% 200%;
         }
       `}</style>
-    </div>
+    </main>
   );
 };
 

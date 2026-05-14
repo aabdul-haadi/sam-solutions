@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import LoadingScreen from './components/LoadingScreen';
 import CookieConsent from './components/CookieConsent';
 import Header from './components/Header';
@@ -20,7 +20,7 @@ import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import FAQPage from './pages/FAQPage';
 import PricingPage from './pages/PricingPage';
-import ProductionPage from './pages/production/Production';
+import ProductionPage from './pages/ProductionPage';
 import WebDevelopmentPage from './pages/services/WebDevelopmentPage';
 import GraphicDesigningPage from './pages/services/GraphicDesigningPage';
 import SEOContentPage from './pages/services/SEOContentPage';
@@ -49,14 +49,17 @@ function App() {
 
 const MainLayout = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleConsultationClick = () => {
     navigate('/contact');
   };
 
+  const isProductionPage = location.pathname === '/production';
+
   return (
     <div className="min-h-screen bg-white text-black overflow-x-hidden">
-      <Header openConsultation={handleConsultationClick} />
+      {!isProductionPage && <Header openConsultation={handleConsultationClick} />}
       <Routes>
         <Route
           path="/"

@@ -178,27 +178,27 @@ const ProductionTrust: React.FC = () => {
                   {loopRow.map((brand, i) => (
                     <figure
                       key={`${rowIndex}-${brand.category}-${brand.name}-${i}`}
-                      className="mx-8 flex h-16 min-w-[120px] items-center justify-center bg-transparent rounded-full sm:mx-12 sm:h-20 sm:min-w-[160px]"
+                      className="mx-8 flex h-16 w-16 min-w-[4rem] items-center justify-center bg-white rounded-full overflow-hidden shadow-sm sm:mx-12 sm:h-20 sm:w-20 sm:min-w-[5rem]"
                       title={brand.name}
                     >
                       {(() => {
                         const url = logoUrl(brand.name, brand.category);
                         return url ? (
-                        <img
-                          src={url}
-                        alt={`${brand.name} logo`}
-                          className="h-full w-full object-contain rounded-full"
-                        loading="lazy"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                          const fallback = e.currentTarget.nextElementSibling as HTMLSpanElement | null;
-                          if (fallback) fallback.style.display = 'inline-flex';
-                        }}
-                      />
+                          <img
+                            src={url}
+                            alt={`${brand.name} logo`}
+                            className="h-full w-full object-cover"
+                            loading="lazy"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                              const fallback = e.currentTarget.nextElementSibling as HTMLSpanElement | null;
+                              if (fallback) fallback.style.display = 'inline-flex';
+                            }}
+                          />
                         ) : (
-                          <span className="inline-flex px-2 text-center text-xs font-bold uppercase tracking-widest text-gray-400">
-                        {brand.name}
-                      </span>
+                          <span className="inline-flex h-full w-full items-center justify-center text-center text-xs font-bold uppercase tracking-widest text-gray-400 px-2">
+                            {brand.name}
+                          </span>
                         );
                       })()}
                     </figure>

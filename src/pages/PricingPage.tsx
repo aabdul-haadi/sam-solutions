@@ -251,6 +251,59 @@ const PricingPage: React.FC<PricingPageProps> = ({ setCurrentPage }) => {
   const [expandedPlan, setExpandedPlan] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
+  // Dynamic SEO Title and Meta Description for Service Pricing
+  useEffect(() => {
+    const currentSvc = services.find(s => s.id === activeCategory);
+    const title = currentSvc 
+      ? `${currentSvc.fullTitle} Pricing | Affordable Digital Solutions | OmniReach`
+      : "Affordable Pricing Plans | Web Dev, AI & Design | OmniReach";
+    
+    const description = currentSvc 
+      ? `Get expert ${currentSvc.fullTitle} services. ${currentSvc.description}. Save up to 70% with OmniReach affordable pricing plans for startups and enterprises.`
+      : "Explore affordable pricing for Web Development, AI Solutions, E-commerce, and Design. Quality digital services at budget-friendly prices in Pakistan.";
+
+    document.title = title;
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', description);
+  }, [activeCategory]);
+
+  // JSON-LD Structured Data for Services and Pricing Offers
+  useEffect(() => {
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Digital Development and Design Services",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "OmniReach",
+        "telephone": "+923132480332",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Karachi",
+          "addressCountry": "PK"
+        }
+      },
+      "offers": Object.entries(pricingData).map(([key, value]) => ({
+        "@type": "Offer",
+        "itemOffered": { "@type": "Service", "name": key.replace('-', ' ') },
+        "price": value.basic.price,
+        "priceCurrency": "USD"
+      }))
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(structuredData);
+    document.head.appendChild(script);
+    return () => { document.head.removeChild(script); };
+  }, []);
+
   // Helper function to get price with discount
   const getPackagePrice = (serviceId: string, packageType: 'basic' | 'premium') => {
     const data = pricingData[serviceId as keyof typeof pricingData];
@@ -272,7 +325,7 @@ const PricingPage: React.FC<PricingPageProps> = ({ setCurrentPage }) => {
   }, []);
 
   const handleContactUs = () => {
-    window.open('https://wa.me/923138372573', '_blank');
+    window.open('https://wa.me/03132480332', '_blank');
   };
 
   const handleViewBlog = () => {
@@ -482,6 +535,7 @@ const PricingPage: React.FC<PricingPageProps> = ({ setCurrentPage }) => {
                     <button
                       onClick={handleContactUs}
                       className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                      aria-label={`Get started with our ${currentService.packages.basic.name} plan`}
                     >
                       <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                       <span>Get Started</span>
@@ -540,6 +594,7 @@ const PricingPage: React.FC<PricingPageProps> = ({ setCurrentPage }) => {
                     <button
                       onClick={handleContactUs}
                       className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                      aria-label={`Get started with our ${currentService.packages.premium.name} plan`}
                     >
                       <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                       <span>Get Started</span>
@@ -642,6 +697,7 @@ const PricingPage: React.FC<PricingPageProps> = ({ setCurrentPage }) => {
                       src={post.image}
                       alt={post.title}
                       className="w-full h-40 sm:h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                      loading="lazy"
                     />
                     <div className="absolute top-3 left-3">
                       <span className="bg-yellow-400 text-black px-2 py-1 rounded-full text-xs font-semibold">
