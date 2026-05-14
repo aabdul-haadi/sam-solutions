@@ -27,6 +27,7 @@ const categoryFolders: Record<CategoryKey, string> = {
 
 const slugifyForFile = (value: string) =>
   value
+    .toLowerCase()
     .replace(/[’']/g, '')
     .replace(/[^\w\s.-]/g, '')
     .trim()
@@ -89,7 +90,7 @@ const brandCategories: Record<CategoryKey, string[]> = {
 
 const logoUrl = (brand: string, category: CategoryKey) => {
   // Using new URL() allows Vite to correctly resolve and hash these assets for production
-  const path = `../../../assets/brands-logo/logos/${categoryFolders[category]}/${slugifyForFile(brand)}.png`;
+  const path = `../../../assets/brands-logo/logos/${categoryFolders[category]}/${slugifyForFile(brand)}.webp`;
   return new URL(path, import.meta.url).href;
 };
 
@@ -168,7 +169,7 @@ const ProductionTrust: React.FC = () => {
                           if (fallback) fallback.style.display = 'inline-flex';
                         }}
                       />
-                      <span className="hidden px-2 text-center text-sm font-semibold leading-tight text-gray-700" style={{ display: 'none' }}>
+                      <span className="hidden px-2 text-center text-sm font-semibold leading-tight text-gray-700">
                         {brand.name}
                       </span>
                     </figure>
