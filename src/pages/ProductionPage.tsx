@@ -50,10 +50,34 @@ const ProductionPage: React.FC = () => {
   };
 
   React.useEffect(() => {
-    const seoTitle = 'SAM X PRODUCTION | Video Production, Commercial Ads & Creative Studio';
-    const seoDescription = 'SAM X PRODUCTION is a high-end creative production studio delivering premium video ads, brand storytelling, cinematography, 3D motion design and digital content production.';
+    const seoData = {
+      hero: {
+        title: 'SAM X PRODUCTION | Premium Video Production & Creative Studio',
+        description: 'SAM X PRODUCTION delivers high-end video production, commercial ads, cinematography, 3D animation, and brand storytelling for businesses worldwide.'
+      },
+      services: {
+        title: 'Production Services | Video Ads, 3D & Content Creation | SAM X',
+        description: 'Explore our production capabilities: 4K commercial shoots, 3D motion graphics, cinematography, and high-engagement social media content production.'
+      },
+      process: {
+        title: 'Our Creative Process | Pre-Production to Post-Production | SAM X PRODUCTION',
+        description: 'Discover our streamlined production workflow: From concept development and pre-production planning to shooting, editing, and final delivery.'
+      },
+      about: {
+        title: 'About SAM X PRODUCTION | Award-Winning Creative Team',
+        description: 'Meet the passionate team behind SAM X PRODUCTION, dedicated to pushing visual media boundaries with industry-leading equipment and creativity.'
+      },
+      contact: {
+        title: 'Contact SAM X PRODUCTION | Start Your Production Project',
+        description: 'Ready to create something legendary? Get a custom production quote for your next video, ad, or creative campaign with SAM X PRODUCTION.'
+      }
+    };
+
+    const currentSEO = seoData[currentPage];
+    const seoTitle = currentSEO.title;
+    const seoDescription = currentSEO.description;
     const seoKeywords = 'SAM X Production, SAM Production, production ads, video production, commercial production, creative production studio, cinematography, 3D animation, brand storytelling, content production';
-    const seoImage = `${window.location.origin}/logo.png`;
+    const seoImage = `${window.location.origin}/sam-x-logo.webp`;
     const seoUrl = window.location.href;
 
     document.title = seoTitle;
