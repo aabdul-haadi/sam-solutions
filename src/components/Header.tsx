@@ -18,6 +18,7 @@ const Header: React.FC = () => {
     { title: 'Contact', dropdown: false, href: '/contact' },
     { title: 'Services', dropdown: true, href: '#' },
     { title: 'Pricing', dropdown: false, href: '/pricing' },
+    { title: 'Production Services', dropdown: false, href: '/production' },
   ];
 
  const servicesLinks = [

@@ -20,6 +20,7 @@ import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import FAQPage from './pages/FAQPage';
 import PricingPage from './pages/PricingPage';
+import ProductionPage from './pages/production/Production';
 import WebDevelopmentPage from './pages/services/WebDevelopmentPage';
 import GraphicDesigningPage from './pages/services/GraphicDesigningPage';
 import SEOContentPage from './pages/services/SEOContentPage';
@@ -79,6 +80,7 @@ const MainLayout = () => {
         <Route path="/privacy-policy" element={<PrivacyPage />} />
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/production" element={<ProductionPage />} />
         <Route path="/services/web-development" element={<WebDevelopmentPage />} />
         <Route path="/services/graphic-designing" element={<GraphicDesigningPage />} />
         <Route path="/services/seo-content" element={<SEOContentPage />} />
