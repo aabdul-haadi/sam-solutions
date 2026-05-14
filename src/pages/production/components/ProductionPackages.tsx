@@ -6,6 +6,7 @@ type PackagePlan = {
   name: string;
   subtitle: string;
   price: string;
+  originalPrice?: string;
   period: string;
   included: string[];
   excluded?: string[];
@@ -19,7 +20,8 @@ const plans: PackagePlan[] = [
     id: 'growth',
     name: 'Growth Production',
     subtitle: 'Best for growing brands that need full management',
-    price: 'PKR 30,000',
+    price: 'PKR 34,049',
+    originalPrice: 'PKR 45,000',
     period: '/month',
     included: [
       'Monthly on-site visits',
@@ -36,7 +38,8 @@ const plans: PackagePlan[] = [
     id: 'starter',
     name: 'Starter Production',
     subtitle: 'Best for small businesses and new brands',
-    price: 'PKR 15,000',
+    price: 'PKR 16,999',
+    originalPrice: 'PKR 22,500',
     period: '/month',
     included: [
       '3 on-site brand visits',
@@ -52,10 +55,11 @@ const plans: PackagePlan[] = [
     id: 'premium',
     name: 'Premium Production',
     subtitle: 'Best for established brands with high-volume needs',
-    price: 'PKR 55,000',
+    price: 'PKR 59,000',
+    originalPrice: 'PKR 78,500',
     period: '/month',
     included: [
-      '2 on-site brand visits',
+      'Multiple visits on brand',
       '12–16 high-end cinematic reels',
       'Product and service showcase videos',
       '20 creative posts + daily stories',
@@ -116,10 +120,22 @@ const ProductionPackages: React.FC = () => {
                 </div>
 
                 <div className="mb-8">
-                  <p className="text-4xl font-black text-gray-900">
-                    {plan.price}
-                    <span className="text-sm font-medium text-gray-500">{plan.period}</span>
-                  </p>
+                  <div className="flex items-baseline gap-3">
+                    {plan.originalPrice && (
+                      <p className="text-lg font-medium text-gray-500 line-through">
+                        {plan.originalPrice}
+                      </p>
+                    )}
+                    <p className="text-4xl font-black text-gray-900">
+                      {plan.price}
+                      <span className="text-sm font-medium text-gray-500">{plan.period}</span>
+                    </p>
+                  </div>
+                  {plan.originalPrice && (
+                    <p className="mt-2 text-xs font-semibold text-green-600 uppercase tracking-wide">
+                      Save {Math.round((1 - parseFloat(plan.price.replace(/[^\d]/g, '')) / parseFloat(plan.originalPrice.replace(/[^\d]/g, ''))) * 100)}%
+                    </p>
+                  )}
                 </div>
 
                 <ul className="mb-8 space-y-4 text-sm text-gray-700 flex-grow">
