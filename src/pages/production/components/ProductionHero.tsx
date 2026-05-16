@@ -1,7 +1,7 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
 import heroDesktop from '../../../assets/hero-production-web.webp';
-import heroMobile from '../../../assets/hero-production-phone-view1.webp';
+import heroMobile from '../../../assets/phone-banner.webp';
 
 const ProductionHero: React.FC = () => {
   return (
